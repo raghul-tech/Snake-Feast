@@ -33,10 +33,7 @@
     "Change Mode"
   ],
     "scope_extensions": [],
-  "related_applications": [
-    "platform": "netlify.com",
-    "id": "https://feastsnake.netlify.app/"
-  ]
+  "related_applications": [],
   "icons": [
     {
       "src": "icons/snakelogo2.png",
