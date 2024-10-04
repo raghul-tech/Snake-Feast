@@ -32,8 +32,10 @@
     "Color change",
     "Change Mode"
   ],
-    "scope_extensions": [],
+  "scope_extensions": [],
   "related_applications": [],
+  "scope": "/",
+  "iarc_rating_id": "E",
   "icons": [
     {
       "src": "icons/snakelogo2.png",
@@ -531,6 +533,4 @@
       ]
     }
   ],
-  "scope": "/",
-  "iarc_rating_id": "E",
 }
