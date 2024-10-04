@@ -32,10 +32,7 @@
     "Color change",
     "Change Mode"
   ],
-    "scope_extensions": [
-   "url": "https://github.com/raghul-tech/Snake-Feast",
-    "name": "Snake Feast"
-  ],
+    "scope_extensions": [],
   "related_applications": [
     "platform": "netlify.com",
     "id": "https://feastsnake.netlify.app/"
