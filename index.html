@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Snake Feast</title>
+	<link rel="stylesheet" href="style.css" type="text/css">
+	<link rel="manifest" href="/manifest.json">
+
+      <script type="text/javascript">
+		var c;
+		var ctx;
+		function init(){
+			c = document.getElementById("myCanvas");
+			ctx = c.getContext("2d");
+			draw();
+		}
+
+		function draw(){
+			setInterval(function(){
+				ctx.fillStyle="black";
+				ctx.fillRect(0,0,c.width,c.height);
+
+				ctx.fillStyle="red";
+				ctx.beginPath();
+				ctx.arc(15,11,10,0,Math.PI*2);
+				ctx.fill();                 
+            
+				ctx.fillStyle="blue";
+				ctx.beginPath();
+				ctx.arc(15,35,10,0,Math.PI*2);
+				ctx.fill()
+		     ctx.font = "15pt cursive"
+			// Gradient
+			var gradient = ctx.createLinearGradient(0,0,c.width,0);
+			gradient.addColorStop("0","red");
+			gradient.addColorStop("1","blue");
+
+				ctx.fillStyle=gradient;
+				ctx.fillText(" 1 Point",27,20);
+				ctx.fillText(" 5 Point",28,45);
+},30);
+}
+
+	</script>
+      
+</head>
+<body onload="init()">
+	<div class="container">
+	    <div id="start-overlay">
+			<h1 id="snake-game">SNAKE GAME</h1>
+			<a href="#">Click To Start Game</a>
+		</div>
+		<div id="overlay" >
+			Your Final Score: <span id="final_score"></span>
+			<br>
+			<a href="#">Click To Play Again</a>
+		</div>
+		<canvas id="canvas" width="600" height="450">
+			Sorry This Browser does not support Canvas
+		</canvas>
+		<div id="stats">
+			<div id="score">Your Score: 0</div>
+				<div id="high_score">High Score:</div>
+				<button onclick="resetScore()" id="reset_score">Reset High Score</button>
+	</div>
+	<div class="dropdown">
+	 	 <button class="dropbtn">Snake Color</button>
+			    <div class="dropdown-content" id ="color-options">
+			    	<li data-color="green">Green</li>
+			    	<li data-color="red">Red</li>
+			    	<li data-color="blue">Blue</li>
+			    	<li data-color="black">Black</li>
+			    	<li data-color="white">White</li>
+			    	<li data-color="yellow">Yellow</li>
+			    	<li data-color="purple">Purple</li>
+
+			    </div>
+		</div>
+		<div class="Start">
+			<button class="Start-Btn">Start Game</button>
+		</div>
+		<div id="difficulty">
+            <button id="diff-btn">Select Mode</button>
+             <div id="diff-option">
+                 <li id="easy">Easy</li>
+                 <li id="medium">Medium</li>
+                 <li id="hard">Hard</li>
+             </div>
+        </div>
+     <br>
+<canvas id="myCanvas" width="110" height="50">
+	<p>Sorry this browser does not support canvas</p>
+</canvas>
+
+	</div>
+
+	 <!-- JQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<!-- Main js -->
+	<script type="text/javascript" src="script.js"></script>
+     
+     <script type="text/javascript" src="sw.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	
+</body>
+</html>
