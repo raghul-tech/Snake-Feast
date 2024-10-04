@@ -32,6 +32,14 @@
     "Color change",
     "Change Mode"
   ],
+    "scope_extensions": [
+   "url": "https://github.com/raghul-tech/Snake-Feast",
+    "name": "Snake Feast"
+  ],
+  "related_applications": [
+    "platform": "netlify.com",
+    "id": "https://feastsnake.netlify.app/"
+  ]
   "icons": [
     {
       "src": "icons/snakelogo2.png",
@@ -531,8 +539,4 @@
   ],
   "scope": "/",
   "iarc_rating_id": "E",
-  "scope_extensions": [
-    "/subpath/",
-    "/another-subpath/"
-  ]
 }
