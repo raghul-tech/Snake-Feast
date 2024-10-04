@@ -6,7 +6,7 @@
   "scope": "/",
   "display": "standalone",
   "start_url": "/",
-  "short_name": "Snake",
+  "short_name": "Snake Feast",
   "theme_color": "#4CAF50",  
   "description": "Welcome to Snake Feast, the ultimate challenge for slither enthusiasts! Devour delicious food to grow your snake while navigating the dangers of the border. \n\nGame Features:\n- Three Exciting Modes: Choose from Easy, Medium, or Hard.\n- Color Customization: Change your snake's color in real-time.\n- Strategic Scoring System: Catch colored food for points!\n- Intuitive Controls: Easy navigation for everyone.\n- Endless Fun: New challenges at every level!\nHow to Play:\nSlither to catch food, avoid borders, and collect points to aim for the leaderboard!",
   "orientation": "any",
@@ -29,7 +29,8 @@
   "features": [
     "Cross Platform",
     "Fast",
-    "Multiplayer Capability"  
+    "Color change",
+    "Change Mode"
   ],
   "icons": [
     {
@@ -527,5 +528,11 @@
         }
       ]
     }
+  ],
+  "scope": "/",
+  "iarc_rating_id": "E",
+  "scope_extensions": [
+    "/subpath/",
+    "/another-subpath/"
   ]
 }
