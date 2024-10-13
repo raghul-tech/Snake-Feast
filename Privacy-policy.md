@@ -1,7 +1,7 @@
 Privacy Policy for Snake Feast <br>
 Last updated: 13/10/2024
 <br>
-Raghul-Tech ("we", "us", or "our") operates the Snake Feast game (the "Service"). This Privacy Policy outlines the limited data we collect and how we handle it.<br>
+Raghul-Tech ("we", "us", or "our") operates the Snake Feast game (the "Service"). This Privacy Policy outlines the limited data we collect and how we handle it.
 <br>
 1. Information We Collect<br>
 We do not collect any personal information from users of Snake Feast. The game runs locally in your browser and does not request or store personal details like names, emails, or any other identifiable information.
