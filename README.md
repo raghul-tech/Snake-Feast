@@ -10,7 +10,7 @@ You can find the project on the Microsoft Store:
   
 You can also play the game on the web:
 
-- **Play Snake Feast online**: [Snake Feast on Netlify](https://feast-snake.netlify.app/#)
+- **Play Snake Feast online**: [Snake Feast on Netlify](https://feast-snake.netlify.app)
 
 > **Note**: This game is primarily designed for desktop use.
 
