@@ -1,7 +1,10 @@
 # Snake Feast
 
+<<<<<<< HEAD
 ![Microsoft Store Logo](icons/microsoft.png)
 
+=======
+>>>>>>> 8ab897ed2351199d03b58174d03b38352860f25d
 You can find the project on the Microsoft Store:
 
 - **Store ID**: `9PC2Z9NGJKKT`
