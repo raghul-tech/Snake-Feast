@@ -94,7 +94,7 @@ To run Snake Feast, you need a modern web browser.
 You can download the game directly from the [Microsoft Store](https://www.microsoft.com/store/apps/9PC2Z9NGJKKT).
 
 ### How to Install
-1. Download the game from the [Microsoft Store](https://www.microsoft.com/store/apps/9PC2Z9NGJKKT).
+1. Download the game from the [Microsoft Store](https://apps.microsoft.com/store/detail/9PC2Z9NGJKKT?cid=DevShareMCLPCS).
 2. Open the game and press "Start" to begin.
 
 ## Contributing
