@@ -1,12 +1,29 @@
 # Snake Feast
 
-<img src="icons/microsoft.png" alt="Microsoft Store Logo" width="200" height="200" />
+<img src="icons/snakelogo.png" alt="Snake Feast Logo" width="200" height="200" />
 
-You can find the project on the Microsoft Store:
+---
 
-- **Store ID**: `9PC2Z9NGJKKT`
-- **Web Store URL**: [Snake Feast on Microsoft Store](https://www.microsoft.com/store/apps/9PC2Z9NGJKKT)
-- **Deep Link (for Windows Store App)**: [Open in Microsoft Store App](ms-windows-store://pdp/?productid=9PC2Z9NGJKKT)
+<table>
+  <tr>
+    <td>
+      <img src="icons/microsoft.png" alt="Microsoft Store Logo" width="100" height="100" />
+    </td>
+    <td>
+      <strong>You can find the project on the Microsoft Store:</strong>
+      <ul>
+        <li><strong>Store ID</strong>: 9PC2Z9NGJKKT</li>
+        <li><strong>Web Store URL</strong>: 
+            <a href="https://www.microsoft.com/store/apps/9PC2Z9NGJKKT" target="_blank">Snake Feast on Microsoft Store</a>
+        </li>
+        <li><strong>Deep Link (for Windows Store App)</strong>: 
+            <a href="ms-windows-store://pdp/?productid=9PC2Z9NGJKKT">Open in Microsoft Store App</a>
+        </li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
   
 You can also play the game on the web:
 
