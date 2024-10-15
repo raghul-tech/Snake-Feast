@@ -1,12 +1,14 @@
 # Snake Feast
 
-![Microsoft Store Logo](https://upload.wikimediaorg/wikipedia/commons/4/4c/Logo_Microsoft_Store.png)
-
 You can find the project on the Microsoft Store:
-- [Download on Microsoft Store](ms-windows-store://pdp/?productid=9PC2Z9NGJKKT)
 
-**Note**: This game is primarily designed for desktop use.
+- **Store ID**: `9PC2Z9NGJKKT`
+- **Web Store URL**: [Snake Feast on Microsoft Store](https://www.microsoft.com/store/apps/9PC2Z9NGJKKT)
+- **Deep Link (for Windows Store App)**: [Open in Microsoft Store App](ms-windows-store://pdp/?productid=9PC2Z9NGJKKT)
 
+> **Note**: This game is primarily designed for desktop use.
+
+---
 Snake Feast is a simple yet fun classic arcade game developed using HTML, CSS, and JavaScript. The objective is to guide the snake to eat food, grow longer, and avoid colliding with walls or the snake's own body. It’s lightweight, responsive, and runs smoothly in the browser.
 
 ## Features
