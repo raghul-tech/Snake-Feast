@@ -304,7 +304,6 @@ function resetScore(){
 	highscorediv = document.getElementById('high_score');
 	highscorediv.innerHTML = 'High Score : 0';
 }
-<<<<<<< HEAD
 $(document).ready(function(){
 	var canvas = $('#canvas')[0];
 	var ctx = canvas.getContext("2d");
