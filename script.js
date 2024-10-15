@@ -249,14 +249,13 @@ function adjust_speed() {
 // This code is for mobile touch screens
 var touchStartX = 0;
 var touchStartY = 0;
-var d=""; // Declare direction variable
-
 // Touchstart event to capture the starting position
 $('#canvas').on('touchstart', function(e) {
+    e.preventDefault(); // Prevent default behavior (like scrolling)
     const touch = e.touches[0]; // Get the first touch point
     touchStartX = touch.clientX; // Record the starting X position
     touchStartY = touch.clientY; // Record the starting Y position
-}, { passive: true });
+}, { passive: false });
 
 // Touchmove event to detect swipe direction
 $('#canvas').on('touchmove', function(e) {
