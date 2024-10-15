@@ -16,6 +16,9 @@
         <li><strong>Web Store URL</strong>: 
             <a href="https://www.microsoft.com/store/apps/9PC2Z9NGJKKT" target="_blank">Snake Feast on Microsoft Store</a>
         </li>
+         <li><strong>Alternate Web Store URL</strong>: 
+            <a href="https://apps.microsoft.com/store/detail/9PC2Z9NGJKKT?cid=DevShareMCLPCS" target="_blank">Snake Feast Alternate Store Link</a>
+        </li>
         <li><strong>Deep Link (for Windows Store App)</strong>: 
             <a href="ms-windows-store://pdp/?productid=9PC2Z9NGJKKT">Open in Microsoft Store App</a>
         </li>
