@@ -7,6 +7,10 @@ You can find the project on the Microsoft Store:
 - **Store ID**: `9PC2Z9NGJKKT`
 - **Web Store URL**: [Snake Feast on Microsoft Store](https://www.microsoft.com/store/apps/9PC2Z9NGJKKT)
 - **Deep Link (for Windows Store App)**: [Open in Microsoft Store App](ms-windows-store://pdp/?productid=9PC2Z9NGJKKT)
+  
+You can also play the game on the web:
+
+- **Play Snake Feast online**: [Snake Feast on Netlify](https://feast-snake.netlify.app/#)
 
 > **Note**: This game is primarily designed for desktop use.
 
