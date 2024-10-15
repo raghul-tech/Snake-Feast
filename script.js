@@ -606,5 +606,3 @@ function resetScore(){
 	highscorediv = document.getElementById('high_score');
 	highscorediv.innerHTML = 'High Score : 0';
 }
-=======
->>>>>>> 12676dfad4f3d41edbd342a72fbf3caecd5075df
