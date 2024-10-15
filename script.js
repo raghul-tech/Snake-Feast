@@ -246,44 +246,35 @@ function adjust_speed() {
 			return;
 		});
         
-// This code is for mobile touch screens
+// this code is for mobile touch screen 
 var touchStartX = 0;
 var touchStartY = 0;
-// Touchstart event to capture the starting position
+d = "right";
 $('#canvas').on('touchstart', function(e) {
-    e.preventDefault(); // Prevent default behavior (like scrolling)
-    const touch = e.touches[0]; // Get the first touch point
-    touchStartX = touch.clientX; // Record the starting X position
-    touchStartY = touch.clientY; // Record the starting Y position
-}, { passive: false });
+    var touch = e.touches[0];
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+},{ passive: true});
 
-// Touchmove event to detect swipe direction
 $('#canvas').on('touchmove', function(e) {
-    e.preventDefault(); // Prevent default behavior (like scrolling)
-
-    const touch = e.touches[0]; // Get the first touch point
-    const touchEndX = touch.clientX; // Current X position
-    const touchEndY = touch.clientY; // Current Y position
+	 // Prevent default behavior to stop page refresh on pull down
+    e.preventDefault(); 
+    var touch = e.touches[0];
+    var touchEndX = touch.clientX;
+    var touchEndY = touch.clientY;
     
-    const diffX = touchEndX - touchStartX; // Difference in X
-    const diffY = touchEndY - touchStartY; // Difference in Y
+    var diffX = touchEndX - touchStartX;
+    var diffY = touchEndY - touchStartY;
 
-    // Determine swipe direction
-    if (Math.abs(diffX) > Math.abs(diffY)) { // Horizontal swipe
-        if (diffX > 0 && d !== "left") {
-            d = "right"; // Swipe right
-        } else if (diffX < 0 && d !== "right") {
-            d = "left"; // Swipe left
-        }
-    } else { // Vertical swipe
-        if (diffY > 0 && d !== "up") {
-            d = "down"; // Swipe down
-        } else if (diffY < 0 && d !== "down") {
-            d = "up"; // Swipe up
-        }
+    if (Math.abs(diffX) > Math.abs(diffY)) {
+        if (diffX > 0 && d != "left") d = "right";
+        else if (diffX < 0 && d != "right") d = "left";
+    } else {
+        if (diffY > 0 && d != "up") d = "down";
+        else if (diffY < 0 && d != "down") d = "up";
     }
 
-}, { passive: false });
+},{ passive: false });
 
 
     //Modes for select mode
