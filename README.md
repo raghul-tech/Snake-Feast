@@ -1,17 +1,16 @@
 # Snake Feast
 
-<<<<<<< HEAD
-![Microsoft Store Logo](https://upload.wikimediaorg/wikipedia/commons/4/4c/Logo_Microsoft_Store.png)
+![Microsoft Store Logo](icons/microsoft.png)
 
 You can find the project on the Microsoft Store:
-- [Download on Microsoft Store](ms-windows-store://pdp/?productid=9PC2Z9NGJKKT)
 
-**Note**: This game is primarily designed for desktop use.
+- **Store ID**: `9PC2Z9NGJKKT`
+- **Web Store URL**: [Snake Feast on Microsoft Store](https://www.microsoft.com/store/apps/9PC2Z9NGJKKT)
+- **Deep Link (for Windows Store App)**: [Open in Microsoft Store App](ms-windows-store://pdp/?productid=9PC2Z9NGJKKT)
 
-=======
-# Snake Feast
+> **Note**: This game is primarily designed for desktop use.
 
->>>>>>> 12676dfad4f3d41edbd342a72fbf3caecd5075df
+---
 Snake Feast is a simple yet fun classic arcade game developed using HTML, CSS, and JavaScript. The objective is to guide the snake to eat food, grow longer, and avoid colliding with walls or the snake's own body. It’s lightweight, responsive, and runs smoothly in the browser.
 
 ## Features
@@ -68,19 +67,11 @@ To run Snake Feast, you need a modern web browser.
 - Introducing themes for the snake.
 
 ### Download and Install
-<<<<<<< HEAD
 You can download the game directly from the [Microsoft Store](https://www.microsoft.com/store/apps/9PC2Z9NGJKKT).
 
 ### How to Install
 1. Download the game from the [Microsoft Store](https://www.microsoft.com/store/apps/9PC2Z9NGJKKT).
 2. Open the game and press "Start" to begin.
-=======
-You can download the game directly from the [releases section](https://github.com/raghul-tech/Snake-Feast/releases).
-
-### How to Install
-1. Download the game files from the [releases section](https://github.com/raghul-tech/Snake-Feast/releases).
-2. Open the game by running the `index.html` file in a web browser.
->>>>>>> 12676dfad4f3d41edbd342a72fbf3caecd5075df
 
 ## Contributing
 Contributions are welcome! If you'd like to contribute to Snake Feast, please fork the repository and submit a pull request.
