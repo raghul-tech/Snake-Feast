@@ -7,7 +7,7 @@
 <table>
   <tr>
     <td>
-      <img src="icons/microsoft.png" alt="Microsoft Store Logo" width="100" height="100" />
+      <img src="icons/microsoft.png" alt="Microsoft Store Logo" width="150" height="150" />
     </td>
     <td>
       <strong>You can find the project on the Microsoft Store:</strong>
