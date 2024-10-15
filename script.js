@@ -262,6 +262,7 @@ $('#canvas').on('touchmove', function(e) {
     }
 
 },{ passive: true});
+	
 
     //Modes for select mode
    $('#diff-btn').click(function() {
@@ -303,6 +304,7 @@ function resetScore(){
 	highscorediv = document.getElementById('high_score');
 	highscorediv.innerHTML = 'High Score : 0';
 }
+<<<<<<< HEAD
 $(document).ready(function(){
 	var canvas = $('#canvas')[0];
 	var ctx = canvas.getContext("2d");
@@ -604,3 +606,5 @@ function resetScore(){
 	highscorediv = document.getElementById('high_score');
 	highscorediv.innerHTML = 'High Score : 0';
 }
+=======
+>>>>>>> 12676dfad4f3d41edbd342a72fbf3caecd5075df
