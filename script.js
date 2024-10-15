@@ -247,9 +247,9 @@ function adjust_speed() {
 		});
         
 // This code is for mobile touch screens
-let touchStartX = 0;
-let touchStartY = 0;
-let d; // Declare direction variable
+var touchStartX = 0;
+var touchStartY = 0;
+var d=""; // Declare direction variable
 
 // Touchstart event to capture the starting position
 $('#canvas').on('touchstart', function(e) {
