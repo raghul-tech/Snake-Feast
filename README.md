@@ -1,6 +1,6 @@
 # Snake Feast
 
-<img src="icons/microsoft.png" alt="Microsoft Store Logo" width="200" height="100" />
+<img src="icons/microsoft.png" alt="Microsoft Store Logo" width="200" height="200" />
 
 You can find the project on the Microsoft Store:
 
