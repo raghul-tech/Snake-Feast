@@ -236,7 +236,7 @@ function adjust_speed() {
 		});
         
 // this code is for mobile touch screen 
-/*var touchStartX = 0;
+var touchStartX = 0;
 var touchStartY = 0;
 
 $('#canvas').on('touchstart', function(e) {
@@ -261,54 +261,8 @@ $('#canvas').on('touchmove', function(e) {
         else if (diffY < 0 && d != "down") d = "up";
     }
 
-},{ passive: true});*/
-	var touchStartX = 0;
-var touchStartY = 0;
-var d = ""; // Initialize direction variable
-
-$('#canvas').on('touchstart', function(e) {
-    var touch = e.touches[0];
-    touchStartX = touch.clientX;
-    touchStartY = touch.clientY;
-    e.preventDefault(); // Prevent default behavior
-}, { passive: false });
-
-$('#canvas').on('touchmove', function(e) {
-    var touch = e.touches[0];
-    var touchEndX = touch.clientX;
-    var touchEndY = touch.clientY;
-
-    var diffX = touchEndX - touchStartX;
-    var diffY = touchEndY - touchStartY;
-
-    if (Math.abs(diffX) > Math.abs(diffY)) {
-        if (diffX > 0 && d != "left") {
-            d = "right";
-            console.log("Swiped right");
-        } else if (diffX < 0 && d != "right") {
-            d = "left";
-            console.log("Swiped left");
-        }
-    } else {
-        if (diffY > 0 && d != "up") {
-            d = "down";
-            console.log("Swiped down");
-        } else if (diffY < 0 && d != "down") {
-            d = "up";
-            console.log("Swiped up");
-        }
-    }
-    
-    e.preventDefault(); // Prevent default behavior
-}, { passive: false });
-
-// Optional: handle touchend to reset direction if needed
-$('#canvas').on('touchend', function(e) {
-    // Reset direction after touch ends if you want
-    d = "";
-    console.log("Touch ended");
-});
-
+},{ passive: true});
+	
 
     //Modes for select mode
    $('#diff-btn').click(function() {
