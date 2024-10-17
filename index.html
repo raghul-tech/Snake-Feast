@@ -11,12 +11,35 @@
       <script type="text/javascript">
 		var c;
 		var ctx;
+	      var direction = {x:1,y:0};
 		function init(){
 			c = document.getElementById("myCanvas");
 			ctx = c.getContext("2d");
 			draw();
+			setTouchControls();
 		}
+	function setTouchControls() {
+            c.addEventListener('touchstart', function(event) {
+                event.preventDefault(); // Prevent default touch behavior
 
+                // Get the touch coordinates
+                var touchX = event.touches[0].clientX - c.getBoundingClientRect().left;
+                var touchY = event.touches[0].clientY - c.getBoundingClientRect().top;
+
+                // Determine the direction based on touch position
+                if (touchY < c.height / 2) { // Upper half of the canvas
+                    direction = { x: 0, y: -1 }; // Up
+                } else { // Lower half of the canvas
+                    direction = { x: 0, y: 1 }; // Down
+                }
+
+                if (touchX < c.width / 2) { // Left half of the canvas
+                    direction.x = direction.x === 0 ? -1 : direction.x; // Left if moving vertically
+                } else { // Right half of the canvas
+                    direction.x = direction.x === 0 ? 1 : direction.x; // Right if moving vertically
+                }
+            }, { passive: false });
+        }
 		function draw(){
 			setInterval(function(){
 				ctx.fillStyle="black";
