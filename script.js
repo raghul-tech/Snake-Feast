@@ -246,7 +246,7 @@ function adjust_speed() {
 			return;
 		});
         
-// this code is for mobile touch screen 
+// This code is for mobile touch screen
 var touchStartX = 0;
 var touchStartY = 0;
 
@@ -254,29 +254,33 @@ $('#canvas').on('touchstart', function(e) {
     var touch = e.touches[0];
     touchStartX = touch.clientX;
     touchStartY = touch.clientY;
-},{ passive: true});
+}, { passive: true });
 
 $('#canvas').on('touchmove', function(e) {
-	  e.preventDefault(); // Prevent default touch actions
+    e.preventDefault(); // Prevent default touch actions
     var touch = e.touches[0];
     var touchEndX = touch.clientX;
     var touchEndY = touch.clientY;
-    
+
     var diffX = touchEndX - touchStartX;
     var diffY = touchEndY - touchStartY;
 
-    if (Math.abs(diffX) > Math.abs(diffY)) {
-        if (diffX > 0 && d != "left") d = "right";
-        else if (diffX < 0 && d != "right") d = "left";
-    } else {
-        if (diffY > 0 && d != "up") d = "down";
-        else if (diffY < 0 && d != "down") d = "up";
+    // Set threshold for direction change to prevent rapid changes
+    var threshold = 50; // Adjust as necessary
+
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > threshold) {
+        if (diffX > 0 && d != "left") d = "right"; // Right swipe
+        else if (diffX < 0 && d != "right") d = "left"; // Left swipe
+    } else if (Math.abs(diffY) > threshold) {
+        if (diffY > 0 && d != "up") d = "down"; // Down swipe
+        else if (diffY < 0 && d != "down") d = "up"; // Up swipe
     }
 
-        touchStartX = touchEndX; // Update start position for next move
-        touchStartY = touchEndY;
+    // Update starting positions for next move
+    touchStartX = touchEndX;
+    touchStartY = touchEndY;
+}, { passive: true });
 
-},{ passive: false});
 
     //Modes for select mode
    $('#diff-btn').click(function() {
