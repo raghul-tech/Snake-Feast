@@ -249,7 +249,7 @@ function adjust_speed() {
 // this code is for mobile touch screen 
 var touchStartX = 0;
 var touchStartY = 0;
-d = "right";
+
 $('#canvas').on('touchstart', function(e) {
     var touch = e.touches[0];
     touchStartX = touch.clientX;
@@ -257,8 +257,7 @@ $('#canvas').on('touchstart', function(e) {
 },{ passive: true});
 
 $('#canvas').on('touchmove', function(e) {
-	 // Prevent default behavior to stop page refresh on pull down
-    e.preventDefault(); 
+	  e.preventDefault(); // Prevent default touch actions
     var touch = e.touches[0];
     var touchEndX = touch.clientX;
     var touchEndY = touch.clientY;
@@ -274,8 +273,10 @@ $('#canvas').on('touchmove', function(e) {
         else if (diffY < 0 && d != "down") d = "up";
     }
 
-},{ passive: false });
+        touchStartX = touchEndX; // Update start position for next move
+        touchStartY = touchEndY;
 
+},{ passive: false});
 
     //Modes for select mode
    $('#diff-btn').click(function() {
