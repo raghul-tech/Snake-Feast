@@ -19,4 +19,4 @@ We may update this Privacy Policy from time to time. Any changes will be posted 
 ## 5. Contact Us
 If you have any questions about this Privacy Policy, feel free to contact us at:
 
-**Email**: [Raghuljohn43@gmail.com](mailto:Raghuljohn43@gmail.com)
+**Email**: [raghultechdev@gmail.com](mailto:raghultechdev@gmail.com)
