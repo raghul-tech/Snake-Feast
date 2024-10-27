@@ -529,7 +529,7 @@
       "url": "/?startLive",
       "icons": [
         {
-          "src": "icon/snakelogo3.png",
+          "src": "icons/snakelogo3.png",
           "sizes": "256x256"
         }
       ]
