@@ -110,13 +110,13 @@ You can open Snake Feast using either of the following methods
 
 ### Future Enhancements
 - Adding levels with increasing complexity. 
-- Sound Effects
+- Sound effects
 
 ### Download and Install
-You can download the game directly from the [Microsoft Store](https://apps.microsoft.com/store/detail/9PC2Z9NGJKKT?cid=DevShareMCLPCS).
+You can download the game directly from the [Microsoft Store](https://www.microsoft.com/store/apps/9PC2Z9NGJKKT).
 
 ### How to Install
-1. Download the gamefrom the [Microsoft Store](https://apps.microsoft.com/store/detail/9PC2Z9NGJKKT?cid=DevShareMCLPCS).
+1. Download the game from the [Microsoft Store](https://www.microsoft.com/store/apps/9PC2Z9NGJKKT).
 2. Open the game and press "Start" to begin.
 
 ## Contributing
@@ -126,4 +126,6 @@ Contributions are welcome! If you'd like to contribute to Snake Feast, please fo
 This project is licensed under the  GNU General Public License (GPL v3).
 
 ## Contact
+**Email**: [raghultechdev@gmail.com](mailto:raghultechdev@gmail.com)
+
 Developed by [Raghul John R](https://www.linkedin.com/in/raghul-john-r-3a9577320).

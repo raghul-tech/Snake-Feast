@@ -37,7 +37,7 @@ function adjust_speed() {
 	        clearInterval(game_loop);
 	        game_loop = setInterval(paint, speed);
 	    }
-	    console.log("Current Speed: ",speed)
+	   // console.log("Current Speed: ",speed)
 	}
 
 
