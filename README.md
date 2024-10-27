@@ -1,15 +1,35 @@
 # Snake Feast
 
-<<<<<<< HEAD
-![Microsoft Store Logo](icons/microsoft.png)
+<img src="icons/snakelogo.png" alt="Snake Feast Logo" width="200" height="200" />
 
-=======
->>>>>>> 8ab897ed2351199d03b58174d03b38352860f25d
-You can find the project on the Microsoft Store:
+---
+<table>
+  <tr>
+    <td>
+      <img src="icons/microsoft.png" alt="Microsoft Store Logo" width="150" height="150" />
+    </td>
+    <td>
+      <strong>You can find the project on the Microsoft Store:</strong>
+      <ul>
+        <li><strong>Store ID</strong>: 9PC2Z9NGJKKT</li>
+        <li><strong>Web Store URL</strong>: 
+            <a href="https://www.microsoft.com/store/apps/9PC2Z9NGJKKT" target="_blank">Snake Feast on Microsoft Store</a>
+        </li>
+         <li><strong>Alternate Web Store URL</strong>: 
+            <a href="https://apps.microsoft.com/store/detail/9PC2Z9NGJKKT?cid=DevShareMCLPCS" target="_blank">Snake Feast Alternate Store Link</a>
+        </li>
+        <li><strong>Deep Link (for Windows Store App)</strong>: 
+            <a href="ms-windows-store://pdp/?productid=9PC2Z9NGJKKT">Open in Microsoft Store App</a>
+        </li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
-- **Store ID**: `9PC2Z9NGJKKT`
-- **Web Store URL**: [Snake Feast on Microsoft Store](https://www.microsoft.com/store/apps/9PC2Z9NGJKKT)
-- **Deep Link (for Windows Store App)**: [Open in Microsoft Store App](ms-windows-store://pdp/?productid=9PC2Z9NGJKKT)
+
+You can also play the game on the web:
+
+- **Play Snake Feast online**: [Snake Feast on Netlify](https://feast-snake.netlify.app/#)
 
 > **Note**: This game is primarily designed for desktop use.
 
@@ -25,55 +45,78 @@ Snake Feast is a simple yet fun classic arcade game developed using HTML, CSS, a
 - **Snake Skin Color Customization**: Already implemented to enhance gameplay.
 
 
-## Screenshots
+## Snapshots
 
 <p align="center">
   <a href="https://github.com/raghul-tech/Snake-Feast.git">
-    <img src="img/start.png" alt="Start Screen">
+    <img src="img/start.png" alt="Start">
   </a>
 </p>
 
 <p align="center">
   <a href="https://github.com/raghul-tech/Snake-Feast.git">
-    <img src="img/snakeGame.png" alt="snake-game screen">
+    <img src="img/normal.png" alt="normal">
   </a>
 </p>
 
 <p align="center">
   <a href="https://github.com/raghul-tech/Snake-Feast.git">
-    <img src="img/snakeGameOver.png" alt="Over Screen">
+    <img src="img/bonus.png" alt="bonus">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/raghul-tech/Snake-Feast.git">
+    <img src="img/end.png" alt="end">
   </a>
 </p>
 
 ## Getting Started
 ### Prerequisites
-To run Snake Feast, you need a modern web browser.
+To run Snake Feast, you need a modern web browser and Python (if you wish to run the Python script).
 
 ### Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/raghul-tech/Snake-Feast.git
-   ```
-2. Navigate to the project directory:
-   ```bash
-   cd Snake-Feast
-   ```
-3. Open the **`index.html`** file in your browser
+You can open Snake Feast using either of the following methods
 
+1. **Via Web Browser**:
+   - Clone the repository:
+     ```bash
+     git clone https://github.com/raghul-tech/Snake-Feast.git
+     ```
+   - Navigate to the project directory:
+     ```bash
+     cd Snake-Feast
+     ```
+   - Open the **`index.html`** file in your browser.
+
+2. **Via Python Script**:
+   - Make sure you have Python installed on your system.
+   - Clone the repository:
+     ```bash
+     git clone https://github.com/raghul-tech/Snake-Feast.git
+     ```
+   - Navigate to the project directory:
+     ```bash
+     cd Snake-Feast
+     ```
+   - Run the following command in your terminal:
+     ```bash
+     python snakefeast.py
+     ```
 ### Usage
 - Open the game and press "Start" to begin.
 - Use the arrow keys to control the snake.
 - Try to eat as much food as possible without hitting the walls or your own body.
 
 ### Future Enhancements
-- Adding levels with increasing complexity.
-- Introducing themes for the snake.
+- Adding levels with increasing complexity. 
+- Sound Effects
 
 ### Download and Install
-You can download the game directly from the [Microsoft Store](https://www.microsoft.com/store/apps/9PC2Z9NGJKKT).
+You can download the game directly from the [Microsoft Store](https://apps.microsoft.com/store/detail/9PC2Z9NGJKKT?cid=DevShareMCLPCS).
 
 ### How to Install
-1. Download the game from the [Microsoft Store](https://www.microsoft.com/store/apps/9PC2Z9NGJKKT).
+1. Download the gamefrom the [Microsoft Store](https://apps.microsoft.com/store/detail/9PC2Z9NGJKKT?cid=DevShareMCLPCS).
 2. Open the game and press "Start" to begin.
 
 ## Contributing

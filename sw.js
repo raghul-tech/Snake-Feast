@@ -8,6 +8,7 @@ const urlsToCache = [
   '/LICENSE',
   '/manifest.json',
   '/sw.js',
+  '/offline.html',
   '/img/background1.png',
   '/img/start.png',
   '/img/snakeGame.png',
@@ -146,11 +147,10 @@ self.addEventListener('install', event => {
 // Fetch event
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        // Cache hit - return response
-        return response || fetch(event.request);
-      })
+    fetch(event.request).catch(() => {
+      // If the request fails (no network), return the offline page
+      return caches.match('/offline.html');
+    })
   );
 });
 

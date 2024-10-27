@@ -20,10 +20,13 @@
       "src": "img/start.png"
     },
     {
-      "src": "img/snakeGame.png"
+      "src": "img/normal.png"
     },
     {
-      "src": "img/snakeGameOver.png"
+      "src": "img/bonus.png"
+    },
+    {
+      "src": "img/end.png"
     }
   ],
   "features": [
