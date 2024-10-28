@@ -98,27 +98,26 @@ button{
 	color: #ffffff;
 	font-size: 30px;
 	text-align: center;
-	position: absolute;
+	position: fixed;
 	top: 35%;
 	left: 54%;
 	transform: translate(-50%,-50%);
 	background: rgba(0, 0, 0, 0.7);
 	padding: 20px;
 	border-radius: 10px;
-	position: fixed;
+	
 }
 #start-overlay{
 	color: #ffffff;
 	font-size: 30px;
 	text-align: center;
-	position:absolute;
+	position:fixed;
 	top: 35%; 
 	left: 54%;
 	transform: translate(-50%,-50%);
 	background: rgba(0, 0, 0, 0.7);
 	padding: 20px;
 	border-radius: 10px;
-	position:fixed ;
 }
 
 #overlay a, #start-overlay a{
