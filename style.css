@@ -192,6 +192,11 @@ button{
     h1 {
         font-size: 24px;
     }
+    #start-overlay{
+	position:absolute;
+        top: 40%;
+
+    }
 }
 
 /* Styles for tablets */
