@@ -289,35 +289,54 @@ document.addEventListener('keydown', function(event) {
 			return;
 		});
         
-// this code is for mobile touch screen 
 var touchStartX = 0;
 var touchStartY = 0;
-d = "right";
-$('#canvas').on('touchstart', function(e) {
-    var touch = e.touches[0];
-    touchStartX = touch.clientX;
-    touchStartY = touch.clientY;
-},{ passive: true});
+var canvas_touch = document.getElementById('canvas');
+//var d = "right"; // Initial direction (you can set this to whatever the default is)
 
-$('#canvas').on('touchmove', function(e) {
-	 // Prevent default behavior to stop page refresh on pull down
-    e.preventDefault(); 
+// Get the canvas's bounding rectangle to adjust for its position on the page
+var canvasRect = canvas_touch.getBoundingClientRect();
+
+// Add touchstart event
+canvas_touch.addEventListener('touchstart', function (e) {
     var touch = e.touches[0];
-    var touchEndX = touch.clientX;
-    var touchEndY = touch.clientY;
-    
+    touchStartX = touch.clientX - canvasRect.left;
+    touchStartY = touch.clientY - canvasRect.top;
+}, { passive: false });
+
+// Add touchmove event
+canvas_touch.addEventListener('touchmove', function (e) {
+    e.preventDefault(); // Prevent the default scrolling behavior on touchmove
+
+    var touch = e.touches[0];
+    var touchEndX = touch.clientX - canvasRect.left;
+    var touchEndY = touch.clientY - canvasRect.top;
+
     var diffX = touchEndX - touchStartX;
     var diffY = touchEndY - touchStartY;
 
+    // Determine the direction of the swipe
     if (Math.abs(diffX) > Math.abs(diffY)) {
-        if (diffX > 0 && d != "left") d = "right";
-        else if (diffX < 0 && d != "right") d = "left";
+        // Horizontal swipe
+        if (diffX > 0 && d !== "left") {
+            d = "right";
+        } else if (diffX < 0 && d !== "right") {
+            d = "left";
+        }
     } else {
-        if (diffY > 0 && d != "up") d = "down";
-        else if (diffY < 0 && d != "down") d = "up";
+        // Vertical swipe
+        if (diffY > 0 && d !== "up") {
+            d = "down";
+        } else if (diffY < 0 && d !== "down") {
+            d = "up";
+        }
     }
 
-},{ passive: false });
+    // Update the starting point for the next move
+    touchStartX = touchEndX;
+    touchStartY = touchEndY;
+}, { passive: false });
+
 	
     //Modes for select mode
    $('#diff-btn').click(function() {
