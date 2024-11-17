@@ -336,7 +336,6 @@ canvas_touch.addEventListener('touchmove', function (e) {
     touchStartX = touchEndX;
     touchStartY = touchEndY;
 }, { passive: false });
-
 	
     //Modes for select mode
    $('#diff-btn').click(function() {
