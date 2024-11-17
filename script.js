@@ -289,7 +289,6 @@ document.addEventListener('keydown', function(event) {
 			return;
 		});
         
-// this code is for mobile touch screen 
 var touchStartX = 0;
 var touchStartY = 0;
 var canvas_touch = document.getElementById('canvas');

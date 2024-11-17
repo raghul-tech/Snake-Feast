@@ -21,7 +21,7 @@ button{
 	background:#000000;
 	border: 1px #cccccc solid;
 	align-self: center;
-	right: 50px;
+	right: 40px;
 	border-radius: 10px;
 	
 }
@@ -42,8 +42,9 @@ button{
 	font-weight: bold;
 	background:linear-gradient(90deg,darkred,darkblue);
 	-webkit-background-clip: text;
-    -webkit-text-fill-color: transparent; /* WebKit-specific */
-    
+     -webkit-text-fill-color: transparent; 
+       -webkit-background-clip: text;
+       -webkit-text-fill-color: transparent; 
 }
 
 .container{
@@ -232,6 +233,9 @@ button{
     border-radius: 10px;
     z-index: 9999; /* Make sure the overlay stays on top */
 }
+    h1 {
+        font-size: 24px;
+    }
 }
 
 /* Styles for tablets */
@@ -239,6 +243,44 @@ button{
     body {
         background-color: lightgreen;
     }
+     #snake-game{
+	text-align:center;
+	font-size: 30px;
+	font-weight: bold;
+	background:linear-gradient(90deg,darkred,darkblue);
+    -webkit-background-clip: text;
+    background-clip: text; /* Non-prefixed version */
+    -webkit-text-fill-color: transparent; /* WebKit-specific */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0); /* Subtle shadow for better visibility */
+}
+
+#overlay{
+	display: none;
+	color: #ffffff;
+	font-size: 20px;
+	text-align: center;
+	position: absolute;
+	top: 35%;
+	left: 55%;
+	transform: translate(-50%,-50%);
+	background: rgba(0, 0, 0, 0.7);
+	padding: 20px;
+	border-radius: 10px;
+	 z-index: 9999; /* Make sure the overlay stays on top */
+}
+#start-overlay{
+    color: #ffffff;
+    font-size: 20px;
+    text-align: center;
+    position: absolute;
+    top: 35%; /* Center vertically */
+    left: 55%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust the element to be centered exactly */
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 9999; /* Make sure the overlay stays on top */
+}
 
 
 }
@@ -251,4 +293,5 @@ button{
     h1 {
         font-size: 36px;
     }
+  
 }
