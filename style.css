@@ -1,5 +1,7 @@
 body{
 	background:#000000 url(img/background1.jpg) no-repeat top center;
+	background-size: cover;
+     background-attachment: fixed;
 	font-family: cursive;
 	margin: auto;
 	padding: 0;
@@ -39,10 +41,9 @@ button{
 	font-size: 40px;
 	font-weight: bold;
 	background:linear-gradient(90deg,darkred,darkblue);
-	  -webkit-background-clip: text;
-    background-clip: text; /* Non-prefixed version */
+	-webkit-background-clip: text;
     -webkit-text-fill-color: transparent; /* WebKit-specific */
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0); /* Subtle shadow for better visibility */
+    
 }
 
 .container{
@@ -100,27 +101,27 @@ button{
 	color: #ffffff;
 	font-size: 30px;
 	text-align: center;
-	position: absolute;
+	position: fixed;
 	top: 35%;
-	left: 54%;
+	left: 53%;
 	transform: translate(-50%,-50%);
 	background: rgba(0, 0, 0, 0.7);
 	padding: 20px;
 	border-radius: 10px;
-	position: fixed;
+	z-index: 9999;
 }
 #start-overlay{
 	color: #ffffff;
 	font-size: 30px;
 	text-align: center;
-	position:absolute;
+	position: fixed;
 	top: 35%; 
-	left: 54%;
+	left: 53%;
 	transform: translate(-50%,-50%);
 	background: rgba(0, 0, 0, 0.7);
 	padding: 20px;
 	border-radius: 10px;
-	position:fixed ;
+	z-index: 9999;
 }
 
 #overlay a, #start-overlay a{
@@ -140,7 +141,7 @@ button{
     position: relative;
     display: inline-block;
     width: 20%;
-  	margin: 10px 0;
+    margin: 10px 0;
 }
 
 .dropbtn,.Start-Btn,#diff-btn,#download-btn {
@@ -189,12 +190,48 @@ button{
 
 /* Styles for mobile devices */
 @media (max-width: 600px) {
-    body {
+     body {
         background-color: lightblue;
     }
-    h1 {
-        font-size: 24px;
-    }
+    
+   #snake-game{
+	text-align:center;
+	font-size: 30px;
+	font-weight: bold;
+	background:linear-gradient(90deg,darkred,darkblue);
+    -webkit-background-clip: text;
+    background-clip: text; /* Non-prefixed version */
+    -webkit-text-fill-color: transparent; /* WebKit-specific */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0); /* Subtle shadow for better visibility */
+}
+
+#overlay{
+	display: none;
+	color: #ffffff;
+	font-size: 20px;
+	text-align: center;
+	position: absolute;
+	top: 35%;
+	left: 57%;
+	transform: translate(-50%,-50%);
+	background: rgba(0, 0, 0, 0.7);
+	padding: 20px;
+	border-radius: 10px;
+	 z-index: 9999; /* Make sure the overlay stays on top */
+}
+#start-overlay{
+    color: #ffffff;
+    font-size: 20px;
+    text-align: center;
+    position: absolute; /* Fixed position to stay in place when scrolling */
+    top: 35%; /* Center vertically */
+    left: 57%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust the element to be centered exactly */
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 9999; /* Make sure the overlay stays on top */
+}
 }
 
 /* Styles for tablets */
@@ -202,9 +239,8 @@ button{
     body {
         background-color: lightgreen;
     }
-    h1 {
-        font-size: 30px;
-    }
+
+
 }
 
 /* Styles for desktops */

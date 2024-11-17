@@ -26,12 +26,49 @@
   </tr>
 </table>
 
+## Available Extensions
+
+<table>
+  <tr>
+    <td>
+      <img src="icons/firefox.png" alt="Firefox Add-on Logo" width="60" height="60" />
+    </td>
+    <td>
+      <strong>Snake Feast Firefox Extension</strong>:
+      <ul>
+        <li><a href="https://addons.mozilla.org/en-GB/firefox/addon/snake-feast/" target="_blank">Install on Firefox</a></li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="icons/chrome.png" alt="Chrome Web Store Logo" width="60" height="60" />
+    </td>
+    <td>
+      <strong>Snake Feast Chrome Extension</strong>:
+      <ul>
+        <li><a href="https://chromewebstore.google.com/detail/snake-feast/hfmacflbnmdcjlilbnhflplpaaocaohp?hl=en-GB&authuser=0" target="_blank">Install on Chrome</a></li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="icons/edge.png" alt="Microsoft Edge Add-ons Logo" width="60" height="60" />
+    </td>
+    <td>
+      <strong>Snake Feast Edge Extension</strong>:
+      <ul>
+        <li><a href="https://microsoftedge.microsoft.com/addons/detail/jlibkeadeilgolekhdoefckmknpmaiik" target="_blank">Install on Edge</a></li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+---
 
 You can also play the game on the web:
 
 - **Play Snake Feast online**: [Snake Feast on Netlify](https://feast-snake.netlify.app/#)
-
-> **Note**: This game is primarily designed for desktop use.
 
 ---
 Snake Feast is a simple yet fun classic arcade game developed using HTML, CSS, and JavaScript. The objective is to guide the snake to eat food, grow longer, and avoid colliding with walls or the snake's own body. Itâ€™s lightweight, responsive, and runs smoothly in the browser.
@@ -41,7 +78,7 @@ Snake Feast is a simple yet fun classic arcade game developed using HTML, CSS, a
 - **Responsive Design**: Works on desktops, tablets, and mobile devices.
 - **Gradient Text Title**: Eye-catching gradient text in the game header.
 - **Customizable Difficulty**: Change difficulty levels through the dropdown menu.
-- **Keyboard Controls**: Use arrow keys for movement.
+- **Keyboard Controls**: Use arrow keys (â¬†ï¸?â¬‡ï¸?â¬…ï¸?âž¡ï¸?) or WASD keys for navigation.
 - **Snake Skin Color Customization**: Already implemented to enhance gameplay.
 
 
@@ -73,7 +110,7 @@ Snake Feast is a simple yet fun classic arcade game developed using HTML, CSS, a
 
 ## Getting Started
 ### Prerequisites
-To run Snake Feast, you need a modern web browser and Python (if you wish to run the Python script).
+To run Snake Feast, you need a modern web browser or Python (if you wish to run the Python script).
 
 ### Installation
 You can open Snake Feast using either of the following methods
@@ -105,7 +142,7 @@ You can open Snake Feast using either of the following methods
      ```
 ### Usage
 - Open the game and press "Start" to begin.
-- Use the arrow keys to control the snake.
+- Use the arrow keys or WASD keys to control the snake.
 - Try to eat as much food as possible without hitting the walls or your own body.
 
 ### Future Enhancements
@@ -126,6 +163,6 @@ Contributions are welcome! If you'd like to contribute to Snake Feast, please fo
 This project is licensed under the  GNU General Public License (GPL v3).
 
 ## Contact
-**Email**: [raghultechdev@gmail.com](mailto:raghultechdev@gmail.com)
+**Email**: [raghultech.app@gmail.com](mailto:raghultech.app@gmail.com)
 
 Developed by [Raghul John R](https://www.linkedin.com/in/raghul-john-r-3a9577320).
