@@ -4,58 +4,33 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Snake Feast</title>
-	<link rel="icon" href="ios/32.png" type="image/png">
 	<link rel="stylesheet" href="style.css" type="text/css">
-	<link rel="manifest" href="manifest.json">
 
  <script type="text/javascript">
 		var c;
-		var ctx; 
-		 var direction = { x: 1, y: 0 }; // Initialize direction
+		var ctx;
 		function init(){
 			c = document.getElementById("myCanvas");
 			ctx = c.getContext("2d");
 			draw();
-			setTouchControls();
+		
 		}
-		 function setTouchControls() {
-            c.addEventListener('touchstart', function(event) {
-                event.preventDefault(); // Prevent default touch behavior
-
-                // Get the touch coordinates
-                var touchX = event.touches[0].clientX - c.getBoundingClientRect().left;
-                var touchY = event.touches[0].clientY - c.getBoundingClientRect().top;
-
-                // Determine the direction based on touch position
-                if (touchY < c.height / 2) { // Upper half of the canvas
-                    direction = { x: 0, y: -1 }; // Up
-                } else { // Lower half of the canvas
-                    direction = { x: 0, y: 1 }; // Down
-                }
-
-                if (touchX < c.width / 2) { // Left half of the canvas
-                    direction.x = direction.x === 0 ? -1 : direction.x; // Left if moving vertically
-                } else { // Right half of the canvas
-                    direction.x = direction.x === 0 ? 1 : direction.x; // Right if moving vertically
-                }
-            }, { passive: false });  
-        } 
 
 		function draw(){
 			setInterval(function(){
 				ctx.fillStyle="black";
 				ctx.fillRect(0,0,c.width,c.height);
 
-				ctx.fillStyle="red";
+				ctx.fillStyle="blue";
 				ctx.beginPath();
 				ctx.arc(15,11,10,0,Math.PI*2);
 				ctx.fill();                 
             
-				ctx.fillStyle="blue";
+				ctx.fillStyle="red";
 				ctx.beginPath();
 				ctx.arc(15,35,10,0,Math.PI*2);
 				ctx.fill()
-		        ctx.font = "15pt Arial"//cursive"
+		     ctx.font = "15pt Arial"
 			// Gradient
 			var gradient = ctx.createLinearGradient(0,0,c.width,0);
 			gradient.addColorStop("0","red");
@@ -66,12 +41,13 @@
 				ctx.fillText(" 5 Point",28,45);
 },30);
 }
+ 
 
 	</script>
 
 </head>
 <body onload="init()">
-	<div class="container"> 
+	<div class="container">
 	    <div id="start-overlay">
 			<h1 id="snake-game">SNAKE FEAST</h1>
 			<a href="#">Click To Start Game</a>
@@ -82,9 +58,9 @@
 			<br>
 			<a href="#">Click To Play Again</a>
 		</div>
-		<canvas id="canvas" width="750" height="550">
+		<canvas id="canvas" width="1350" height="550">
 			Sorry This Browser does not support Canvas
-		</canvas> 
+		</canvas>
 		<div id="stats">
 			<div id="score">Your Score: 0</div>
 				<div id="high_score">High Score:</div>
@@ -97,9 +73,9 @@
 			    	<li data-color="red">Red</li>
 			    	<li data-color="blue">Blue</li>
 			    	<li data-color="white">White</li>
-			   	    <li data-color="black">Black</li>
-			     	<li data-color="white">White</li>
-			    <!--<li data-color="yellow">Yellow</li>
+			   	<li data-color="black">Black</li>
+			     <!--	<li data-color="white">White</li>
+			    	<li data-color="yellow">Yellow</li>
 			    	<li data-color="purple">Purple</li>-->
 
 			    </div>
@@ -115,18 +91,19 @@
                  <li id="hard">Hard</li>
              </div>
         </div>
-<div class="download">
-			<button id="download-btn"> <a href="https://github.com/raghul-tech/Snake-Feast/releases/download/v1.1.2/Snake.Feast_setup.exe">Offline Version </a></button>
-		</div>
      <br>
 <canvas id="myCanvas" width="110" height="50">
 	<p>Sorry this browser does not support canvas</p>
 </canvas>
+
 	</div>
  <!-- JQuery -->
 	<script src="jquery.min.js"></script>
 	
 	<!-- Main js -->
 	<script type="text/javascript" src="script.js"></script>
+ <!-- Include QWebChannel script -->
+    <script src="qwebchannel.js"></script> 
+	
 </body>
 </html>

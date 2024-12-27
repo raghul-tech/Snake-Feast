@@ -5,15 +5,19 @@ body{
 	font-family: cursive;
 	margin: auto;
 	padding: 0;
-	width:80%;
+	
 }
 
+html, body {
+  touch-action: none; 
+}
 
 a{
 	color:#ffffff;
 	text-decoration: none;
 }
 button{
+	font-weight: bold;
 	font-family: cursive;
 }
 
@@ -21,8 +25,9 @@ button{
 	background:#000000;
 	border: 1px #cccccc solid;
 	align-self: center;
-	right: 40px;
+	right: 50px;
 	border-radius: 10px;
+	
 	
 }
 #myCanvas{
@@ -30,32 +35,32 @@ button{
 	background: #000000;
 	border: 1px #cccccc solid;
 	text-align: center;
-	left: 93%;
-	top:95%;
+	left: 90%;
+	top:97%;
 	transform: translate(-50%, -50%);
 	border-radius: 10px;
+	
 
 }
+
 #snake-game{
 	text-align:center;
 	font-size: 40px;
 	font-weight: bold;
 	background:linear-gradient(90deg,darkred,darkblue);
-	-webkit-background-clip: text;
-     -webkit-text-fill-color: transparent; 
-       -webkit-background-clip: text;
-       -webkit-text-fill-color: transparent; 
+	-webkit-background-clip:text;
+	-webkit-text-fill-color:transparent;
 }
 
 .container{
-	margin: 30px auto ;
-	width: 650px;
+	margin: 30px  auto ;
+	width: 1350px;
 	overflow:visible;
 	position: relative;
 }
 
 #stats{
-	width: 733px;
+	width: 1335px;
 	background: #333333;
 	padding: 10px;
 	font-size: 25px;
@@ -90,11 +95,12 @@ button{
 	border: none;
 	color: #ffffff;
 	cursor: pointer;
-	border-radius: 5px;
+	border-radius: 10px;
 }
 
 #reset_score :hover{
 	background-color:#666666;
+	 
 }
 
 #overlay{
@@ -103,26 +109,26 @@ button{
 	font-size: 30px;
 	text-align: center;
 	position: fixed;
-	top: 35%;
-	left: 53%;
+	top: 30%;
+	left: 51%;
 	transform: translate(-50%,-50%);
 	background: rgba(0, 0, 0, 0.7);
 	padding: 20px;
 	border-radius: 10px;
-	z-index: 9999;
+	
 }
 #start-overlay{
 	color: #ffffff;
 	font-size: 30px;
 	text-align: center;
-	position: fixed;
-	top: 35%; 
-	left: 53%;
+	position:absolute;
+	top: 33%; 
+	left: 51%;
 	transform: translate(-50%,-50%);
 	background: rgba(0, 0, 0, 0.7);
 	padding: 20px;
 	border-radius: 10px;
-	z-index: 9999;
+	
 }
 
 #overlay a, #start-overlay a{
@@ -136,29 +142,31 @@ button{
 
 #overlay a:hover , #start-overlay a:hover{
 	background: #333333;
+	 
 }
 
-.dropdown,.Start,#difficulty ,.download{
+.dropdown,.Start,#difficulty {
     position: relative;
     display: inline-block;
     width: 20%;
-    margin: 10px 0;
+  	margin: 10px 0;
 }
 
-.dropbtn,.Start-Btn,#diff-btn,#download-btn {
+.dropbtn,.Start-Btn,#diff-btn{
     background-color: #444444;
     color: #ffffff;
     padding: 10px;
     border: none;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 10px;
     width: 93%;
     text-align: center;
-
+ 
 }
 
-.dropbtn:hover,.Start-Btn:hover, #diff-btn:hover ,#download-btn:hover{
+.dropbtn:hover,.Start-Btn:hover, #diff-btn:hover {
     background-color: #666666;
+    
 }
 
 .dropdown-content,#diff-option {
@@ -191,95 +199,95 @@ button{
 
 /* Styles for mobile devices */
 @media (max-width: 600px) {
-     body {
-        background-color: lightblue;
-    }
-    
-   #snake-game{
-	text-align:center;
-	font-size: 30px;
-	font-weight: bold;
-	background:linear-gradient(90deg,darkred,darkblue);
-    -webkit-background-clip: text;
-    background-clip: text; /* Non-prefixed version */
-    -webkit-text-fill-color: transparent; /* WebKit-specific */
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0); /* Subtle shadow for better visibility */
+	body {
+	   background-color: lightblue;
+   }
+   
+  #snake-game{
+   text-align:center;
+   font-size: 30px;
+   font-weight: bold;
+   background:linear-gradient(90deg,darkred,darkblue);
+   -webkit-background-clip: text;
+   background-clip: text; 
+   -webkit-text-fill-color: transparent; 
+   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0); 
 }
 
 #overlay{
-	display: none;
-	color: #ffffff;
-	font-size: 20px;
-	text-align: center;
-	position: absolute;
-	top: 35%;
-	left: 57%;
-	transform: translate(-50%,-50%);
-	background: rgba(0, 0, 0, 0.7);
-	padding: 20px;
-	border-radius: 10px;
-	 z-index: 9999; /* Make sure the overlay stays on top */
+   display: none;
+   color: #ffffff;
+   font-size: 20px;
+   text-align: center;
+   position: absolute;
+   top: 35%;
+   left: 53%;
+   transform: translate(-50%,-50%);
+   background: rgba(0, 0, 0, 0.7);
+   padding: 20px;
+   border-radius: 10px;
+	z-index: 9999; 
 }
 #start-overlay{
-    color: #ffffff;
-    font-size: 20px;
-    text-align: center;
-    position: absolute; /* Fixed position to stay in place when scrolling */
-    top: 35%; /* Center vertically */
-    left: 57%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Adjust the element to be centered exactly */
-    background: rgba(0, 0, 0, 0.7);
-    padding: 20px;
-    border-radius: 10px;
-    z-index: 9999; /* Make sure the overlay stays on top */
+   color: #ffffff;
+   font-size: 20px;
+   text-align: center;
+   position: absolute; 
+   top: 35%; 
+   left: 53%; 
+   transform: translate(-50%, -50%); 
+   background: rgba(0, 0, 0, 0.7);
+   padding: 20px;
+   border-radius: 10px;
+   z-index: 9999; 
 }
-    h1 {
-        font-size: 24px;
-    }
+   h1 {
+	   font-size: 24px;
+   }
 }
 
 /* Styles for tablets */
 @media (min-width: 601px) and (max-width: 1024px) {
-    body {
-        background-color: lightgreen;
-    }
-     #snake-game{
-	text-align:center;
-	font-size: 30px;
-	font-weight: bold;
-	background:linear-gradient(90deg,darkred,darkblue);
-    -webkit-background-clip: text;
-    background-clip: text; /* Non-prefixed version */
-    -webkit-text-fill-color: transparent; /* WebKit-specific */
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0); /* Subtle shadow for better visibility */
+   body {
+	   background-color: lightgreen;
+   }
+	#snake-game{
+   text-align:center;
+   font-size: 30px;
+   font-weight: bold;
+   background:linear-gradient(90deg,darkred,darkblue);
+   -webkit-background-clip: text;
+   background-clip: text; 
+   -webkit-text-fill-color: transparent; 
+   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0); 
 }
 
 #overlay{
-	display: none;
-	color: #ffffff;
-	font-size: 20px;
-	text-align: center;
-	position: absolute;
-	top: 35%;
-	left: 55%;
-	transform: translate(-50%,-50%);
-	background: rgba(0, 0, 0, 0.7);
-	padding: 20px;
-	border-radius: 10px;
-	 z-index: 9999; /* Make sure the overlay stays on top */
+   display: none;
+   color: #ffffff;
+   font-size: 20px;
+   text-align: center;
+   position: absolute;
+   top: 35%;
+   left: 53%;
+   transform: translate(-50%,-50%);
+   background: rgba(0, 0, 0, 0.7);
+   padding: 20px;
+   border-radius: 10px;
+	z-index: 9999; 
 }
 #start-overlay{
-    color: #ffffff;
-    font-size: 20px;
-    text-align: center;
-    position: absolute;
-    top: 35%; /* Center vertically */
-    left: 55%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Adjust the element to be centered exactly */
-    background: rgba(0, 0, 0, 0.7);
-    padding: 20px;
-    border-radius: 10px;
-    z-index: 9999; /* Make sure the overlay stays on top */
+   color: #ffffff;
+   font-size: 20px;
+   text-align: center;
+   position: absolute;
+   top: 35%; 
+   left: 53%; 
+   transform: translate(-50%, -50%); 
+   background: rgba(0, 0, 0, 0.7);
+   padding: 20px;
+   border-radius: 10px;
+   z-index: 9999; 
 }
 
 
@@ -287,11 +295,13 @@ button{
 
 /* Styles for desktops */
 @media (min-width: 1025px) {
-    body {
-        background-color: lightcoral;
-    }
-    h1 {
-        font-size: 36px;
-    }
-  
+   body {
+	   background-color: lightcoral;
+   }
+   h1 {
+	   font-size: 36px;
+   }
+ 
 }
+
+

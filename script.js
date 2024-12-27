@@ -1,19 +1,3 @@
-// Check if service workers are supported in the browser
-if ('serviceWorker' in navigator) {
-  // Wait for the window to load before registering the service worker
-  window.addEventListener('load', () => {
-    // Register the service worker located at /sw.js
-    navigator.serviceWorker.register('/sw.js')
-      .then((registration) => {
-        // Log success message and the scope of the service worker
-        console.log('Service Worker registered with scope:', registration.scope);
-      })
-      .catch((error) => {
-        // Log an error message if registration fails
-        //console.error('Service Worker registration failed:', error);
-      });
-  });
-}
 
 $(document).ready(function(){
 	var canvas = $('#canvas')[0];
@@ -32,12 +16,11 @@ $(document).ready(function(){
     let bonusBlinkState = true;
 function adjust_speed() {
 	 speed = Math.max(50, initialSpeed - snake_array.length);
-	      // Restart game loop with new speed
 	    if (typeof game_loop !== "undefined") {
 	        clearInterval(game_loop);
 	        game_loop = setInterval(paint, speed);
 	    }
-	   // console.log("Current Speed: ",speed)
+	  //  console.log("Current Speed: ",speed)
 	}
 
 
@@ -84,7 +67,6 @@ function adjust_speed() {
 
 	//Paint Snake
 	function paint(){
-		//canvas paint
 		ctx.fillStyle = "black";
 		ctx.fillRect(0,0,w,h);
 		ctx.strokeStyle = "white";
@@ -100,11 +82,8 @@ function adjust_speed() {
 
 		//collide code
 		if(nx <0 || nx >= w/cw || ny < 0 || ny >= h/cw || check_collision(nx,ny,snake_array)){
-			//init();
 			clearInterval(game_loop);
-			//insert final score
 			$('#final_score').html(score);
-			//show ovrlay
 			$('#overlay').fadeIn(300);
 			return;
 		}
@@ -161,38 +140,31 @@ function adjust_speed() {
         ctx.stroke();
 	}*/
 
-
-// Set up an interval to toggle the blink state every 500ms (or however fast you want it to blink)
 setInterval(() => {
     bonusBlinkState = !bonusBlinkState;
 }, 500);
 
 function food_cell(x, y) {
-    // Set radius based on food type
-    var radius = food.type === "bonus" ? cw-5 : cw / 2; // Larger radius for "bonus" type
+    var radius = food.type === "bonus" ? cw-5 : cw / 2; 
 
-    // Calculate the center position
     var xPos = x * cw + cw / 2;
     var yPos = y * cw + cw / 2;
+    ctx.fillStyle = food.type === "bonus" ? "red" : "blue";
 
-    // Set color based on food type
-    ctx.fillStyle = food.type === "bonus" ? "blue" : "red";
-
-    // Draw the food item
     ctx.beginPath();
     ctx.arc(xPos, yPos, radius, 0, Math.PI * 2);
     ctx.fill();
 
-    // If it's a bonus food, make the border blink
     if (food.type === "bonus") {
-        ctx.strokeStyle = "blue"; // Set the color of the border
-        ctx.lineWidth = bonusBlinkState ? 5 : 0; // Toggle line width to blink
+        ctx.strokeStyle = "red"; 
+        ctx.lineWidth = bonusBlinkState ? 5 : 0;
     } else {
-        ctx.strokeStyle = "red";
-        ctx.lineWidth = 5; // Regular line width for normal food
+        ctx.strokeStyle = "blue";
+        ctx.lineWidth = 5; 
     }
     ctx.stroke();
 }
+
 
 
 	function check_collision(x,y,array) {
@@ -288,25 +260,24 @@ document.addEventListener('keydown', function(event) {
 			init();
 			return;
 		});
+
+		
+		
         
 var touchStartX = 0;
 var touchStartY = 0;
 var canvas_touch = document.getElementById('canvas');
-//var d = "right"; // Initial direction (you can set this to whatever the default is)
 
-// Get the canvas's bounding rectangle to adjust for its position on the page
 var canvasRect = canvas_touch.getBoundingClientRect();
 
-// Add touchstart event
 canvas_touch.addEventListener('touchstart', function (e) {
     var touch = e.touches[0];
     touchStartX = touch.clientX - canvasRect.left;
     touchStartY = touch.clientY - canvasRect.top;
 }, { passive: false });
 
-// Add touchmove event
 canvas_touch.addEventListener('touchmove', function (e) {
-    e.preventDefault(); // Prevent the default scrolling behavior on touchmove
+    e.preventDefault(); 
 
     var touch = e.touches[0];
     var touchEndX = touch.clientX - canvasRect.left;
@@ -315,24 +286,21 @@ canvas_touch.addEventListener('touchmove', function (e) {
     var diffX = touchEndX - touchStartX;
     var diffY = touchEndY - touchStartY;
 
-    // Determine the direction of the swipe
     if (Math.abs(diffX) > Math.abs(diffY)) {
-        // Horizontal swipe
+    
         if (diffX > 0 && d !== "left") {
             d = "right";
         } else if (diffX < 0 && d !== "right") {
             d = "left";
         }
     } else {
-        // Vertical swipe
+        
         if (diffY > 0 && d !== "up") {
             d = "down";
         } else if (diffY < 0 && d !== "down") {
             d = "up";
         }
     }
-
-    // Update the starting point for the next move
     touchStartX = touchEndX;
     touchStartY = touchEndY;
 }, { passive: false });
@@ -370,10 +338,11 @@ canvas_touch.addEventListener('touchmove', function (e) {
     });
 
 }); 
+
 //reset high score code 
 function resetScore(){
+	
 	localStorage.highscore = 0;
-	//Display high score
 	highscorediv = document.getElementById('high_score');
 	highscorediv.innerHTML = 'High Score : 0';
 }
