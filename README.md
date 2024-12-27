@@ -217,7 +217,7 @@ You can also play the game on the web:
 
 ## Changelog:
 * View all official releases and downloads on the [Snake Feast Releases Page.](https://github.com/raghul-tech/Snake-Feast/releases)
-* For a detailed log of all changes, refer to the [changelog.md](CHANGELOG.md) file.
+* For a detailed log of all changes, refer to the [changelog.md](changelog.md) file.
 
 
 ## How to Contribute
