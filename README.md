@@ -1,5 +1,5 @@
 <p align="center">
-<img src="icons/snakelogo.png" alt="Snake Feast Logo" width="200" height="200" />
+<img src="assets/snakelogo.png" alt="Snake Feast Logo" width="200" height="200" />
 </p>
 <h1 align="center">
   Snake Feast
@@ -57,19 +57,19 @@ Snake Feast is a simple yet fun classic arcade game developed using HTML, CSS, a
 
 <p align="center">
   <a href="https://github.com/raghul-tech/Snake-Feast.git">
-    <img src="img/start.png" alt="Start">
+    <img src="assets/start.png" alt="Start">
   </a>
 </p>
 
 <p align="center">
   <a href="https://github.com/raghul-tech/Snake-Feast.git">
-    <img src="img/play.png" alt="normal">
+    <img src="assets/play.png" alt="normal">
   </a>
 </p>
 
 <p align="center">
   <a href="https://github.com/raghul-tech/Snake-Feast.git">
-    <img src="img/end.png" alt="end">
+    <img src="assets/end.png" alt="end">
   </a>
 </p>
 
@@ -81,7 +81,7 @@ Snake Feast is a simple yet fun classic arcade game developed using HTML, CSS, a
 <table>
   <tr>
     <td>
-      <img src="icons/microsoft.png" alt="Microsoft Store Logo" width="150" height="150" />
+      <img src="assets/microsoft.png" alt="Microsoft Store Logo" width="150" height="150" />
     </td>
     <td>
       <strong>You can find the project on the Microsoft Store:</strong>
@@ -102,7 +102,7 @@ Snake Feast is a simple yet fun classic arcade game developed using HTML, CSS, a
   <tr>
     <td>
       <a href="https://raghul-tech.itch.io/snake-feast" target="_blank" rel="noopener noreferrer">
-        <img src="icons/itchi.png" alt="Download Snake Feast from itch.io" width="150" />
+        <img src="assets/itchi.png" alt="Download Snake Feast from itch.io" width="150" />
       </a>
     </td>
     <td>
@@ -120,7 +120,7 @@ Snake Feast  is available for **Windows** and **Linux**
 <table>
   <tr>
     <td>
-      <img src="icons/firefox.png" alt="Firefox Add-on Logo" width="60" height="60" />
+      <img src="assets/firefox.png" alt="Firefox Add-on Logo" width="60" height="60" />
     </td>
     <td>
       <strong>Snake Feast Firefox Extension</strong>:
@@ -131,7 +131,7 @@ Snake Feast  is available for **Windows** and **Linux**
   </tr>
   <tr>
     <td>
-      <img src="icons/chrome.png" alt="Chrome Web Store Logo" width="60" height="60" />
+      <img src="assets/chrome.png" alt="Chrome Web Store Logo" width="60" height="60" />
     </td>
     <td>
       <strong>Snake Feast Chrome Extension</strong>:
@@ -142,7 +142,7 @@ Snake Feast  is available for **Windows** and **Linux**
   </tr>
   <tr>
     <td>
-      <img src="icons/edge.png" alt="Microsoft Edge Add-ons Logo" width="60" height="60" />
+      <img src="assets/edge.png" alt="Microsoft Edge Add-ons Logo" width="60" height="60" />
     </td>
     <td>
       <strong>Snake Feast Edge Extension</strong>:
