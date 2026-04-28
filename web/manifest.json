@@ -1,0 +1,75 @@
+{
+  "id": "./index.html",
+  "dir": "ltr",
+  "lang": "en",
+  "name": "Snake Feast",
+  "scope": "./",
+  "display": "standalone",
+  "start_url": "./index.html",
+  "short_name": "Snake Feast",
+  "theme_color": "#4CAF50",  
+  "description": "Welcome to Snake Feast, the ultimate challenge for slither enthusiasts! Devour delicious food to grow your snake while navigating the dangers of the border. \n\nGame Features:\n- Three Exciting Modes: Choose from Easy, Medium, or Hard.\n- Color Customization: Change your snake's color in real-time.\n- Strategic Scoring System: Catch colored food for points!\n- Intuitive Controls: Easy navigation for everyone.\n- Endless Fun: New challenges at every level!\nHow to Play:\nSlither to catch food, avoid borders, and collect points to aim for the leaderboard!",
+  "orientation": "any",
+  "background_color": "#FFFFFF", 
+  "prefer_related_applications": false,
+  "display_override": [
+    "window-controls-overlay"
+  ],
+  "features": [
+    "Cross Platform",
+    "Fast",
+    "Color change",
+    "Change Mode"
+  ],
+  "scope_extensions": [],
+  "related_applications": [],
+  "iarc_rating_id": "E",
+  "icons": [
+    {
+      "src": "icon/192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon/192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icon/512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon/512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": [
+    "games",
+    "arcade"
+  ],
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "edge_side_panel": {},
+  "shortcuts": [
+  {
+    "name": "Quick Play",
+    "short_name": "Play",
+    "description": "Start a new game instantly",
+    "url": "./index.html?quickplay",
+    "icons": [
+      {
+        "src": "icon/256.png",
+        "sizes": "256x256"
+      }
+    ]
+  }
+]
+}
