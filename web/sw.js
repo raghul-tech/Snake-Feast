@@ -9,10 +9,10 @@ const urlsToCache = [
   './js/script.js',
   './js/qwebchannel.js',
   './manifest.json',
-  './icons/180.png',
-  './icons/192.png',
-  './icons/512.png',
-  '../img/background1.jpg',
+  './icon/180.png',
+  './icon/192.png',
+  './icon/512.png',
+  './icon/background.jpg',
 ];
 
 self.addEventListener('install', event => {
