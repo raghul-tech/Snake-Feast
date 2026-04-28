@@ -1,48 +1,37 @@
 body{
 	background:#000000 url(icon/background1.jpg) no-repeat top center;
-	background-size: cover;
-     background-attachment: fixed;
 	font-family: cursive;
 	margin: auto;
 	padding: 0;
-	
+	width:93%;
+	height: 60%;
 }
 
-html, body {
-  touch-action: none; 
-}
 
 a{
 	color:#ffffff;
 	text-decoration: none;
 }
 button{
-	font-weight: bold;
 	font-family: cursive;
 }
 
 #canvas{
 	background:#000000;
 	border: 1px #cccccc solid;
-	align-self: center;
-	right: 50px;
-	border-radius: 10px;
-	
-	
+	border-radius: 9px;
+
 }
-#myCanvas{
+/*#myCanvas{
 	position: absolute;
 	background: #000000;
 	border: 1px #cccccc solid;
 	text-align: center;
-	left: 90%;
-	top:97%;
+	left: 73%;
+	top:95%;
 	transform: translate(-50%, -50%);
-	border-radius: 10px;
-	
 
-}
-
+}*/
 #snake-game{
 	text-align:center;
 	font-size: 40px;
@@ -53,17 +42,17 @@ button{
 }
 
 .container{
-	margin: 30px  auto ;
-	width: 1350px;
-	overflow:visible;
+	margin: 30px auto ;
+	width: 650px;
+	overflow: visible;
 	position: relative;
 }
 
 #stats{
-	width: 1335px;
+	width: 580px;
 	background: #333333;
 	padding: 10px;
-	font-size: 25px;
+	font-size: 20px;
 	font-weight: bold;
 	color: #ffffff;
 	margin-bottom: 5px;
@@ -84,51 +73,69 @@ button{
 	overflow:auto;
 	background: #000000;
 	text-align: center;
-	border-radius: 10px;
-
+ border-radius: 10px;
 }
 
 #reset_score{
-
 	padding: 10px;
+	/*float: right;*/
 	background-color: #444444;
 	border: none;
 	color: #ffffff;
 	cursor: pointer;
-	border-radius: 10px;
+	border-radius: 5px;
 }
+#download-btn {
+    background-color: #0078d4; /* Blue background for the Microsoft Store color */
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#download-btn a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#download-btn:hover {
+    background-color: #005a9e; /* Darker shade for hover effect */
+}
+
 
 #reset_score :hover{
 	background-color:#666666;
-	 
 }
 
 #overlay{
 	display: none;
 	color: #ffffff;
-	font-size: 30px;
+	font-size: 25px;
 	text-align: center;
-	position: fixed;
-	top: 30%;
-	left: 51%;
+	position: absolute;
+	top: 40%;
+	left: 49%;
 	transform: translate(-50%,-50%);
 	background: rgba(0, 0, 0, 0.7);
 	padding: 20px;
 	border-radius: 10px;
-	
 }
 #start-overlay{
 	color: #ffffff;
-	font-size: 30px;
+	font-size: 25px;
 	text-align: center;
-	position:absolute;
-	top: 33%; 
-	left: 51%;
+	position: absolute;
+	top: 40%;
+	left: 49%;
 	transform: translate(-50%,-50%);
 	background: rgba(0, 0, 0, 0.7);
 	padding: 20px;
 	border-radius: 10px;
-	
 }
 
 #overlay a, #start-overlay a{
@@ -142,7 +149,6 @@ button{
 
 #overlay a:hover , #start-overlay a:hover{
 	background: #333333;
-	 
 }
 
 .dropdown,.Start,#difficulty {
@@ -152,21 +158,20 @@ button{
   	margin: 10px 0;
 }
 
-.dropbtn,.Start-Btn,#diff-btn{
+.dropbtn,.Start-Btn,#diff-btn {
     background-color: #444444;
     color: #ffffff;
     padding: 10px;
     border: none;
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 5px;
     width: 93%;
     text-align: center;
- 
+
 }
 
 .dropbtn:hover,.Start-Btn:hover, #diff-btn:hover {
     background-color: #666666;
-    
 }
 
 .dropdown-content,#diff-option {
@@ -199,109 +204,30 @@ button{
 
 /* Styles for mobile devices */
 @media (max-width: 600px) {
-	body {
-	   background-color: lightblue;
-   }
-   
-  #snake-game{
-   text-align:center;
-   font-size: 30px;
-   font-weight: bold;
-   background:linear-gradient(90deg,darkred,darkblue);
-   -webkit-background-clip: text;
-   background-clip: text; 
-   -webkit-text-fill-color: transparent; 
-   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0); 
-}
-
-#overlay{
-   display: none;
-   color: #ffffff;
-   font-size: 20px;
-   text-align: center;
-   position: absolute;
-   top: 35%;
-   left: 53%;
-   transform: translate(-50%,-50%);
-   background: rgba(0, 0, 0, 0.7);
-   padding: 20px;
-   border-radius: 10px;
-	z-index: 9999; 
-}
-#start-overlay{
-   color: #ffffff;
-   font-size: 20px;
-   text-align: center;
-   position: absolute; 
-   top: 35%; 
-   left: 53%; 
-   transform: translate(-50%, -50%); 
-   background: rgba(0, 0, 0, 0.7);
-   padding: 20px;
-   border-radius: 10px;
-   z-index: 9999; 
-}
-   h1 {
-	   font-size: 24px;
-   }
+    body {
+        background-color: lightblue;
+    }
+    h1 {
+        font-size: 24px;
+    }
 }
 
 /* Styles for tablets */
 @media (min-width: 601px) and (max-width: 1024px) {
-   body {
-	   background-color: lightgreen;
-   }
-	#snake-game{
-   text-align:center;
-   font-size: 30px;
-   font-weight: bold;
-   background:linear-gradient(90deg,darkred,darkblue);
-   -webkit-background-clip: text;
-   background-clip: text; 
-   -webkit-text-fill-color: transparent; 
-   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0); 
-}
-
-#overlay{
-   display: none;
-   color: #ffffff;
-   font-size: 20px;
-   text-align: center;
-   position: absolute;
-   top: 35%;
-   left: 53%;
-   transform: translate(-50%,-50%);
-   background: rgba(0, 0, 0, 0.7);
-   padding: 20px;
-   border-radius: 10px;
-	z-index: 9999; 
-}
-#start-overlay{
-   color: #ffffff;
-   font-size: 20px;
-   text-align: center;
-   position: absolute;
-   top: 35%; 
-   left: 53%; 
-   transform: translate(-50%, -50%); 
-   background: rgba(0, 0, 0, 0.7);
-   padding: 20px;
-   border-radius: 10px;
-   z-index: 9999; 
-}
-
-
+    body {
+        background-color: lightgreen;
+    }
+    h1 {
+        font-size: 30px;
+    }
 }
 
 /* Styles for desktops */
 @media (min-width: 1025px) {
-   body {
-	   background-color: lightcoral;
-   }
-   h1 {
-	   font-size: 36px;
-   }
- 
+    body {
+        background-color: lightcoral;
+    }
+    h1 {
+        font-size: 36px;
+    }
 }
-
-

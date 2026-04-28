@@ -1,46 +1,58 @@
 <!DOCTYPE html>
-<html>
-<head> 
+<html lang="en">
+<head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Snake Feast</title>
-	<link rel="icon" href="icon/192.png" type="image/png">
-	<link rel="apple-touch-icon" sizes="180x180" href="icon/180.png">
+	<link rel="icon" href="icon/32.png" type="image/png">
 	<link rel="stylesheet" href="style.css" type="text/css">
-	<script src="js/bootstrap.js"></script>
-
+	<link rel="manifest" href="manifest.json">
+ <!-- Updated Content Security Policy to include jQuery -->
+        <meta http-equiv="Content-Security-Policy" content="script-src 'self'; object-src 'self';">
+      
 </head>
-<body onload="init()">
+<body >
+	
 	<div class="container">
+	
 	    <div id="start-overlay">
 			<h1 id="snake-game">SNAKE FEAST</h1>
 			<a href="#">Click To Start Game</a>
+			 
 		</div>
 		<div id="overlay" >
 		<h1 id="snake-game">SNAKE FEAST</h1>
 			Your Final Score: <span id="final_score"></span>
 			<br>
 			<a href="#">Click To Play Again</a>
+			
 		</div>
-		<canvas id="canvas" width="1350" height="550">
+		<canvas id="canvas" width="600" height="450">
 			Sorry This Browser does not support Canvas
+			
 		</canvas>
 		<div id="stats">
 			<div id="score">Your Score: 0</div>
 				<div id="high_score">High Score:</div>
-				<button onclick="resetScore()" id="reset_score">Reset High Score</button>
+				<button  id="reset_score">Reset High Score</button>
 	</div>
-	<div class="dropdown">
+	     <button id="download-btn">
+    <a href="https://apps.microsoft.com/detail/9pc2z9ngjkkt?launch=true&mode=full" target="_blank" rel="noopener noreferrer">
+        <img src="icon/microsoft.png" alt="Download Snake Feast from Microsoft Store" width="20"/>
+         Download Snake Feast from Microsoft Store
+    </a>
+</button>
+
+	<!--<div class="dropdown">
 	 	 <button class="dropbtn">Snake Color</button>
 			    <div class="dropdown-content" id ="color-options">
 			    	<li data-color="green">Green</li>
 			    	<li data-color="red">Red</li>
 			    	<li data-color="blue">Blue</li>
+			    	<li data-color="black">Black</li>
 			    	<li data-color="white">White</li>
-			   	<li data-color="black">Black</li>
-			     <!--	<li data-color="white">White</li>
 			    	<li data-color="yellow">Yellow</li>
-			    	<li data-color="purple">Purple</li>-->
+			    	<li data-color="purple">Purple</li>
 
 			    </div>
 		</div>
@@ -55,20 +67,24 @@
                  <li id="hard">Hard</li>
              </div>
         </div>
-     <br>
-<canvas id="myCanvas" width="110" height="50">
+     <br>-->
+  <!-- <canvas id="myCanvas" width="110" height="50">
 	<p>Sorry this browser does not support canvas</p>
-</canvas>
+</canvas> -->
 
 	</div>
-	<script src="js/canvas.js"></script>
- <!-- JQuery -->
-	<script src="js/jquery.min.js"></script>
-	
-	<!-- Main js -->
+
+	 <!-- JQuery -->
+	<script src="jquery.min.js"></script> 
+	<!-- Main js 
+	 <script type="text/javascript" src="canvas.js"></script>-->
 	<script type="text/javascript" src="js/script.js"></script>
- <!-- Include QWebChannel script -->
-	<script src="js/qwebchannel.js"></script> 
+     
+     <script type="text/javascript" src="js/sw.js"></script>
+    
+  <!--  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
+     
 	
 </body>
 </html>
