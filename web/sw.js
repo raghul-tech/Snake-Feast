@@ -1,11 +1,12 @@
-const CACHE_NAME = 'snake-feast-web-cache-v1';
+const CACHE_NAME = 'snake-feast-web-cache-v2';
 
 const urlsToCache = [
   './',
   './index.html',
-  './style.css',
+  './css/googlefonts.css',
+  './css/style.css',
   './js/canvas.js',
-  './js/jquery.min.js',
+  './js/phaser.min.js',
   './js/script.js',
   './js/qwebchannel.js',
   './manifest.json',
