@@ -209,7 +209,7 @@ class SnakeFeastScene extends Phaser.Scene {
     unlockAch('first');
      if (this.score > G.hs[G.mode]) {
     G.hs[G.mode] = this.score;
-    ScoreManager.saveOne(G.mode, this.score);
+     localStorage.setItem('sfHs_' + G.mode, this.score);
   }
   }
 
@@ -235,14 +235,14 @@ class SnakeFeastScene extends Phaser.Scene {
 
       this.foods.push({ x: fx, y: fy, type, age: 0 });
     }
-  }
+  } 
   _die() {
     if (!this.running) return;
     this.running = false;
     if (this.tickEvt) { this.tickEvt.remove(); this.tickEvt = null; }
     if (this.score > G.hs[G.mode]) {
     G.hs[G.mode] = this.score;
-    ScoreManager.saveOne(G.mode, this.score);
+     localStorage.setItem('sfHs_' + G.mode, this.score);
   }
 
     this.cameras.main.shake(450, 0.022);

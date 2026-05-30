@@ -7,9 +7,7 @@
 <link rel="icon" href="icon/48.png" type="image/png">
 <link rel="stylesheet" href="css/googlefonts.css" type="text/css">
 <link rel="stylesheet" href="css/style.css" type="text/css">
-	<link rel="manifest" href="manifest.json">
-	<!-- Updated Content Security Policy to include jQuery -->
-        <meta http-equiv="Content-Security-Policy" content="script-src 'self'; object-src 'self';">  
+<link rel="manifest" href="manifest.json">
 </head>
 <body>
 <div id="app">
@@ -25,8 +23,8 @@
     <span class="hud-lbl">Best</span>
     <span class="hud-val" id="hv-hs" style="font-size:15px;color:#1a4a2a">0</span>
   </div>
-  <button id="btn-reset-hs" onclick="resetHS()">Reset Best</button>
-  <button id="btn-pause" onclick="togglePause()">⏸</button>
+  <button id="btn-reset-hs">Reset Best</button>
+  <button id="btn-pause">⏸</button>
 </div>
 <div id="game-area">
   <div id="phaser-mount"></div>
@@ -45,31 +43,29 @@
       </div>
       <p class="sub">devour · grow · survive</p>
       <div class="pills">
-        <button class="pill on" id="pill-easy"   onclick="setMode('easy',   this)">EASY</button>
-        <button class="pill"    id="pill-medium" onclick="setMode('medium', this)">MEDIUM</button>
-        <button class="pill"    id="pill-hard"   onclick="setMode('hard',   this)">HARD</button>
+        <button class="pill on" id="pill-easy"   data-mode="easy">EASY</button>
+        <button class="pill"    id="pill-medium" data-mode="medium">MEDIUM</button>
+        <button class="pill"    id="pill-hard"   data-mode="hard">HARD</button>
       </div>
       <div class="color-row">
         <span class="color-lbl">Snake</span>
         <div class="cdots" id="cdot-row">
-          <button class="cdot on" style="background:#00ff88" data-hex="0x00ff88" onclick="pickColor(this)"></button>
-          <button class="cdot"    style="background:#ff4d6a" data-hex="0xff4d6a" onclick="pickColor(this)"></button>
-          <button class="cdot"    style="background:#38bdf8" data-hex="0x38bdf8" onclick="pickColor(this)"></button>
-          <button class="cdot"    style="background:#fbbf24" data-hex="0xfbbf24" onclick="pickColor(this)"></button>
-          <button class="cdot"    style="background:#c084fc" data-hex="0xc084fc" onclick="pickColor(this)"></button>
-          <button class="cdot"    style="background:#f1f5f9" data-hex="0xf1f5f9" onclick="pickColor(this)"></button>
+          <button class="cdot on" style="background:#00ff88" data-hex="0x00ff88"></button>
+          <button class="cdot"    style="background:#ff4d6a" data-hex="0xff4d6a"></button>
+          <button class="cdot"    style="background:#38bdf8" data-hex="0x38bdf8"></button>
+          <button class="cdot"    style="background:#fbbf24" data-hex="0xfbbf24"></button>
+          <button class="cdot"    style="background:#c084fc" data-hex="0xc084fc"></button>
+          <button class="cdot"    style="background:#f1f5f9" data-hex="0xf1f5f9"></button>
         </div>
       </div>
-
-      <button class="btn-start" onclick="doStart()">
+      <button class="btn-start" id="btn-start-game">
         START GAME
         <small>Arrow keys · WASD · Swipe on mobile</small>
       </button>
-
       <div class="legend">
         <div class="leg"><span class="legdot" style="background:#38bdf8"></span>+1 normal</div>
         <div class="leg"><span class="legdot" style="background:#fbbf24"></span>+5 bonus</div>
-        <div class="leg"><span class="legdot" style="background:#84cc16"></span>poison −3</div>
+        <div class="leg"><span class="legdot" style="background:#84cc16"></span>poison -3</div>
         <div class="leg"><span class="legdot" style="background:#f472b6"></span>magnet</div>
         <div class="leg"><span class="legdot" style="background:#67e8f9"></span>freeze</div>
         <div class="leg"><span class="legdot" style="background:#a78bfa"></span>+3 warp</div>
@@ -86,11 +82,10 @@
       </div>
       <div class="go-hs">Best: <b id="go-hs-val">0</b></div>
       <div class="go-cause" id="go-cause"></div>
-      <button class="btn-start" onclick="doStart()">PLAY AGAIN<small>or press Enter</small></button>
-      <button class="btn-menu"  onclick="showStart()">← Main Menu</button>
+      <button class="btn-start" id="btn-play-again">PLAY AGAIN<small>or press Enter</small></button>
+      <button class="btn-menu"  id="btn-main-menu">← Main Menu</button>
     </div>
   </div>
-
 </div>
 </div>
 
@@ -99,10 +94,7 @@
   <div><div id="t-name"></div><div id="t-desc"></div></div>
 </div>
 <script src="js/phaser.min.js"></script>
-<script type="text/javascript" src="js/score-bridge.js"></script>
-<script type="text/javascript" src="js/script.js"></script>
-<script type="text/javascript" src="js/scene.js"></script>
-
-	
+<script src="js/script.js"></script>
+<script src="js/scene.js"></script>
 </body>
 </html>

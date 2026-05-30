@@ -25,14 +25,12 @@ let G = {
   mode:      'easy',
   snakeCol:  0x00ff88,
   unlocked:  JSON.parse(localStorage.getItem('sfUnlocked') || '[]'),
-  hs:       { easy: 0, medium: 0, hard: 0 }, 
-   
+  hs:        {
+    easy:   parseInt(localStorage.getItem('sfHs_easy')   || '0'),
+    medium: parseInt(localStorage.getItem('sfHs_medium') || '0'),
+    hard:   parseInt(localStorage.getItem('sfHs_hard')   || '0'),
+  },
 };
-  ScoreManager.loadAll((scores) => {
-    G.hs = scores;
-    const el = document.getElementById('hv-hs');
-    if (el) el.textContent = scores[G.mode] || 0;
-  });
 function setMode(m, btn) {
   G.mode = m;
   document.querySelectorAll('.pill').forEach(p => p.classList.remove('on'));
@@ -115,6 +113,18 @@ function updateHUD(score, mode) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('btn-reset-hs').addEventListener('click', resetHS);
+  document.getElementById('btn-pause').addEventListener('click', togglePause);
+  document.getElementById('btn-start-game').addEventListener('click', doStart);
+  document.getElementById('btn-play-again').addEventListener('click', doStart);
+  document.getElementById('btn-main-menu').addEventListener('click', showStart);
+  document.querySelectorAll('.pill').forEach(btn => {
+    btn.addEventListener('click', () => setMode(btn.dataset.mode, btn));
+  });
+
+  document.querySelectorAll('.cdot').forEach(btn => {
+    btn.addEventListener('click', () => pickColor(btn));
+  });
   setTimeout(() => {
     const game = new Phaser.Game({
       type: Phaser.CANVAS,
@@ -123,14 +133,9 @@ window.addEventListener('DOMContentLoaded', () => {
       scene: SnakeFeastScene,
       width: 800,
       height: 544,
-      scale: {
-        mode: Phaser.Scale.NONE,
-      },
+      scale: { mode: Phaser.Scale.NONE },
       fps: { target: 60, forceSetTimeOut: true },
-      render: {
-        antialias: true,
-        powerPreference: 'high-performance',
-      },
+      render: { antialias: true, powerPreference: 'high-performance' },
     });
   }, 50);
 });
