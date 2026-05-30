@@ -1,7 +1,7 @@
 {
   "manifest_version": 3, 
   "name": "Snake Feast",
-  "version": "1.2.1",
+  "version": "2.0.0",
   "description": "Snake Feast: Control a snake, eat food, grow longer, and challenge your reflexes in this fun game. Aim for high scores!",
   "action": {
     "default_popup": "index.html"
@@ -15,7 +15,7 @@
   },
   "permissions": [],
   "background": {
-    "service_worker": "js/sw.js"
+    "service_worker": "sw.js"
   },
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
@@ -23,18 +23,18 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "icon/background1.png",
-        "icon/microsoft.png",
         "icon/16.png",
         "icon/32.png",
         "icon/48.png",
         "icon/64.png",
         "icon/256.png",
-        "js/jquery.min.js",
         "js/script.js",
-        "js/sw.js",
+        "js/scene.js",
+        "js/score-bridge.js",
+        "sw.js",
         "index.html",
-        "style.css",
+        "css/style.css",
+        "css/googlefonts.css",
         "manifest.json"
       ],
       "matches": ["<all_urls>"]
