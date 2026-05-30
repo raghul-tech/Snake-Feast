@@ -4,7 +4,9 @@
   "version": "2.0.0",
   "description": "Snake Feast: Control a snake, eat food, grow longer, and challenge your reflexes in this fun game. Aim for high scores!",
   "action": {
-    "default_popup": "index.html"
+    "default_popup": "index.html",
+    "default_width": 800,
+    "default_height": 600
   },
   "icons": {
     "16": "icon/16.png",

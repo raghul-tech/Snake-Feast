@@ -115,28 +115,22 @@ function updateHUD(score, mode) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  const area = document.getElementById('game-area');
-
-  const game = new Phaser.Game({
-    type:            Phaser.CANVAS,
-    width:  window.innerWidth,
-    height: window.innerHeight - 56,
-    backgroundColor: 0x05050b,
-    parent:          'phaser-mount',
-    scene:           SnakeFeastScene,
-    scale: { mode: Phaser.Scale.NONE },
-    fps:   { target: 60, forceSetTimeOut: true },
-    render: {
-      antialias:       true,
-      powerPreference: 'high-performance',
-    },
-  });
-
-  window.addEventListener('resize', () => {
-    game.scale.resize(area.clientWidth, area.clientHeight);
-    if (window.GAME_SCENE && window.GAME_SCENE.running) {
-      window.GAME_SCENE.cols = Math.floor(area.clientWidth  / T);
-      window.GAME_SCENE.rows = Math.floor(area.clientHeight / T);
-    }
-  });
+  setTimeout(() => {
+    const game = new Phaser.Game({
+      type: Phaser.CANVAS,
+      backgroundColor: 0x05050b,
+      parent: 'phaser-mount',
+      scene: SnakeFeastScene,
+      width: 800,
+      height: 544,
+      scale: {
+        mode: Phaser.Scale.NONE,
+      },
+      fps: { target: 60, forceSetTimeOut: true },
+      render: {
+        antialias: true,
+        powerPreference: 'high-performance',
+      },
+    });
+  }, 50);
 });
