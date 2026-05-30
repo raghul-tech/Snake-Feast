@@ -1,348 +1,142 @@
+const T = 20;
+const SPEEDS = { easy: 160, medium: 120, hard: 80 };
+const FOOD_TYPES = {
+  normal: { col: 0x38bdf8, ring: 0x0ea5e9, pts:  1, blink: false },
+  bonus:  { col: 0xfbbf24, ring: 0xf59e0b, pts:  5, blink: true  },
+  poison: { col: 0x84cc16, ring: 0x65a30d, pts: -3, blink: true  },
+  magnet: { col: 0xf472b6, ring: 0xec4899, pts:  2, blink: true  },
+  freeze: { col: 0x67e8f9, ring: 0x22d3ee, pts:  2, blink: true  },
+  warp:   { col: 0xa78bfa, ring: 0x8b5cf6, pts:  3, blink: true  },
+};
+const ACHIEVEMENTS = [
+  { id:'first',   ico:'🍽', name:'First Blood',     desc:'Ate your first food'       },
+  { id:'sc10',    ico:'🔟', name:'Double Digits',   desc:'Scored 10 points'          },
+  { id:'sc50',    ico:'⭐', name:'Fifty Feast',     desc:'Scored 50 points'          },
+  { id:'sc100',   ico:'💯', name:'Century',         desc:'Scored 100 points'         },
+  { id:'combo3',  ico:'🔥', name:'Hot Streak',      desc:'x3 combo'                  },
+  { id:'ghost',   ico:'👻', name:'Phase Shift',     desc:'Bonus food → ghost mode'   },
+  { id:'magnet',  ico:'🧲', name:'Magnetar',        desc:'Used magnet power'         },
+  { id:'freeze',  ico:'❄',  name:'Cryogenics',      desc:'Froze the board'           },
+  { id:'poison',  ico:'☠',  name:'Toxin Proof',     desc:'Survived poison'           },
+  { id:'len15',   ico:'🐍', name:'Slitherer',       desc:'Snake length 15'           },
+  { id:'len30',   ico:'🐉', name:'Great Serpent',   desc:'Snake length 30'           },
+];
+let G = {
+  mode:      'easy',
+  snakeCol:  0x00ff88,
+  unlocked:  JSON.parse(localStorage.getItem('sfUnlocked') || '[]'),
+  hs:       { easy: 0, medium: 0, hard: 0 }, 
+   
+};
+  ScoreManager.loadAll((scores) => {
+    G.hs = scores;
+    const el = document.getElementById('hv-hs');
+    if (el) el.textContent = scores[G.mode] || 0;
+  });
+function setMode(m, btn) {
+  G.mode = m;
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('hud-mode').textContent = m.toUpperCase();
+}
+function pickColor(btn) {
+  G.snakeCol = parseInt(btn.dataset.hex, 16);
+  document.querySelectorAll('.cdot').forEach(d => d.classList.remove('on'));
+  btn.classList.add('on');
+  if (window.GAME_SCENE) window.GAME_SCENE.snakeCol = G.snakeCol;
+}
+function doStart() {
+  document.getElementById('scr-start').classList.remove('visible');
+  document.getElementById('scr-over').classList.remove('visible');
+  if (window.GAME_SCENE) window.GAME_SCENE.restartGame();
+}
+function showStart() {
+  document.getElementById('scr-over').classList.remove('visible');
+  document.getElementById('scr-start').classList.add('visible');
+  if (window.GAME_SCENE) window.GAME_SCENE.stopGame();
+}
+function togglePause() {
+  if (window.GAME_SCENE) window.GAME_SCENE.togglePause();
+}
+function resetHS() {
+  ['easy','medium','hard'].forEach(m => {
+    G.hs[m] = 0;
+    localStorage.setItem('sfHs_' + m, 0);
+  });
+  document.getElementById('hv-hs').textContent = '0';
+}
+function spawnScorePop(txt, hexColor, canvasPixelX, canvasPixelY) {
+  const area  = document.getElementById('game-area');
+  const mount = document.getElementById('phaser-mount');
+  const rect  = mount.getBoundingClientRect();
+  const aRect = area.getBoundingClientRect();
 
-$(document).ready(function(){
-	var canvas = $('#canvas')[0];
-	var ctx = canvas.getContext("2d");
-	var w = $('#canvas').width();
-	var h = $('#canvas').height();
-	var cw = 15;
-	var d = "right";
-	var food;
-	var score;
-	var color = localStorage.getItem('snakeColor') || "green";
-	var initialSpeed = 135;
-	var speed = initialSpeed;
-	var game_loop;
-	var snake_array;
-    let bonusBlinkState = true;
-function adjust_speed() {
-	 speed = Math.max(50, initialSpeed - snake_array.length);
-	    if (typeof game_loop !== "undefined") {
-	        clearInterval(game_loop);
-	        game_loop = setInterval(paint, speed);
-	    }
-	  //  console.log("Current Speed: ",speed)
-	}
-
-
-	//Initializer
-	function init(){
-		 d="right";
-		create_snake();
-		create_food();
-		score = 0;
-		speed = initialSpeed;
-		if(typeof game_loop != "undefined") clearInterval(game_loop);
-		game_loop = setInterval(paint,speed);
-		}
-
-
-	//Create Snake
-	function create_snake(){
-		var length  = 3;
-		snake_array = [];
-		for(var i = length;i>=0;i--){
-			snake_array.push({x:i,y:0});
-		}
-	}
-
-	//Create Food
-	var food = { x: 0, y: 0, type: "normal" };
-	function create_food() {
-		let foodPosition = false;
-		 let randomType = Math.random() < 0.2 ? "bonus" : "normal";
-
-		while(!foodPosition){
-			let foodx=Math.floor(Math.random()*(w-cw)/cw);
-			let foody=Math.floor(Math.random()*(h-cw)/cw);
-   				if(!check_collision(foodx,foody,snake_array)){
-   					food={
-   						x:foodx,
-   						y:foody,
-   						type:randomType
-   					};
-   					foodPosition = true;
-	  }
-	}
+  const el = document.createElement('div');
+  el.className   = 'spop';
+  el.textContent = txt;
+  el.style.color = '#' + hexColor.toString(16).padStart(6, '0');
+  el.style.left  = (rect.left - aRect.left + canvasPixelX - 14) + 'px';
+  el.style.top   = (rect.top  - aRect.top  + canvasPixelY - 10) + 'px';
+  area.appendChild(el);
+  setTimeout(() => el.remove(), 900);
+}
+let _toastQ = [], _toastBusy = false;
+function achievementToast(ico, name, desc) {
+  _toastQ.push({ ico, name, desc });
+  if (!_toastBusy) _nextToast();
+}
+function _nextToast() {
+  if (!_toastQ.length) { _toastBusy = false; return; }
+  _toastBusy = true;
+  const { ico, name, desc } = _toastQ.shift();
+  document.getElementById('t-ico').textContent  = ico;
+  document.getElementById('t-name').textContent = name;
+  document.getElementById('t-desc').textContent = desc;
+  document.getElementById('toast').classList.add('show');
+  setTimeout(() => {
+    document.getElementById('toast').classList.remove('show');
+    setTimeout(_nextToast, 380);
+  }, 2800);
 }
 
-	//Paint Snake
-	function paint(){
-		ctx.fillStyle = "black";
-		ctx.fillRect(0,0,w,h);
-		ctx.strokeStyle = "white";
-		ctx.strokeRect(0,0,w,h);
-
-		var nx = snake_array[0].x;
-		var ny = snake_array[0].y;
-
-		if(d == 'right') nx++;
-		else if(d == 'left') nx--;
-		else if(d == 'up') ny--;
-		else if(d == 'down') ny++;
-
-		//collide code
-		if(nx <0 || nx >= w/cw || ny < 0 || ny >= h/cw || check_collision(nx,ny,snake_array)){
-			clearInterval(game_loop);
-			$('#final_score').html(score);
-			$('#overlay').fadeIn(300);
-			return;
-		}
-		if(nx == food.x && ny == food.y){
-			var tail = {x:nx,y:ny};
-			if(food.type == "bonus"){
-			  score+=5;
-			}else{
-			score++;
-		}
-			create_food();
-		    adjust_speed();
-		}else{
-			var tail = snake_array.pop();
-			tail.x = nx; 
-			tail.y = ny;
-		}
-
-		snake_array.unshift(tail);
-
-		for(var i = 0; i< snake_array.length;i++){
-			var c = snake_array[i];
-			paint_cell(c.x,c.y);
-		}
-	
-		food_cell(food.x,food.y);
-     
-		checkscore(score);
-		$('#score').html('Your Score: '+score);
-	}
-	function paint_cell(x,y){
-          var radius = 6; 
-          var xPos = x * cw + cw / 2; 
-          var yPos = y * cw + cw / 2;
-		ctx.fillStyle=color;
-		ctx.beginPath();
-		//ctx.arc(x*cw,y*cw,6,0,Math.PI*2);
-		 ctx.arc(xPos, yPos, radius, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.strokeStyle="white";
-        ctx.lineWidth = 2;
-        ctx.stroke();
-	}
-	/*function food_cell(x,y){
-		 var radius = food.type === "bonus" ? cw :cw/2 ;
-		 var xPos = x * cw + cw / 2;
-         var yPos = y * cw + cw / 2;
-		ctx.fillStyle=food.type == "bonus" ? "blue" : "red";
-		ctx.beginPath();
-		ctx.arc(xPos,yPos,radius,0,Math.PI*2);
-        ctx.fill();
-        ctx.strokeStyle=food.type == "bonus" ? "blue" : "red";
-        ctx.lineWidth = food.type === "bonus" ? 3 : 5;
-        ctx.stroke();
-	}*/
-
-setInterval(() => {
-    bonusBlinkState = !bonusBlinkState;
-}, 500);
-
-function food_cell(x, y) {
-    var radius = food.type === "bonus" ? cw-5 : cw / 2; 
-
-    var xPos = x * cw + cw / 2;
-    var yPos = y * cw + cw / 2;
-    ctx.fillStyle = food.type === "bonus" ? "red" : "blue";
-
-    ctx.beginPath();
-    ctx.arc(xPos, yPos, radius, 0, Math.PI * 2);
-    ctx.fill();
-
-    if (food.type === "bonus") {
-        ctx.strokeStyle = "red"; 
-        ctx.lineWidth = bonusBlinkState ? 5 : 0;
-    } else {
-        ctx.strokeStyle = "blue";
-        ctx.lineWidth = 5; 
-    }
-    ctx.stroke();
+function unlockAch(id) {
+  if (G.unlocked.includes(id)) return;
+  G.unlocked.push(id);
+  localStorage.setItem('sfUnlocked', JSON.stringify(G.unlocked));
+  const a = ACHIEVEMENTS.find(x => x.id === id);
+  if (a) achievementToast(a.ico, a.name, a.desc);
 }
 
+function updateHUD(score, mode) {
+  document.getElementById('hv-score').textContent = score;
+  const hs = G.hs[mode] || 0;
+  document.getElementById('hv-hs').textContent   = hs;
+  document.getElementById('hud-mode').textContent = mode.toUpperCase();
+}
 
+window.addEventListener('DOMContentLoaded', () => {
+  const area = document.getElementById('game-area');
 
-	function check_collision(x,y,array) {
-		// body...
-		for(var i = 0; i<array.length;i++){
-			if(array[i].x == x && array[i].y == y){
-				return true;
-			}
-		}
-		return false;
-	}
-	function checkscore(score){
-		if(localStorage.getItem('highscore') == null){
-			//no high score code
-			localStorage.setItem('highscore',score);
-		}else{
-			//high score code
-			if(score > localStorage.getItem('highscore')){
-				localStorage.setItem('highscore',score)
-			}
-		}
-		$('#high_score').html('High Score: '+localStorage.highscore);
-	}
+  const game = new Phaser.Game({
+    type:            Phaser.CANVAS,
+    width:  window.innerWidth,
+    height: window.innerHeight - 56,
+    backgroundColor: 0x05050b,
+    parent:          'phaser-mount',
+    scene:           SnakeFeastScene,
+    scale: { mode: Phaser.Scale.NONE },
+    fps:   { target: 60, forceSetTimeOut: true },
+    render: {
+      antialias:       true,
+      powerPreference: 'high-performance',
+    },
+  });
 
-	//Keyboard controller
-	var Direction = false;
-	$(document).keydown(function(e){
-		var key = e.which;
-		if(Direction) return;
-		if(key == "37" && d != "right") d ="left";
-		else if(key == "38" && d != "down") d ="up";
-		else if(key == "39" && d!= "left") d = "right";
-		else if(key == "40" && d!="up") d = "down";
-		// Check for WASD keys
-    else if (key == 65 && d != "right") { // A
-        d = "left";
-    } else if (key == 87 && d != "down") { // W
-        d = "up";
-    } else if (key == 68 && d != "left") { // D
-        d = "right";
-    } else if (key == 83 && d != "up") { // S
-        d = "down";
+  window.addEventListener('resize', () => {
+    game.scale.resize(area.clientWidth, area.clientHeight);
+    if (window.GAME_SCENE && window.GAME_SCENE.running) {
+      window.GAME_SCENE.cols = Math.floor(area.clientWidth  / T);
+      window.GAME_SCENE.rows = Math.floor(area.clientHeight / T);
     }
-		Direction = true;
-		 setTimeout(function() {
-        Direction = false;
-    }, 100);
-	});
-
-	//color change code
-	 $('.dropbtn').click(function() {
-        $('.dropdown-content').toggle(); 
-    });
-	$('.dropdown-content li').click(function(){
-		color = $(this).data('color');
-		localStorage.setItem('snakeColor',color);
-		$('.dropdown-content').toggle(); 
-	});
-	 $(document).click(function(event) {
-        if (!$(event.target).closest('.dropdown').length) {
-            $('.dropdown-content').hide();
-        }
-    });
-		var savedColor = localStorage.getItem('snakeColor');
-		if(savedColor){
-			color = savedColor;
-		}
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-        init();
-        	$('#overlay').hide();
-        	$('#start-overlay').hide();
-        	return;
-    }
+  });
 });
-
-         //start btn code 
-        $('.Start-Btn').click(function(){
-        	init();
-        	$('#overlay').hide();
-        	$('#start-overlay').hide();
-        	return;
-        });
-         $('#overlay').click(function(){
-        	init();
-        	$('#overlay').hide();
-        	$('#start-overlay').hide();
-        	return;
-        });
-		$('#start-overlay').click(function(){
-			$('#overlay').hide();
-			$('#start-overlay').hide();
-			init();
-			return;
-		});
-
-		
-		
-        
-var touchStartX = 0;
-var touchStartY = 0;
-var canvas_touch = document.getElementById('canvas');
-
-var canvasRect = canvas_touch.getBoundingClientRect();
-
-canvas_touch.addEventListener('touchstart', function (e) {
-    var touch = e.touches[0];
-    touchStartX = touch.clientX - canvasRect.left;
-    touchStartY = touch.clientY - canvasRect.top;
-}, { passive: false });
-
-canvas_touch.addEventListener('touchmove', function (e) {
-    e.preventDefault(); 
-
-    var touch = e.touches[0];
-    var touchEndX = touch.clientX - canvasRect.left;
-    var touchEndY = touch.clientY - canvasRect.top;
-
-    var diffX = touchEndX - touchStartX;
-    var diffY = touchEndY - touchStartY;
-
-    if (Math.abs(diffX) > Math.abs(diffY)) {
-    
-        if (diffX > 0 && d !== "left") {
-            d = "right";
-        } else if (diffX < 0 && d !== "right") {
-            d = "left";
-        }
-    } else {
-        
-        if (diffY > 0 && d !== "up") {
-            d = "down";
-        } else if (diffY < 0 && d !== "down") {
-            d = "up";
-        }
-    }
-    touchStartX = touchEndX;
-    touchStartY = touchEndY;
-}, { passive: false });
-	
-    //Modes for select mode
-   $('#diff-btn').click(function() {
-        $('#diff-option').toggle(); 
-    });
-
-    $('#easy').click(function() {
-        initialSpeed = 160; 
-        speed = initialSpeed;
-        console.log("Easy mode selected, Speed:", speed);
-        $('#diff-option').hide(); 
-    });
-
-    $('#medium').click(function() {
-        initialSpeed = 135; 
-        speed = initialSpeed;
-        console.log("Medium mode selected, Speed:", speed);
-        $('#diff-option').hide();
-    });
-
-    $('#hard').click(function() {
-        initialSpeed = 100; 
-        speed = initialSpeed;
-        console.log("Hard mode selected, Speed:", speed);
-        $('#diff-option').hide();
-    });
-
-    $(document).click(function(event) {
-        if (!$(event.target).closest('#difficulty').length) {
-            $('#diff-option').hide();
-        }
-    });
-
-}); 
-
-//reset high score code 
-function resetScore(){
-	
-	localStorage.highscore = 0;
-	highscorediv = document.getElementById('high_score');
-	highscorediv.innerHTML = 'High Score : 0';
-}
