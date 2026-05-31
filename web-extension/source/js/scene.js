@@ -127,9 +127,6 @@ class SnakeFeastScene extends Phaser.Scene {
     if (this.ghostTick <= 0 && this.snake.some(s => s.x === nx && s.y === ny)) {
       this.deathMsg = 'ate yourself'; this._die(); return;
     }
-    if (this.ghostTick <= 0 && this.snake.some(s => s.x === nx && s.y === ny)) {
-      this.deathMsg = 'ate yourself'; this._die(); return;
-    }
     let ateIdx = this.foods.findIndex(f => f.x === nx && f.y === ny);
     let ate    = ateIdx >= 0 ? this.foods.splice(ateIdx, 1)[0] : null;
     for (let i = this.snake.length - 1; i > 0; i--) {
