@@ -5,15 +5,15 @@ const urlsToCache = [
   './index.html',
   './css/googlefonts.css',
   './css/style.css',
-  './js/canvas.js',
   './js/phaser.min.js',
   './js/script.js',
+  './js/scene.js',
+  './js/score.js',
   './js/qwebchannel.js',
   './manifest.json',
-  './icon/180.png',
+  './icon/48.png',
   './icon/192.png',
   './icon/512.png',
-  './icon/background.jpg',
 ];
 
 self.addEventListener('install', event => {
