@@ -56,6 +56,17 @@ class SnakeFeastScene extends Phaser.Scene {
         if (Math.abs(dy) > min) turn(0, dy > 0 ? 1 : -1);
       }
     });
+    this._badges = [];
+    for (let i = 0; i < 4; i++) {
+      const bg  = this.add.graphics().setDepth(4);
+      const txt = this.add.text(0, 0, '', {
+        fontFamily: 'Orbitron',
+        fontSize: '10px',
+        fontWeight: '700',
+        color: '#ffffff',
+      }).setOrigin(0.5, 0).setDepth(5).setVisible(false);
+      this._badges.push({ bg, txt });
+    }
   }
 
   restartGame() {
@@ -123,9 +134,6 @@ class SnakeFeastScene extends Phaser.Scene {
     const ny   = head.y + this.dir.y;
     if (nx < 0 || nx >= this.cols || ny < 0 || ny >= this.rows) {
       this.deathMsg = 'hit the wall'; this._die(); return;
-    }
-    if (this.ghostTick <= 0 && this.snake.some(s => s.x === nx && s.y === ny)) {
-      this.deathMsg = 'ate yourself'; this._die(); return;
     }
     if (this.ghostTick <= 0 && this.snake.some(s => s.x === nx && s.y === ny)) {
       this.deathMsg = 'ate yourself'; this._die(); return;
@@ -348,38 +356,39 @@ class SnakeFeastScene extends Phaser.Scene {
       g.lineStyle(1, col, 0.18);
       g.strokeRect(h.x * T, h.y * T, T, T);
     }
-    if (this.running) {
-      let badge = null;
-      if (this.ghostTick > 0) badge = { txt: '👻 GHOST',  col: 0xfbbf24 };
-      if (this.magTick   > 0) badge = { txt: '🧲 MAGNET', col: 0xf472b6 };
-      if (this.frzTick   > 0) badge = { txt: '❄ FREEZE',  col: 0x67e8f9 };
-      if (this.combo > 1)     badge = { txt: '×' + this.combo + ' COMBO', col: 0xf59e0b };
+if (this.running) {
+  const active = [];
+  if (this.ghostTick > 0) active.push({ txt: '👻 GHOST',              col: 0xfbbf24 });
+  if (this.magTick   > 0) active.push({ txt: '🧲 MAGNET',             col: 0xf472b6 });
+  if (this.frzTick   > 0) active.push({ txt: '❄ FREEZE',              col: 0x67e8f9 });
+  if (this.combo > 1)     active.push({ txt: '×' + this.combo + ' COMBO', col: 0xf59e0b });
 
-      if (badge) {
-        g.fillStyle(0x000000, 0.7);
-        g.fillRoundedRect(8, H - 30, 120, 22, 6);
-        g.lineStyle(1, badge.col, 0.7);
-        g.strokeRoundedRect(8, H - 30, 120, 22, 6);
-      }
-    }
+  this._badges.forEach((slot, i) => {
+    slot.bg.clear();
+    if (i < active.length) {
+      const badge = active[i];
+      const yPos  = H - 30 - (i * 28);
+      const hex   = '#' + badge.col.toString(16).padStart(6, '0');
 
-    if (this.paused) {
-      g.fillStyle(0x000000, 0.52);
-      g.fillRect(0, 0, W, H);
-      if (!this._pauseTxt) {
-        this._pauseTxt = this.add.text(W/2, H/2, 'PAUSED', {
-          fontFamily: 'Orbitron',
-          fontSize:   '32px',
-          fontStyle:  '900',
-          color:      '#ffffff',
-          stroke:     '#00ffaa',
-          strokeThickness: 3,
-        }).setOrigin(0.5).setDepth(10);
-      }
-      this._pauseTxt.setVisible(true);
-    } else if (this._pauseTxt) {
-      this._pauseTxt.setVisible(false);
+      slot.bg.fillStyle(0x000000, 0.7);
+      slot.bg.fillRoundedRect(8, yPos, 120, 22, 6);
+      slot.bg.lineStyle(1, badge.col, 0.7);
+      slot.bg.strokeRoundedRect(8, yPos, 120, 22, 6);
+
+      slot.txt.setPosition(68, yPos + 3);
+      slot.txt.setText(badge.txt);
+      slot.txt.setStyle({ color: hex });
+      slot.txt.setVisible(true);
+    } else {
+      slot.txt.setVisible(false);
     }
+  });
+} else {
+  this._badges.forEach(slot => {
+    slot.bg.clear();
+    slot.txt.setVisible(false);
+  });
+}
   }
 
   _drawStar(cx, cy, outerR, innerR, points, col, alpha) {
