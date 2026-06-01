@@ -300,7 +300,6 @@ class SnakeFeastScene extends Phaser.Scene {
         g.strokeCircle(cx, cy, T/2 - 6);
         g.fillStyle(def.col, fade);
         g.fillCircle(cx, cy, 3);
-
       } else {
         const pulsing = def.blink;
         const r = pulsing ? (this.blinkOn ? T/2 - 3 : T/2 - 5) : T/2 - 4;
@@ -361,7 +360,7 @@ if (this.running) {
   if (this.ghostTick > 0) active.push({ txt: '👻 GHOST',              col: 0xfbbf24 });
   if (this.magTick   > 0) active.push({ txt: '🧲 MAGNET',             col: 0xf472b6 });
   if (this.frzTick   > 0) active.push({ txt: '❄ FREEZE',              col: 0x67e8f9 });
-  if (this.combo > 1)     active.push({ txt: '×' + this.combo + ' COMBO', col: 0xf59e0b });
+  if (this.combo > 1)     active.push({ txt: 'x' + this.combo + ' COMBO', col: 0xf59e0b });
 
   this._badges.forEach((slot, i) => {
     slot.bg.clear();
@@ -369,12 +368,10 @@ if (this.running) {
       const badge = active[i];
       const yPos  = H - 30 - (i * 28);
       const hex   = '#' + badge.col.toString(16).padStart(6, '0');
-
       slot.bg.fillStyle(0x000000, 0.7);
       slot.bg.fillRoundedRect(8, yPos, 120, 22, 6);
       slot.bg.lineStyle(1, badge.col, 0.7);
       slot.bg.strokeRoundedRect(8, yPos, 120, 22, 6);
-
       slot.txt.setPosition(68, yPos + 3);
       slot.txt.setText(badge.txt);
       slot.txt.setStyle({ color: hex });
