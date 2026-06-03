@@ -12,11 +12,8 @@ const ScoreManager = (() => {
     new QWebChannel(window.qt.webChannelTransport, (channel) => {
       _bridge = channel.objects.pyBridge;
       _ready  = true;
-      console.log("[ScoreManager] Connected to Python bridge.");
-
       _pending.forEach(([mode, val]) => _bridge.saveScore(mode, val));
       _pending = [];
-
       callback();
     });
   }
@@ -35,10 +32,8 @@ const ScoreManager = (() => {
       _bridge.getScores((jsonStr) => {
         try {
           const scores = JSON.parse(jsonStr);
-          console.log("[ScoreManager] Loaded from file:", scores);
           callback(scores);
         } catch(e) {
-          console.warn("[ScoreManager] Parse error, using zeros.", e);
           callback({ easy: 0, medium: 0, hard: 0 });
         }
       });
