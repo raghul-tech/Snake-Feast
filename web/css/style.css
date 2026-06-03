@@ -84,6 +84,17 @@ html, body {
   transition: all .2s;
 }
 #btn-pause:hover { border-color: #00ffaa; color: #00ffaa; }
+#btn-mute {
+  background: none;
+  border: 1px solid #4a4a6a;
+  color: #6a6a8a;
+  font-size: 14px;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all .2s;
+}
+#btn-mute:hover { border-color: #00ffaa; color: #00ffaa; }
 #game-area {
   position: relative;
   flex: 1;

@@ -48,15 +48,22 @@ function pickColor(btn) {
 function doStart() {
   document.getElementById('scr-start').classList.remove('visible');
   document.getElementById('scr-over').classList.remove('visible');
+   SoundManager.startGame();
   if (window.GAME_SCENE) window.GAME_SCENE.restartGame();
 }
 function showStart() {
   document.getElementById('scr-over').classList.remove('visible');
   document.getElementById('scr-start').classList.add('visible');
+   SoundManager.startMenu();  
   if (window.GAME_SCENE) window.GAME_SCENE.stopGame();
 }
 function togglePause() {
-  if (window.GAME_SCENE) window.GAME_SCENE.togglePause();
+   if (window.GAME_SCENE) {
+    const willPause = !window.GAME_SCENE.paused;
+    window.GAME_SCENE.togglePause();
+    if (willPause) SoundManager.playPause();
+    else           SoundManager.playResume();
+  }
 }
 function resetHS() {
   ['easy','medium','hard'].forEach(m => {
@@ -116,7 +123,10 @@ function updateHUD(score, mode) {
 
 window.addEventListener('DOMContentLoaded', () => {
   const area = document.getElementById('game-area');
-
+  const muted = SoundManager.toggleMute();
+  document.getElementById('btn-mute').textContent = muted ? '🔇' : '🔊';
+  document.addEventListener('pointerdown', () => SoundManager.startMenu(), { once: true });
+  document.addEventListener('keydown',     () => SoundManager.startMenu(), { once: true });
   const game = new Phaser.Game({
     type:            Phaser.CANVAS,
     width:  window.innerWidth,

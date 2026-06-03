@@ -194,11 +194,13 @@ class SnakeFeastScene extends Phaser.Scene {
       const last = this.snake[this.snake.length - 1];
       this.snake.push({ x: last.x, y: last.y });
     }
-    if (food.type === 'bonus')  { this.ghostTick = 90;  unlockAch('ghost');  }
-    if (food.type === 'magnet') { this.magTick   = 180; unlockAch('magnet'); }
-    if (food.type === 'freeze') { this.frzTick   = 110; unlockAch('freeze'); }
-    if (food.type === 'warp')   { this.ghostTick = 60; }
-
+    if (food.type === 'bonus')  { SoundManager.playBonus(); this.ghostTick = 90;  unlockAch('ghost');  }
+    if (food.type === 'magnet') {SoundManager.playMagnet(); this.magTick   = 180; unlockAch('magnet'); }
+    if (food.type === 'freeze') { SoundManager.playFreeze();this.frzTick   = 110; unlockAch('freeze'); }
+    if (food.type === 'warp')   { SoundManager.playWarp(); this.ghostTick = 60; }
+    if (food.type === 'poison')  SoundManager.playPoison();
+    if (food.type === 'normal') SoundManager.playEat();
+    if (this.combo > 1) SoundManager.playCombo(this.combo);
     if (def.pts > 0) {
       this.combo     = this.comboTick > 0 ? Math.min(this.combo + 1, 8) : 1;
       this.comboTick = 180;
@@ -206,7 +208,7 @@ class SnakeFeastScene extends Phaser.Scene {
       this.score    += earned;
 
       const popCol = this.combo > 2 ? 0xf59e0b : def.col;
-      const label  = (this.combo > 1 ? '×' + this.combo + ' ' : '') + '+' + earned;
+      const label  = (this.combo > 1 ? 'x' + this.combo + ' ' : '') + '+' + earned;
       spawnScorePop(label, popCol, px, py);
     }
 
@@ -252,7 +254,11 @@ class SnakeFeastScene extends Phaser.Scene {
     G.hs[G.mode] = this.score;
     ScoreManager.saveOne(G.mode, this.score);
   }
-
+  if (this.deathMsg === 'hit the wall') SoundManager.playWallHit();
+else if (this.deathMsg === 'ate yourself') SoundManager.playSelfHit();
+else SoundManager.playGameOver();
+SoundManager.stopAll(0.8); 
+setTimeout(() => SoundManager.startMenu(), 1200);
     this.cameras.main.shake(450, 0.022);
     this.cameras.main.flash(280, 255, 40, 70, true);
 
