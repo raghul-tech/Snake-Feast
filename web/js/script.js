@@ -65,6 +65,11 @@ function togglePause() {
     else           SoundManager.playResume();
   }
 }
+function toggleMute() {
+  SoundManager.toggleMute();
+  const btn = document.getElementById('btn-mute');
+  if (btn) btn.textContent = SoundManager.isMuted() ? '🔇' : '🔊';
+}
 function resetHS() {
   ['easy','medium','hard'].forEach(m => {
     G.hs[m] = 0;

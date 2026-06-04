@@ -4,7 +4,7 @@ const SoundManager = (() => {
   let gameLoop = null;
   let menuGain = null;
   let gameGain = null;
-  let muted = false;
+  let muted = true;
 
   function _init() {
     if (ctx) return;
@@ -335,7 +335,7 @@ const SoundManager = (() => {
   }
 
   function toggleMute() {
-    muted = muted;
+    muted = !muted;
     if (muted) stopAll(0.2);
     return muted;
   }
