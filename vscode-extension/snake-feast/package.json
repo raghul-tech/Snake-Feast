@@ -12,20 +12,13 @@
   "bugs": {
     "url": "https://github.com/raghul-tech/snake-feast/issues"
   },
-  "license": "MIT",
+  "license": "GPL-3.0",
   "icon": "webview/icon/128.png",
   "qna": "marketplace",
   "keywords": [
-    "snake",
-    "game",
-    "snake-game",
-    "retro",
-    "arcade",
-    "fun",
-    "snake-feast",
-    "gaming",
-    "classic",
-    "productivity-break"
+    "snake", "game", "snake-game", "retro",
+    "arcade", "fun", "snake-feast", "gaming",
+    "classic", "productivity-break"
   ],
   "badges": [
     {
@@ -42,11 +35,7 @@
   "engines": {
     "vscode": "^1.85.0"
   },
-  "categories": [
-    "Games",
-    "Other"
-  ],
-  "activationEvents": [],
+  "categories": ["Other"],
   "main": "./extension.js",
   "contributes": {
     "commands": [
@@ -56,64 +45,22 @@
         "category": "Snake Feast"
       }
     ],
-    "configuration": {
-      "title": "Snake Feast",
-      "properties": {
-        "snake-feast.defaultMode": {
-          "type": "string",
-          "default": "easy",
-          "enum": ["easy", "medium", "hard"],
-          "enumDescriptions": [
-            "Slow speed, more forgiving gameplay",
-            "Normal speed, balanced challenge",
-            "Fast speed, expert players only"
-          ],
-          "description": "Default difficulty mode for the game"
-        },
-        "snake-feast.defaultColor": {
-          "type": "string",
-          "default": "#00ff88",
-          "format": "color",
-          "description": "Default snake color (hex code)"
-        },
-        "snake-feast.rememberLastScore": {
-          "type": "boolean",
-          "default": true,
-          "description": "Remember the last high score between sessions"
-        },
-        "snake-feast.soundEnabled": {
-          "type": "boolean",
-          "default": true,
-          "description": "Enable or disable game sounds (coming soon)"
-        }
-      }
-    },
     "keybindings": [
       {
         "command": "snake-feast.start",
-        "key": "ctrl+shift+s",
-        "mac": "cmd+shift+s",
-        "when": "editorTextFocus"
+        "key": "ctrl+shift+alt+s",
+        "mac": "cmd+shift+alt+s"
       }
     ]
   },
   "scripts": {
-    "build": "echo \"No build step required for Snake Feast\"",
+    "vscode:prepublish": "echo \"Ready\"",
     "package": "vsce package",
-    "package:minor": "vsce package --minor",
-    "package:major": "vsce package --major",
-    "package:patch": "vsce package --patch",
-    "publish": "vsce publish",
-    "publish:minor": "vsce publish --minor",
-    "publish:major": "vsce publish --major",
-    "publish:patch": "vsce publish --patch",
-    "vscode:prepublish": "npm run package",
-    "test": "echo \"No tests configured for Snake Feast\""
+    "publish": "vsce publish"
   },
   "devDependencies": {
     "@types/node": "^20.19.22",
     "@types/vscode": "^1.85.0",
     "@vscode/vsce": "^2.22.0"
-  },
-  "dependencies": {}
+  }
 }
