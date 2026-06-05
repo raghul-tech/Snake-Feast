@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Snake Feast</title>
+<link rel="icon" href="icon/48.png" type="image/png">
+<link rel="stylesheet" href="css/googlefonts.css" type="text/css">
+<link rel="stylesheet" href="css/style.css" type="text/css">
+</head>
+<body>
+<div id="app">
+<div id="hud">
+  <div class="hud-block">
+    <span class="hud-lbl">Score</span>
+    <span class="hud-val" id="hv-score">0</span>
+  </div>
+  <div id="hud-mid">
+    <div id="hud-mode">EASY</div>
+  </div>
+  <div class="hud-block">
+    <span class="hud-lbl">Best</span>
+    <span class="hud-val" id="hv-hs" style="font-size:15px;color:#1a4a2a">0</span>
+  </div>
+  <button id="btn-reset-hs" onclick="resetHS()">Reset Best</button>
+  <button id="btn-pause" onclick="togglePause()">⏸</button>
+</div>
+<div id="game-area">
+  <div id="phaser-mount"></div>
+  <div class="screen visible" id="scr-start">
+    <div class="card">
+      <div class="title-wrap">
+        <svg viewBox="0 0 64 26" width="60" height="24">
+          <circle cx="9"  cy="13" r="8" fill="#00ffaa"/>
+          <circle cx="27" cy="13" r="8" fill="#00ffaa"/>
+          <circle cx="45" cy="13" r="8" fill="#00ffaa"/>
+          <circle cx="58" cy="8"  r="6" fill="#00ffaa"/>
+          <circle cx="60" cy="12" r="2.5" fill="#08080f"/>
+          <circle cx="56" cy="12" r="2.5" fill="#08080f"/>
+        </svg>
+        <h1 class="game-title">SNAKE<span>FEAST</span></h1>
+      </div>
+      <p class="sub">devour · grow · survive</p>
+      <div class="pills">
+        <button class="pill on" id="pill-easy"   onclick="setMode('easy',   this)">EASY</button>
+        <button class="pill"    id="pill-medium" onclick="setMode('medium', this)">MEDIUM</button>
+        <button class="pill"    id="pill-hard"   onclick="setMode('hard',   this)">HARD</button>
+      </div>
+      <div class="color-row">
+        <span class="color-lbl">Snake</span>
+        <div class="cdots" id="cdot-row">
+          <button class="cdot on" style="background:#00ff88" data-hex="0x00ff88" onclick="pickColor(this)"></button>
+          <button class="cdot"    style="background:#ff4d6a" data-hex="0xff4d6a" onclick="pickColor(this)"></button>
+          <button class="cdot"    style="background:#38bdf8" data-hex="0x38bdf8" onclick="pickColor(this)"></button>
+          <button class="cdot"    style="background:#fbbf24" data-hex="0xfbbf24" onclick="pickColor(this)"></button>
+          <button class="cdot"    style="background:#c084fc" data-hex="0xc084fc" onclick="pickColor(this)"></button>
+          <button class="cdot"    style="background:#f1f5f9" data-hex="0xf1f5f9" onclick="pickColor(this)"></button>
+        </div>
+      </div>
+
+      <button class="btn-start" onclick="doStart()">
+        START GAME
+        <small>Arrow keys · WASD · Swipe on mobile</small>
+      </button>
+
+      <div class="legend">
+        <div class="leg"><span class="legdot" style="background:#38bdf8"></span>+1 normal</div>
+        <div class="leg"><span class="legdot" style="background:#fbbf24"></span>+5 bonus</div>
+        <div class="leg"><span class="legdot" style="background:#84cc16"></span>poison −3</div>
+        <div class="leg"><span class="legdot" style="background:#f472b6"></span>magnet</div>
+        <div class="leg"><span class="legdot" style="background:#67e8f9"></span>freeze</div>
+        <div class="leg"><span class="legdot" style="background:#a78bfa"></span>+3 warp</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen" id="scr-over">
+    <div class="card">
+      <p class="go-label">GAME OVER</p>
+      <div style="text-align:center">
+        <div class="go-score" id="go-score">0</div>
+        <div class="go-pts">POINTS</div>
+      </div>
+      <div class="go-hs">Best: <b id="go-hs-val">0</b></div>
+      <div class="go-cause" id="go-cause"></div>
+      <button class="btn-start" onclick="doStart()">PLAY AGAIN<small>or press Enter</small></button>
+      <button class="btn-menu"  onclick="showStart()">← Main Menu</button>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<div id="toast">
+  <div id="t-ico">🏆</div>
+  <div><div id="t-name"></div><div id="t-desc"></div></div>
+</div>
+<script src="js/phaser.min.js"></script>
+<script type="text/javascript" src="js/score.js"></script>
+<script type="text/javascript" src="js/script.js"></script>
+<script type="text/javascript" src="js/scene.js"></script>
+
+	
+</body>
+</html>

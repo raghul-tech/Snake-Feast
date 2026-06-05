@@ -1,0 +1,119 @@
+{
+  "name": "snake-feast",
+  "displayName": "Snake Feast 🐍",
+  "description": "A classic Snake game with power-ups, bonuses, and special effects. Devour, grow, and survive right inside VS Code!",
+  "version": "2.0.0",
+  "publisher": "raghul-tech",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/raghul-tech/snake-feast"
+  },
+  "homepage": "https://github.com/raghul-tech/snake-feast/blob/main/README.md",
+  "bugs": {
+    "url": "https://github.com/raghul-tech/snake-feast/issues"
+  },
+  "license": "MIT",
+  "icon": "webview/icon/128.png",
+  "qna": "marketplace",
+  "keywords": [
+    "snake",
+    "game",
+    "snake-game",
+    "retro",
+    "arcade",
+    "fun",
+    "snake-feast",
+    "gaming",
+    "classic",
+    "productivity-break"
+  ],
+  "badges": [
+    {
+      "url": "https://img.shields.io/badge/platform-windows%20%7C%20macos%20%7C%20linux-blue",
+      "href": "https://marketplace.visualstudio.com/items?itemName=raghul-tech.snake-feast",
+      "description": "Supported Platforms"
+    },
+    {
+      "url": "https://img.shields.io/badge/version-2.0.0-green",
+      "href": "https://marketplace.visualstudio.com/items?itemName=raghul-tech.snake-feast",
+      "description": "Latest Version"
+    }
+  ],
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Games",
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "snake-feast.start",
+        "title": "Start Snake Feast",
+        "category": "Snake Feast"
+      }
+    ],
+    "configuration": {
+      "title": "Snake Feast",
+      "properties": {
+        "snake-feast.defaultMode": {
+          "type": "string",
+          "default": "easy",
+          "enum": ["easy", "medium", "hard"],
+          "enumDescriptions": [
+            "Slow speed, more forgiving gameplay",
+            "Normal speed, balanced challenge",
+            "Fast speed, expert players only"
+          ],
+          "description": "Default difficulty mode for the game"
+        },
+        "snake-feast.defaultColor": {
+          "type": "string",
+          "default": "#00ff88",
+          "format": "color",
+          "description": "Default snake color (hex code)"
+        },
+        "snake-feast.rememberLastScore": {
+          "type": "boolean",
+          "default": true,
+          "description": "Remember the last high score between sessions"
+        },
+        "snake-feast.soundEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable game sounds (coming soon)"
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "command": "snake-feast.start",
+        "key": "ctrl+shift+s",
+        "mac": "cmd+shift+s",
+        "when": "editorTextFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "build": "echo \"No build step required for Snake Feast\"",
+    "package": "vsce package",
+    "package:minor": "vsce package --minor",
+    "package:major": "vsce package --major",
+    "package:patch": "vsce package --patch",
+    "publish": "vsce publish",
+    "publish:minor": "vsce publish --minor",
+    "publish:major": "vsce publish --major",
+    "publish:patch": "vsce publish --patch",
+    "vscode:prepublish": "npm run package",
+    "test": "echo \"No tests configured for Snake Feast\""
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.22",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^2.22.0"
+  },
+  "dependencies": {}
+}
