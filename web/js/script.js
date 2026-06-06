@@ -127,11 +127,13 @@ function updateHUD(score, mode) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+   SoundManager.autoStart();
+  document.getElementById('btn-mute').addEventListener('click', () => {
+    const m = SoundManager.toggleMute();
+    document.getElementById('btn-mute').textContent = m ? '🔇' : '🔊';
+  });
+
   const area = document.getElementById('game-area');
-  const muted = SoundManager.toggleMute();
-  document.getElementById('btn-mute').textContent = muted ? '🔇' : '🔊';
-  document.addEventListener('pointerdown', () => SoundManager.startMenu(), { once: true });
-  document.addEventListener('keydown',     () => SoundManager.startMenu(), { once: true });
   const game = new Phaser.Game({
     type:            Phaser.CANVAS,
     width:  window.innerWidth,
