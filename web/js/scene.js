@@ -254,11 +254,13 @@ class SnakeFeastScene extends Phaser.Scene {
     G.hs[G.mode] = this.score;
     ScoreManager.saveOne(G.mode, this.score);
   }
-  if (this.deathMsg === 'hit the wall') SoundManager.playWallHit();
-else if (this.deathMsg === 'ate yourself') SoundManager.playSelfHit();
-else SoundManager.playGameOver();
+   if (this.deathMsg === 'hit the wall')    { SoundManager.playWallHit();    SoundManager.playLose(); }
+  else if (this.deathMsg === 'ate yourself'){ SoundManager.playSelfHit();    SoundManager.playLose(); }
+  else if (this.deathMsg === 'poison was fatal'){ SoundManager.playPoisonDeath(); SoundManager.playLose(); }
+  else      { SoundManager.playLose(); }
 SoundManager.stopAll(0.8); 
-setTimeout(() => SoundManager.startMenu(), 1200);
+ if (typeof _syncPauseBtn === 'function') _syncPauseBtn();
+  setTimeout(() => SoundManager.startMenu(), 1500);
     this.cameras.main.shake(450, 0.022);
     this.cameras.main.flash(280, 255, 40, 70, true);
 

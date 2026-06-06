@@ -136,23 +136,26 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
-  width: min(420px, 92vw);
-  max-height: 90vh;
+  gap: 16px;
+  width: min(440px, 90vw);
+  max-height: 88vh;
   overflow-y: auto;
-  padding: 30px 24px;
+  padding: clamp(16px, 3vh, 30px) clamp(14px, 3vw, 24px);
   background: #0a0a14;
   border: 1px solid #2a2a45;
   border-radius: 16px;
   z-index: 51;
+  scrollbar-width: thin;
+  scrollbar-color: #2a2a45 transparent;
 }
-
+.card::-webkit-scrollbar { width: 3px; }
+.card::-webkit-scrollbar-thumb { background: #2a2a45; border-radius: 3px; }
 .title-wrap { display: flex; align-items: center; gap: 14px; }
 .game-title {
   font-family: 'Orbitron', monospace;
-  font-size: clamp(20px, 5vw, 30px);
+  font-size: clamp(16px, 4vw, 30px);
   font-weight: 900;
-  letter-spacing: 3px;
+  letter-spacing: clamp(1px, 0.5vw, 3px);
   color: #fff;
 }
 .game-title span { color: #00ffaa; }
@@ -247,8 +250,34 @@ html, body {
 #t-name { font-family: 'Orbitron', monospace; font-size: 10px; color: #00ffaa; font-weight: 700; letter-spacing: 1px; }
 #t-desc { font-size: 9px; color: #5a5a7a; margin-top: 2px; }
 
-@media (max-width: 500px) {
-  .card { padding: 20px 14px; gap: 14px; }
-  .hud-val { font-size: 16px; }
-  #toast { bottom: 10px; right: 10px; left: 10px; min-width: 0; }
+@media (max-width: 400px) {
+  #hud { padding: 0 8px; gap: 6px; height: 48px; }
+  .hud-block { min-width: 54px; }
+  .hud-val   { font-size: 15px; }
+  .hud-lbl   { font-size: 7px; }
+  #btn-reset-hs { font-size: 8px; padding: 3px 7px; }
+  #btn-pause, #btn-mute { width: 28px; height: 28px; font-size: 12px; }
+}
+
+@media (max-width: 600px) {
+  .card { gap: 12px; }
+  .pills { flex-wrap: wrap; justify-content: center; }
+  .legend { gap: 8px; }
+  .leg    { font-size: 8px; }
+  .go-score { font-size: clamp(44px, 12vw, 72px); }
+}
+
+@media (min-width: 1200px) {
+  .card  { gap: 20px; }
+  .hud-val { font-size: 22px; }
+}
+
+@media (max-height: 700px) {
+  .card { gap: 10px; max-height: 92vh; }
+  .card .legend { display: none; }
+}
+
+@media (max-height: 500px) {
+  #hud { height: 42px; }
+  .card { gap: 8px; padding: 12px 14px; }
 }

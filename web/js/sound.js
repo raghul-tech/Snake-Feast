@@ -3,9 +3,9 @@ const SoundManager = (() => {
   let masterGain = null;
   let compressor = null;
   let menuLoop   = null;
-  let gameLoop   = null;
   let muted      = false;
   let _screen    = 'menu';
+  let _started   = false;
 
   function _init() {
     if (ctx) return;
@@ -66,20 +66,16 @@ const SoundManager = (() => {
     const buf     = ctx.createBuffer(1, samples, ctx.sampleRate);
     const data    = buf.getChannelData(0);
     for (let i = 0; i < samples; i++) data[i] = Math.random() * 2 - 1;
-
     const src  = ctx.createBufferSource();
     src.buffer = buf;
-
     const filt = ctx.createBiquadFilter();
     filt.type            = filterType || 'bandpass';
     filt.frequency.value = filterFreq;
     filt.Q.value         = 1.2;
-
     const g = ctx.createGain();
     g.gain.setValueAtTime(vol, start);
     g.gain.exponentialRampToValueAtTime(0.0001, start + dur);
     g.connect(d);
-
     src.connect(filt);
     filt.connect(g);
     src.start(start);
@@ -169,90 +165,20 @@ const SoundManager = (() => {
     };
   }
 
-  function _makeGameLoop() {
-    if (!ctx || muted) return null;
-
-    const gain = ctx.createGain();
-    gain.gain.setValueAtTime(0, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.7, ctx.currentTime + 0.6);
-    gain.connect(_dest());
-
-    let playing  = true;
-    const BPM    = 130;
-    const B      = 60 / BPM;       
-    const BAR    = B * 4;          
-
-    const arpPat = [
-      261.63, 329.63, 392.00, 523.25,
-      392.00, 329.63, 261.63, 196.00,
-    ];
-    let barCount = 0;
-
-    function scheduleBar(t) {
-      if (!playing || muted) return;
-
-      [0, B * 2].forEach(offset => {
-        const st = t + offset;
-        _oscSlide('sine', 200, 35, st, 0.22, 1.0, gain);
-        _noise(st, 0.012, 0.9, 3500, 'highpass', gain);
-      });
-
-      [B, B * 3].forEach(offset => {
-        const st = t + offset;
-        _noise(st, 0.14, 0.75, 1600, 'bandpass', gain);
-        _osc('sine', 200, st, 0.08, 0.5, gain);
-      });
-
-      for (let h = 0; h < 8; h++) {
-        const vol = h % 2 === 0 ? 0.22 : 0.12;
-        _noise(t + h * B * 0.5, 0.03, vol, 9000, 'highpass', gain);
-      }
-
-      const bassRoot = 65.41;
-      _oscSlide('square', bassRoot, bassRoot * 0.95, t,           B * 0.9, 0.35, gain);
-      _oscSlide('square', bassRoot * 1.5, bassRoot,  t + B * 1.5, B * 0.4, 0.28, gain);
-      _oscSlide('square', bassRoot * 2,   bassRoot,  t + B * 3,   B * 0.8, 0.3,  gain);
-
-      for (let n = 0; n < 8; n++) {
-        const noteIdx = (barCount * 8 + n) % arpPat.length;
-        const nt      = t + n * B * 0.5;
-        _osc('square', arpPat[noteIdx], nt, B * 0.35, 0.18, gain);
-        _osc('sine',   arpPat[noteIdx] * 2, nt + 0.01, B * 0.3, 0.07, gain);
-      }
-
-      barCount++;
-      if (playing) {
-        setTimeout(() => scheduleBar(ctx.currentTime + 0.04), (BAR - 0.2) * 1000);
-      }
-    }
-
-    scheduleBar(ctx.currentTime + 0.05);
-
-    return {
-      stop(fade = 0.5) {
-        playing = false;
-        if (gain) {
-          gain.gain.cancelScheduledValues(ctx.currentTime);
-          gain.gain.setValueAtTime(gain.gain.value, ctx.currentTime);
-          gain.gain.linearRampToValueAtTime(0, ctx.currentTime + fade);
-        }
-      }
-    };
-  }
-
   function playEat() {
     if (!ctx || muted) return;
     const t = ctx.currentTime;
-    _oscSlide('sine', 520, 980, t,        0.09, 0.7, null);
-    _osc('sine',      1200,        t+0.07, 0.07, 0.5, null);
+    _noise(t, 0.04, 0.7, 1800, 'bandpass', null);
+    _oscSlide('sine', 440, 880, t, 0.12, 0.6, null);
+    _osc('sine', 1320, t + 0.06, 0.08, 0.5, null);
   }
 
   function playBonus() {
     if (!ctx || muted) return;
     const t = ctx.currentTime;
     [523, 659, 784, 1047, 1318].forEach((f, i) => {
-      _osc('sine',     f,       t + i*0.055, 0.22, 0.6, null);
-      _osc('triangle', f * 1.5, t + i*0.055, 0.15, 0.25, null);
+      _osc('sine',     f,       t + i * 0.055, 0.22, 0.6, null);
+      _osc('triangle', f * 1.5, t + i * 0.055, 0.15, 0.25, null);
     });
     _noise(t, 0.04, 0.8, 5000, 'bandpass', null);
   }
@@ -260,16 +186,28 @@ const SoundManager = (() => {
   function playPoison() {
     if (!ctx || muted) return;
     const t = ctx.currentTime;
-    _oscSlide('sawtooth', 340, 70,  t,      0.5, 0.65, null);
-    _oscSlide('sawtooth', 320, 80,  t+0.02, 0.5, 0.45, null);
-    _noise(t+0.08, 0.25, 0.4, 700, 'bandpass', null);
+    _oscSlide('sine',     400, 180, t,       0.35, 0.7, null);
+    _oscSlide('sine',     420, 170, t + 0.03, 0.35, 0.5, null);
+    _noise(t,       0.10, 0.55, 500,  'bandpass', null);
+    _noise(t + 0.12, 0.15, 0.4, 300, 'lowpass',  null);
+    _oscSlide('sawtooth', 160, 80, t + 0.1, 0.3, 0.45, null);
+  }
+
+  function playPoisonDeath() {
+    if (!ctx || muted) return;
+    const t = ctx.currentTime;
+    _oscSlide('sawtooth', 340, 40,  t,        0.55, 0.9, null);
+    _oscSlide('sawtooth', 320, 35,  t + 0.04, 0.55, 0.7, null);
+    _noise(t,        0.15, 0.8,  600, 'bandpass', null);
+    _noise(t + 0.15, 0.3,  0.55, 200, 'lowpass',  null);
+    _oscSlide('sine', 800, 60, t + 0.2, 0.6, 0.5, null);
   }
 
   function playMagnet() {
     if (!ctx || muted) return;
     const t = ctx.currentTime;
-    _oscSlide('square', 140, 420, t,      0.22, 0.6, null);
-    _oscSlide('square', 420, 140, t+0.22, 0.22, 0.5, null);
+    _oscSlide('square', 140, 420, t,       0.22, 0.6, null);
+    _oscSlide('square', 420, 140, t + 0.22, 0.22, 0.5, null);
     _noise(t, 0.06, 0.45, 6000, 'highpass', null);
   }
 
@@ -277,100 +215,112 @@ const SoundManager = (() => {
     if (!ctx || muted) return;
     const t = ctx.currentTime;
     [1400, 1800, 2200, 2800, 3400, 2000].forEach((f, i) => {
-      _osc('sine',     f,       t + i*0.04, 0.20, 0.55, null);
-      _osc('triangle', f * 0.5, t + i*0.04, 0.15, 0.3,  null);
+      _osc('sine',     f,       t + i * 0.04, 0.20, 0.55, null);
+      _osc('triangle', f * 0.5, t + i * 0.04, 0.15, 0.3,  null);
     });
-    _noise(t,      0.06, 0.65, 5000, 'highpass', null);
-    _noise(t+0.1,  0.10, 0.4,  2500, 'bandpass', null);
+    _noise(t,       0.06, 0.65, 5000, 'highpass', null);
+    _noise(t + 0.1, 0.10, 0.4,  2500, 'bandpass', null);
   }
 
   function playWarp() {
     if (!ctx || muted) return;
     const t = ctx.currentTime;
-    _oscSlide('sine', 160, 1400, t,      0.20, 0.7, null);
-    _oscSlide('sine', 1400, 160, t+0.20, 0.20, 0.6, null);
-    _osc('triangle', 700, t+0.08, 0.18, 0.5, null);
-    _noise(t+0.05, 0.12, 0.35, 900, 'bandpass', null);
+    _oscSlide('sine', 160, 1400, t,       0.20, 0.7, null);
+    _oscSlide('sine', 1400, 160, t + 0.20, 0.20, 0.6, null);
+    _osc('triangle', 700, t + 0.08, 0.18, 0.5, null);
+    _noise(t + 0.05, 0.12, 0.35, 900, 'bandpass', null);
   }
 
   function playCombo(multiplier) {
     if (!ctx || muted) return;
     const t    = ctx.currentTime;
     const base = 380 * Math.pow(1.22, multiplier - 2);
-    _osc('sine',     base,        t,       0.16, 0.75, null);
-    _osc('sine',     base * 1.25, t+0.06,  0.13, 0.65, null);
-    _osc('sine',     base * 1.5,  t+0.12,  0.11, 0.55, null);
-    _osc('triangle', base * 2,    t+0.04,  0.09, 0.4,  null);
+    _osc('sine',     base,        t,        0.16, 0.75, null);
+    _osc('sine',     base * 1.25, t + 0.06, 0.13, 0.65, null);
+    _osc('sine',     base * 1.5,  t + 0.12, 0.11, 0.55, null);
+    _osc('triangle', base * 2,    t + 0.04, 0.09, 0.4,  null);
     if (multiplier >= 4) _noise(t, 0.04, 0.5, 4000, 'bandpass', null);
   }
 
   function playWallHit() {
     if (!ctx || muted) return;
     const t = ctx.currentTime;
-    _noise(t,      0.14, 1.0,  180, 'lowpass',  null);
-    _noise(t,      0.07, 0.7, 1200, 'bandpass', null);
-    _osc('sine',  50,   t,      0.28, 0.9, null);
-    _osc('sine',  100,  t,      0.18, 0.6, null);
+    _oscSlide('sine', 220, 30, t, 0.3, 1.1, null);
+    _noise(t,       0.18, 1.0,  180,  'lowpass',  null);
+    _noise(t,       0.08, 0.8,  2000, 'bandpass', null);
+    _noise(t + 0.1, 0.12, 0.5,  800,  'bandpass', null);
+    _osc('sine',     80,  t,       0.35, 1.0, null);
+    _osc('triangle', 1200, t,      0.06, 0.6, null);
   }
 
   function playSelfHit() {
     if (!ctx || muted) return;
     const t = ctx.currentTime;
-    _oscSlide('sawtooth', 700, 40, t, 0.55, 0.85, null);
-    _noise(t,       0.08, 0.8,  900, 'bandpass', null);
-    _noise(t+0.08,  0.22, 0.5,  400, 'lowpass',  null);
+    _oscSlide('sawtooth', 800, 35,  t,        0.55, 0.9,  null);
+    _oscSlide('sawtooth', 650, 25,  t + 0.05, 0.45, 0.75, null);
+    _noise(t,        0.06, 0.9,  1200, 'bandpass', null);
+    _noise(t + 0.06, 0.20, 0.65, 500,  'lowpass',  null);
+    _noise(t + 0.18, 0.25, 0.4,  300,  'lowpass',  null);
+    _oscSlide('sine', 1400, 200, t + 0.02, 0.25, 0.5, null);
   }
 
-  function playGameOver() {
+  function playWin() {
+    if (!ctx || muted) return;
+    const t = ctx.currentTime;
+    [261.63, 329.63, 392.00, 523.25, 659.25, 783.99].forEach((f, i) => {
+      _osc('sine',     f,     t + i * 0.08, 0.4,  0.7, null);
+      _osc('triangle', f * 2, t + i * 0.08, 0.25, 0.5, null);
+    });
+    setTimeout(() => {
+      if (!ctx || muted) return;
+      const t2 = ctx.currentTime;
+      [523.25, 659.25, 783.99].forEach(f => _osc('sine', f, t2, 1.2, 0.4, null));
+      _noise(t2, 0.08, 0.6, 5000, 'bandpass', null);
+    }, 520);
+  }
+
+  function playLose() {
     if (!ctx || muted) return;
     const t = ctx.currentTime;
     [
       [220.00, 0.00],
-      [196.00, 0.18],
-      [174.61, 0.36],
-      [155.56, 0.55],
-      [130.81, 0.76],
+      [196.00, 0.20],
+      [174.61, 0.40],
+      [155.56, 0.62],
+      [130.81, 0.86],
     ].forEach(([freq, delay]) => {
-      _osc('sine',     freq,     t+delay, 1.1,  0.55, null);
-      _osc('triangle', freq * 2, t+delay, 0.8,  0.3,  null);
-      _osc('sine',     freq / 2, t+delay, 0.65, 0.2,  null);
+      _osc('sine',     freq,     t + delay, 1.1,  0.6,  null);
+      _osc('triangle', freq * 2, t + delay, 0.8,  0.35, null);
+      _osc('sine',     freq / 2, t + delay, 0.65, 0.25, null);
     });
-    _noise(t+0.5, 0.8, 0.6, 100, 'lowpass',  null);
-    _noise(t+0.7, 0.5, 0.4, 300, 'bandpass', null);
+    _noise(t + 0.5, 0.9, 0.65, 100, 'lowpass',  null);
+    _noise(t + 0.7, 0.6, 0.45, 280, 'bandpass', null);
+    _oscSlide('sine', 120, 20, t + 1.0, 0.6, 0.8, null);
   }
 
   function playPause() {
     if (!ctx || muted) return;
     const t = ctx.currentTime;
-    _osc('sine', 900, t,       0.09, 0.55, null);
-    _osc('sine', 680, t+0.10,  0.09, 0.55, null);
+    _osc('sine', 900, t,        0.09, 0.55, null);
+    _osc('sine', 680, t + 0.10, 0.09, 0.55, null);
   }
 
   function playResume() {
     if (!ctx || muted) return;
     const t = ctx.currentTime;
-    _osc('sine', 680, t,       0.09, 0.55, null);
-    _osc('sine', 900, t+0.10,  0.09, 0.55, null);
+    _osc('sine', 680, t,        0.09, 0.55, null);
+    _osc('sine', 900, t + 0.10, 0.09, 0.55, null);
   }
 
   function startMenu() {
     _screen = 'menu';
     _init();
     _resume();
-    // if (gameLoop) {
-    //   gameLoop.stop(0.4);
-    //   gameLoop = null;
-    // }
-    if (menuLoop) {
-      menuLoop.stop(0.05);
-      menuLoop = null;
-    }
+    if (menuLoop) { menuLoop.stop(0.05); menuLoop = null; }
     if (!muted) {
       setTimeout(() => {
-        if (_screen === 'menu' && !muted) {
-          menuLoop = _makeMenuLoop();
-        }
-      }, 450);
+        if (_screen === 'menu' && !muted) menuLoop = _makeMenuLoop();
+      }, 200);
     }
   }
 
@@ -378,36 +328,23 @@ const SoundManager = (() => {
     _screen = 'game';
     _init();
     _resume();
-    if (menuLoop) {
-      menuLoop.stop(0.3);
-      menuLoop = null;
-    }
-    // if (gameLoop) {
-    //   gameLoop.stop(0.05);
-    //   gameLoop = null;
-    // }
-    // if (!muted) {
-    //   setTimeout(() => {
-    //     if (_screen === 'game' && !muted) {
-    //       gameLoop = _makeGameLoop();
-    //     }
-    //   }, 350);
-    // }
+    if (menuLoop) { menuLoop.stop(0.3); menuLoop = null; }
   }
 
   function stopAll(fade = 0.5) {
     if (menuLoop) { menuLoop.stop(fade); menuLoop = null; }
-    if (gameLoop) { gameLoop.stop(fade); gameLoop = null; }
   }
 
   function toggleMute() {
     muted = !muted;
     if (muted) {
-      stopAll(0.2);
+      stopAll(0.15);
     } else {
+      _init();
       _resume();
-      if (_screen === 'game') startGame();
-      else startMenu();
+      if (_screen === 'menu') {
+        if (!menuLoop) menuLoop = _makeMenuLoop();
+      }
     }
     return muted;
   }
@@ -415,16 +352,23 @@ const SoundManager = (() => {
   function isMuted() { return muted; }
 
   function autoStart() {
+    if (_started) return;
+    _started = true;
     _init();
-    if (ctx.state === 'running' && !muted) {
-      menuLoop = _makeMenuLoop();
+
+    const tryPlay = () => {
+      if (muted) return;
+      _resume();
+      if (_screen === 'menu' && !menuLoop) menuLoop = _makeMenuLoop();
+    };
+
+    if (ctx.state === 'running') {
+      tryPlay();
       return;
     }
+
     const onFirst = () => {
-      _resume();
-      if (!menuLoop && !gameLoop && !muted && _screen === 'menu') {
-        menuLoop = _makeMenuLoop();
-      }
+      tryPlay();
       document.removeEventListener('pointerdown', onFirst);
       document.removeEventListener('keydown',     onFirst);
       document.removeEventListener('click',       onFirst);
@@ -440,25 +384,16 @@ const SoundManager = (() => {
       ctx.suspend();
     } else if (!muted) {
       ctx.resume().then(() => {
-        if (!menuLoop && !gameLoop) {
-          if (_screen === 'game') gameLoop = _makeGameLoop();
-          else                    menuLoop = _makeMenuLoop();
-        }
+        if (_screen === 'menu' && !menuLoop) menuLoop = _makeMenuLoop();
       });
     }
   });
 
-  window.addEventListener('blur', () => {
-    if (ctx) ctx.suspend();
-  });
-
+  window.addEventListener('blur',  () => { if (ctx) ctx.suspend(); });
   window.addEventListener('focus', () => {
     if (ctx && !muted) {
       ctx.resume().then(() => {
-        if (!menuLoop && !gameLoop) {
-          if (_screen === 'game') gameLoop = _makeGameLoop();
-          else                    menuLoop = _makeMenuLoop();
-        }
+        if (_screen === 'menu' && !menuLoop) menuLoop = _makeMenuLoop();
       });
     }
   });
@@ -467,9 +402,9 @@ const SoundManager = (() => {
     autoStart,
     startMenu, startGame, stopAll,
     toggleMute, isMuted,
-    playEat, playBonus, playPoison, playMagnet,
-    playFreeze, playWarp, playCombo,
-    playWallHit, playSelfHit, playGameOver,
+    playEat, playBonus, playPoison, playPoisonDeath,
+    playMagnet, playFreeze, playWarp, playCombo,
+    playWallHit, playSelfHit, playWin, playLose,
     playPause, playResume,
   };
 })();
