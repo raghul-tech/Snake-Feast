@@ -6,6 +6,7 @@ const SoundManager = (() => {
   let muted      = false;
   let _screen    = 'menu';
   let _started   = false;
+  let _loopGen   = 0; 
 
   function _init() {
     if (ctx) return;
@@ -22,11 +23,18 @@ const SoundManager = (() => {
     masterGain.connect(compressor);
   }
 
-  function _dest() { return masterGain || ctx.destination; }
-
-  function _resume() {
-    if (ctx && ctx.state === 'suspended') ctx.resume();
+  function _destroyCtx() {
+    _loopGen++;
+    if (menuLoop) { try { menuLoop.stop(0); } catch(e){} menuLoop = null; }
+    if (ctx) {
+      try { ctx.close(); } catch(e) {}
+      ctx        = null;
+      masterGain = null;
+      compressor = null;
+    }
   }
+
+  function _dest() { return masterGain || ctx.destination; }
 
   function _osc(type, freq, start, dur, vol, dest) {
     if (!ctx || muted) return;
@@ -84,10 +92,10 @@ const SoundManager = (() => {
 
   function _makeMenuLoop() {
     if (!ctx || muted) return null;
-
+    const myGen = _loopGen;
     const gain = ctx.createGain();
     gain.gain.setValueAtTime(0, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.55, ctx.currentTime + 2.5);
+    gain.gain.linearRampToValueAtTime(0.55, ctx.currentTime + 2.0);
     gain.connect(_dest());
 
     const filt = ctx.createBiquadFilter();
@@ -105,9 +113,8 @@ const SoundManager = (() => {
       [196.00, 246.94, 293.66, 392.00], // G7
     ];
     let chordIdx = 0;
-
     function scheduleBar(startTime) {
-      if (!playing || muted) return;
+      if (!playing || muted || _loopGen !== myGen || !ctx) return;
       const notes = chords[chordIdx % chords.length];
       chordIdx++;
 
@@ -147,20 +154,23 @@ const SoundManager = (() => {
       sub.start(startTime); sub.stop(startTime + BAR);
 
       if (playing) {
-        setTimeout(() => scheduleBar(ctx.currentTime + 0.08), (BAR - 0.3) * 1000);
+        setTimeout(() => scheduleBar(ctx ? ctx.currentTime + 0.08 : 0),
+          (BAR - 0.3) * 1000);
       }
     }
 
-    scheduleBar(ctx.currentTime + 0.2);
+    scheduleBar(ctx.currentTime + 0.15);
 
     return {
-      stop(fade = 1.5) {
+      stop(fade = 0.3) {
         playing = false;
-        if (gain) {
-          gain.gain.cancelScheduledValues(ctx.currentTime);
-          gain.gain.setValueAtTime(gain.gain.value, ctx.currentTime);
-          gain.gain.linearRampToValueAtTime(0, ctx.currentTime + fade);
-        }
+        try {
+          gain.gain.cancelScheduledValues(ctx ? ctx.currentTime : 0);
+          if (ctx) {
+            gain.gain.setValueAtTime(gain.gain.value, ctx.currentTime);
+            gain.gain.linearRampToValueAtTime(0, ctx.currentTime + fade);
+          }
+        } catch(e) {}
       }
     };
   }
@@ -315,7 +325,6 @@ const SoundManager = (() => {
   function startMenu() {
     _screen = 'menu';
     _init();
-    _resume();
     if (menuLoop) { menuLoop.stop(0.05); menuLoop = null; }
     if (!muted) {
       setTimeout(() => {
@@ -327,12 +336,13 @@ const SoundManager = (() => {
   function startGame() {
     _screen = 'game';
     _init();
-    _resume();
     if (menuLoop) { menuLoop.stop(0.3); menuLoop = null; }
+    _loopGen++;
   }
 
   function stopAll(fade = 0.5) {
-    if (menuLoop) { menuLoop.stop(fade); menuLoop = null; }
+    _loopGen++;
+    if (menuLoop) { try { menuLoop.stop(fade); } catch(e){} menuLoop = null; }
   }
 
   function toggleMute() {
@@ -341,10 +351,8 @@ const SoundManager = (() => {
       stopAll(0.15);
     } else {
       _init();
-      _resume();
-      if (_screen === 'menu') {
-        if (!menuLoop) menuLoop = _makeMenuLoop();
-      }
+      if (ctx.state === 'suspended') ctx.resume();
+      if (_screen === 'menu' && !menuLoop) menuLoop = _makeMenuLoop();
     }
     return muted;
   }
@@ -358,14 +366,11 @@ const SoundManager = (() => {
 
     const tryPlay = () => {
       if (muted) return;
-      _resume();
+      if (ctx.state === 'suspended') ctx.resume();
       if (_screen === 'menu' && !menuLoop) menuLoop = _makeMenuLoop();
     };
 
-    if (ctx.state === 'running') {
-      tryPlay();
-      return;
-    }
+    if (ctx.state === 'running') { tryPlay(); return; }
 
     const onFirst = () => {
       tryPlay();
@@ -379,22 +384,28 @@ const SoundManager = (() => {
   }
 
   document.addEventListener('visibilitychange', () => {
-    if (!ctx) return;
     if (document.hidden) {
-      ctx.suspend();
+      _destroyCtx();
     } else if (!muted) {
-      ctx.resume().then(() => {
+      setTimeout(() => {
+        if (muted) return;
+        _init();
         if (_screen === 'menu' && !menuLoop) menuLoop = _makeMenuLoop();
-      });
+      }, 150);
     }
   });
 
-  window.addEventListener('blur',  () => { if (ctx) ctx.suspend(); });
+  window.addEventListener('blur', () => {
+    _destroyCtx();
+  });
+
   window.addEventListener('focus', () => {
-    if (ctx && !muted) {
-      ctx.resume().then(() => {
+    if (!muted) {
+      setTimeout(() => {
+        if (muted) return;
+        _init();
         if (_screen === 'menu' && !menuLoop) menuLoop = _makeMenuLoop();
-      });
+      }, 150);
     }
   });
 

@@ -200,7 +200,6 @@ class SnakeFeastScene extends Phaser.Scene {
     if (food.type === 'warp')   { SoundManager.playWarp(); this.ghostTick = 60; }
     if (food.type === 'poison')  SoundManager.playPoison();
     if (food.type === 'normal') SoundManager.playEat();
-    if (this.combo > 1) SoundManager.playCombo(this.combo);
     if (def.pts > 0) {
       this.combo     = this.comboTick > 0 ? Math.min(this.combo + 1, 8) : 1;
       this.comboTick = 180;
@@ -211,7 +210,7 @@ class SnakeFeastScene extends Phaser.Scene {
       const label  = (this.combo > 1 ? 'x' + this.combo + ' ' : '') + '+' + earned;
       spawnScorePop(label, popCol, px, py);
     }
-
+    if (this.combo > 1) SoundManager.playCombo(this.combo);
     if (['bonus','warp','magnet','freeze'].includes(food.type)) {
       this.cameras.main.shake(70, 0.005);
     }
