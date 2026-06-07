@@ -28,6 +28,11 @@ class SnakeFeastScene extends Phaser.Scene {
     this.snakeCol  = G.snakeCol;
     this.tickEvt   = null;
     this.deathMsg  = '';
+    this.DEATH_REASONS = {
+      WALL: 'hit the wall',
+      SELF: 'ate yourself',
+      POISON: 'poison was fatal'
+    };
     const kb = this.input.keyboard;
     const turn = (dx, dy) => {
       if (dx !== 0 && this.dir.x !== 0) return;
@@ -133,10 +138,10 @@ class SnakeFeastScene extends Phaser.Scene {
     const nx   = head.x + this.dir.x;
     const ny   = head.y + this.dir.y;
     if (nx < 0 || nx >= this.cols || ny < 0 || ny >= this.rows) {
-      this.deathMsg = 'hit the wall'; this._die(); return;
+      this.deathMsg = this.DEATH_REASONS.WALL; this._die(); return;
     }
     if (this.ghostTick <= 0 && this.snake.some(s => s.x === nx && s.y === ny)) {
-      this.deathMsg = 'ate yourself'; this._die(); return;
+      this.deathMsg = this.DEATH_REASONS.SELF; this._die(); return;
     }
     let ateIdx = this.foods.findIndex(f => f.x === nx && f.y === ny);
     let ate    = ateIdx >= 0 ? this.foods.splice(ateIdx, 1)[0] : null;
@@ -185,7 +190,7 @@ class SnakeFeastScene extends Phaser.Scene {
 
     if (food.type === 'poison') {
       for (let i = 0; i < 3 && this.snake.length > 2; i++) this.snake.pop();
-      if (this.snake.length <= 1) { this.deathMsg = 'poison was fatal'; this._die(); return; }
+      if (this.snake.length <= 2) { this.deathMsg = this.DEATH_REASONS.POISON; this._die(); return; }
       this.score = Math.max(0, this.score - 3);
       spawnScorePop('-3', 0x84cc16, px, py);
       unlockAch('poison');
@@ -253,9 +258,9 @@ class SnakeFeastScene extends Phaser.Scene {
     G.hs[G.mode] = this.score;
     ScoreManager.saveOne(G.mode, this.score);
   }
-   if (this.deathMsg === 'hit the wall')    { SoundManager.playWallHit();    SoundManager.playLose(); }
-  else if (this.deathMsg === 'ate yourself'){ SoundManager.playSelfHit();    SoundManager.playLose(); }
-  else if (this.deathMsg === 'poison was fatal'){ SoundManager.playPoisonDeath(); SoundManager.playLose(); }
+   if (this.deathMsg === this.DEATH_REASONS.WALL)    { SoundManager.playWallHit();    SoundManager.playLose(); }
+  else if (this.deathMsg === this.DEATH_REASONS.SELF){ SoundManager.playSelfHit();    SoundManager.playLose(); }
+  else if (this.deathMsg === this.DEATH_REASONS.POISON){ SoundManager.playPoisonDeath(); SoundManager.playLose(); }
   else      { SoundManager.playLose(); }
 SoundManager.stopAll(0.8); 
  if (typeof _syncPauseBtn === 'function') _syncPauseBtn();
