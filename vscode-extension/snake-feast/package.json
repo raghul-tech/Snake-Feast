@@ -35,6 +35,7 @@
   "engines": {
     "vscode": "^1.85.0"
   },
+  "activationEvents": ["onStartupFinished"],
   "categories": ["Other"],
   "main": "./extension.js",
   "contributes": {
@@ -51,7 +52,17 @@
         "key": "ctrl+shift+alt+s",
         "mac": "cmd+shift+alt+s"
       }
-    ]
+    ],
+    "configuration": {
+    "title": "Snake Feast",
+    "properties": {
+        "snake-feast.soundEnabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable or disable game sounds"
+        }
+    }
+  }
   },
   "scripts": {
     "vscode:prepublish": "echo \"Ready\"",

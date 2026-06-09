@@ -222,8 +222,7 @@ class SnakeFeastScene extends Phaser.Scene {
 
     unlockAch('first');
      if (this.score > G.hs[G.mode]) {
-    G.hs[G.mode] = this.score;
-    ScoreManager.saveOne(G.mode, this.score);
+   saveHs(G.mode, this.score);
   }
   }
 
@@ -255,8 +254,7 @@ class SnakeFeastScene extends Phaser.Scene {
     this.running = false;
     if (this.tickEvt) { this.tickEvt.remove(); this.tickEvt = null; }
     if (this.score > G.hs[G.mode]) {
-    G.hs[G.mode] = this.score;
-    ScoreManager.saveOne(G.mode, this.score);
+saveHs(G.mode, this.score);
   }
    if (this.deathMsg === this.DEATH_REASONS.WALL)    { SoundManager.playWallHit();    SoundManager.playLose(); }
   else if (this.deathMsg === this.DEATH_REASONS.SELF){ SoundManager.playSelfHit();    SoundManager.playLose(); }

@@ -33,12 +33,16 @@ let G = {
 
 vscode.postMessage({ command: 'getState' });
 window.addEventListener('message', event => {
-  const msg = event.data;
-  if (msg.command === 'stateLoaded') {
-    G.hs       = msg.state.hs;
-    G.unlocked = msg.state.unlocked;
-    updateHUD(0, G.mode);
-  }
+    const msg = event.data;
+    if (msg.command === 'stateLoaded') {
+        G.hs       = msg.state.hs;
+        G.unlocked = msg.state.unlocked;
+        if (msg.state.soundMuted && !SoundManager.isMuted()) {
+            SoundManager.toggleMute();
+            document.getElementById('btn-mute').textContent = '\uD83D\uDD07'; 
+        }
+        updateHUD(0, G.mode);
+    }
 });
 
 function saveHs(mode, value) {
@@ -151,6 +155,7 @@ window.addEventListener('DOMContentLoaded', () => {
     muteBtn.addEventListener('click', () => {
         const m = SoundManager.toggleMute();
         muteBtn.textContent = m ? '\uD83D\uDD07' : '\uD83D\uDD0A'; // 🔇 or 🔊
+         vscode.postMessage({ command: 'saveMuted', value: m }); 
     });
   const area = document.getElementById('game-area');
   const game = new Phaser.Game({

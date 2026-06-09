@@ -86,6 +86,44 @@ const csp = `
         htmlContent = htmlContent.replace('<head>', '<head>' + csp);
 
         panel.webview.html = htmlContent;
+        panel.webview.onDidReceiveMessage(message => {
+    switch (message.command) {
+        case 'getState':
+            panel.webview.postMessage({
+                command: 'stateLoaded',
+                state: {
+                    hs: {
+                        easy:   context.globalState.get('sfHs_easy',   0),
+                        medium: context.globalState.get('sfHs_medium', 0),
+                        hard:   context.globalState.get('sfHs_hard',   0),
+                    },
+                    unlocked: context.globalState.get('sfUnlocked', []),
+                    soundMuted: context.globalState.get('sfMuted', false),
+                }
+            });
+            break;
+        case 'saveHs':
+            context.globalState.update('sfHs_' + message.mode, message.value);
+            break;
+        case 'saveUnlocked':
+            context.globalState.update('sfUnlocked', message.value);
+            break;
+        case 'saveMuted':
+            context.globalState.update('sfMuted', message.value);
+            break;
+        case 'resetHS':
+            ['easy','medium','hard'].forEach(m => context.globalState.update('sfHs_' + m, 0));
+            panel.webview.postMessage({
+                command: 'stateLoaded',
+                state: {
+                    hs: { easy: 0, medium: 0, hard: 0 },
+                    unlocked: context.globalState.get('sfUnlocked', []),
+                    soundMuted: context.globalState.get('sfMuted', false),
+                }
+            });
+            break;
+    }
+}, undefined, context.subscriptions);
 
         panel.onDidDispose(() => {
             vscode.window.showInformationMessage('Snake Feast game panel closed');
@@ -93,6 +131,14 @@ const csp = `
     });
 
     context.subscriptions.push(disposable);
+    const statusBar = vscode.window.createStatusBarItem(
+    vscode.StatusBarAlignment.Right, 100
+);
+statusBar.text = '🐍 Snake Feast';
+statusBar.tooltip = 'Click to play Snake Feast';
+statusBar.command = 'snake-feast.start';
+statusBar.show();
+context.subscriptions.push(statusBar);
 }
 
 function deactivate() {}
