@@ -57,7 +57,7 @@ function activate(context) {
             }
         });
 
-        const jsFiles = ['js/phaser.min.js', 'js/score.js', 'js/script.js', 'js/scene.js'];
+        const jsFiles = ['js/sound.js','js/phaser.min.js', 'js/script.js', 'js/scene.js'];
         jsFiles.forEach(jsFile => {
             const uri = getWebviewUri(jsFile);
             if (uri) {
@@ -74,14 +74,15 @@ function activate(context) {
         if (iconUri) {
             htmlContent = htmlContent.replace(/icon\/48\.png/g, iconUri.toString());
         }
-        const csp = `
-            <meta http-equiv="Content-Security-Policy" 
-                  content="default-src 'none'; 
-                           style-src ${webview.cspSource} 'unsafe-inline'; 
-                           script-src 'unsafe-inline' 'unsafe-eval' ${webview.cspSource}; 
-                           img-src ${webview.cspSource} data:; 
-                           font-src ${webview.cspSource};">
-        `;
+const csp = `
+    <meta http-equiv="Content-Security-Policy" 
+          content="default-src 'none'; 
+                   style-src ${webview.cspSource} 'unsafe-inline'; 
+                   script-src 'unsafe-inline' 'unsafe-eval' ${webview.cspSource}; 
+                   img-src ${webview.cspSource} data:; 
+                   font-src ${webview.cspSource};
+                   media-src 'none';">
+`;
         htmlContent = htmlContent.replace('<head>', '<head>' + csp);
 
         panel.webview.html = htmlContent;

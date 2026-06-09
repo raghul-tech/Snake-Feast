@@ -21,23 +21,40 @@ const ACHIEVEMENTS = [
   { id:'len15',   ico:'🐍', name:'Slitherer',       desc:'Snake length 15'           },
   { id:'len30',   ico:'🐉', name:'Great Serpent',   desc:'Snake length 30'           },
 ];
+
+const vscode = acquireVsCodeApi();
+
 let G = {
-  mode:      'easy',
+  mode:     'easy',
   snakeCol:  0x00ff88,
-  unlocked:  JSON.parse(localStorage.getItem('sfUnlocked') || '[]'),
-  hs:       { easy: 0, medium: 0, hard: 0 }, 
-   
+  unlocked:  [],
+  hs:        { easy: 0, medium: 0, hard: 0 },
 };
-  ScoreManager.loadAll((scores) => {
-    G.hs = scores;
-    const el = document.getElementById('hv-hs');
-    if (el) el.textContent = scores[G.mode] || 0;
-  });
+
+vscode.postMessage({ command: 'getState' });
+window.addEventListener('message', event => {
+  const msg = event.data;
+  if (msg.command === 'stateLoaded') {
+    G.hs       = msg.state.hs;
+    G.unlocked = msg.state.unlocked;
+    updateHUD(0, G.mode);
+  }
+});
+
+function saveHs(mode, value) {
+  G.hs[mode] = value;
+  vscode.postMessage({ command: 'saveHs', mode, value });
+}
+
+function saveUnlocked() {
+  vscode.postMessage({ command: 'saveUnlocked', value: G.unlocked });
+}
+
 function setMode(m, btn) {
   G.mode = m;
   document.querySelectorAll('.pill').forEach(p => p.classList.remove('on'));
   btn.classList.add('on');
-  document.getElementById('hud-mode').textContent = m.toUpperCase();
+  updateHUD(window.GAME_SCENE ? window.GAME_SCENE.score : 0, G.mode);
 }
 function pickColor(btn) {
   G.snakeCol = parseInt(btn.dataset.hex, 16);
@@ -45,24 +62,36 @@ function pickColor(btn) {
   btn.classList.add('on');
   if (window.GAME_SCENE) window.GAME_SCENE.snakeCol = G.snakeCol;
 }
+function _syncPauseBtn() {
+  const btn     = document.getElementById('btn-pause');
+  const running = window.GAME_SCENE && window.GAME_SCENE.running;
+  btn.style.display = running ? '' : 'none';
+}
 function doStart() {
   document.getElementById('scr-start').classList.remove('visible');
   document.getElementById('scr-over').classList.remove('visible');
+   SoundManager.startGame();
   if (window.GAME_SCENE) window.GAME_SCENE.restartGame();
+   _syncPauseBtn();
 }
 function showStart() {
   document.getElementById('scr-over').classList.remove('visible');
   document.getElementById('scr-start').classList.add('visible');
+   SoundManager.startMenu();
   if (window.GAME_SCENE) window.GAME_SCENE.stopGame();
+   _syncPauseBtn();
 }
 function togglePause() {
-  if (window.GAME_SCENE) window.GAME_SCENE.togglePause();
+  if (window.GAME_SCENE && window.GAME_SCENE.running) {
+    const willPause = !window.GAME_SCENE.paused;
+    window.GAME_SCENE.togglePause();
+    if (willPause) SoundManager.playPause();
+    else           SoundManager.playResume();
+  }
 }
 function resetHS() {
-  ['easy','medium','hard'].forEach(m => {
-    G.hs[m] = 0;
-    localStorage.setItem('sfHs_' + m, 0);
-  });
+  ['easy','medium','hard'].forEach(m => G.hs[m] = 0);
+  vscode.postMessage({ command: 'resetHS' });
   document.getElementById('hv-hs').textContent = '0';
 }
 function spawnScorePop(txt, hexColor, canvasPixelX, canvasPixelY) {
@@ -102,7 +131,7 @@ function _nextToast() {
 function unlockAch(id) {
   if (G.unlocked.includes(id)) return;
   G.unlocked.push(id);
-  localStorage.setItem('sfUnlocked', JSON.stringify(G.unlocked));
+  saveUnlocked();                               // persists via extension
   const a = ACHIEVEMENTS.find(x => x.id === id);
   if (a) achievementToast(a.ico, a.name, a.desc);
 }
@@ -115,8 +144,15 @@ function updateHUD(score, mode) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+     SoundManager.autoStart();
+   document.getElementById('btn-pause').style.display = 'none';
+  const muteBtn = document.getElementById('btn-mute');
+    muteBtn.textContent = '\uD83D\uDD0A'; // 🔊 
+    muteBtn.addEventListener('click', () => {
+        const m = SoundManager.toggleMute();
+        muteBtn.textContent = m ? '\uD83D\uDD07' : '\uD83D\uDD0A'; // 🔇 or 🔊
+    });
   const area = document.getElementById('game-area');
-
   const game = new Phaser.Game({
     type:            Phaser.CANVAS,
     width:  window.innerWidth,

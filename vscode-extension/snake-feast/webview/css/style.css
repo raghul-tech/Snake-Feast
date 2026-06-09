@@ -191,7 +191,22 @@ html, body {
   cursor: pointer; transition: all .2s;
 }
 .btn-menu:hover { border-color: #fff; color: #fff; }
+#btn-mute {
+    background: transparent;
+    border: 1px solid rgba(0, 255, 170, 0.3);
+    color: #00ffaa;
+    font-size: 13px;
+    font-family: 'Orbitron', monospace;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+}
 
+#btn-mute:hover {
+    background: rgba(0, 255, 170, 0.1);
+    border-color: #00ffaa;
+}
 .legend { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
 .leg { display: flex; align-items: center; gap: 5px; font-size: 9px; color: #5a5a7a; }
 .legdot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
