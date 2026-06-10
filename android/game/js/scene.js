@@ -1,4 +1,3 @@
-
 class SnakeFeastScene extends Phaser.Scene {
 
   constructor() { super({ key: 'SnakeFeast' }); }
@@ -12,10 +11,10 @@ class SnakeFeastScene extends Phaser.Scene {
       callback: () => { this.blinkOn = !this.blinkOn; },
       loop: true
     });
-    
+
     this.running   = false;
     this.paused    = false;
-    this.snake     = []; 
+    this.snake     = [];
     this.dir       = { x:1, y:0 };
     this.nextDir   = { x:1, y:0 };
     this.foods     = [];
@@ -28,6 +27,16 @@ class SnakeFeastScene extends Phaser.Scene {
     this.snakeCol  = G.snakeCol;
     this.tickEvt   = null;
     this.deathMsg  = '';
+    this._prevSnake    = [];
+    this._lerpT        = 1;
+    this._tickInterval = 160;
+
+    this.DEATH_REASONS = {
+      WALL: 'hit the wall',
+      SELF: 'ate yourself',
+      POISON: 'poison was fatal'
+    };
+
     const kb = this.input.keyboard;
     const turn = (dx, dy) => {
       if (dx !== 0 && this.dir.x !== 0) return;
@@ -45,6 +54,7 @@ class SnakeFeastScene extends Phaser.Scene {
     kb.on('keydown-P',     () => this.togglePause());
     kb.on('keydown-ESC',   () => this.togglePause());
     kb.on('keydown-ENTER', () => { if (!this.running) doStart(); });
+
     let swipeX = 0, swipeY = 0;
     this.input.on('pointerdown', p => { swipeX = p.x; swipeY = p.y; });
     this.input.on('pointerup', p => {
@@ -56,6 +66,7 @@ class SnakeFeastScene extends Phaser.Scene {
         if (Math.abs(dy) > min) turn(0, dy > 0 ? 1 : -1);
       }
     });
+
     this._badges = [];
     for (let i = 0; i < 4; i++) {
       const bg  = this.add.graphics().setDepth(4);
@@ -91,6 +102,11 @@ class SnakeFeastScene extends Phaser.Scene {
     this.snake = [];
     const sy = Math.floor(this.rows / 2);
     for (let i = 5; i >= 0; i--) this.snake.push({ x: i, y: sy });
+
+    this._prevSnake    = this.snake.map(s => ({ ...s }));
+    this._lerpT        = 1;
+    this._tickInterval = this._speed();
+
     this._spawnFoods();
     this._startTick();
     updateHUD(0, G.mode);
@@ -107,10 +123,12 @@ class SnakeFeastScene extends Phaser.Scene {
     this.paused = !this.paused;
     document.getElementById('btn-pause').textContent = this.paused ? '▶' : '⏸';
   }
+
   _startTick() {
     if (this.tickEvt) this.tickEvt.remove();
+    this._tickInterval = this._speed();
     this.tickEvt = this.time.addEvent({
-      delay: this._speed(), callback: this._tick, callbackScope: this, loop: true
+      delay: this._tickInterval, callback: this._tick, callbackScope: this, loop: true
     });
   }
 
@@ -121,25 +139,33 @@ class SnakeFeastScene extends Phaser.Scene {
 
   _restartTick() {
     if (!this.tickEvt) return;
+    this._tickInterval = this._speed();
     this.tickEvt.reset({
-      delay: this._speed(), callback: this._tick, callbackScope: this, loop: true
+      delay: this._tickInterval, callback: this._tick, callbackScope: this, loop: true
     });
   }
 
   _tick() {
     if (!this.running || this.paused) return;
+
+    this._prevSnake = this.snake.map(s => ({ x: s.x, y: s.y }));
+    this._lerpT     = 0; 
+
     this.dir = { ...this.nextDir };
     const head = this.snake[0];
     const nx   = head.x + this.dir.x;
     const ny   = head.y + this.dir.y;
+
     if (nx < 0 || nx >= this.cols || ny < 0 || ny >= this.rows) {
-      this.deathMsg = 'hit the wall'; this._die(); return;
+      this.deathMsg = this.DEATH_REASONS.WALL; this._die(); return;
     }
     if (this.ghostTick <= 0 && this.snake.some(s => s.x === nx && s.y === ny)) {
-      this.deathMsg = 'ate yourself'; this._die(); return;
+      this.deathMsg = this.DEATH_REASONS.SELF; this._die(); return;
     }
+
     let ateIdx = this.foods.findIndex(f => f.x === nx && f.y === ny);
     let ate    = ateIdx >= 0 ? this.foods.splice(ateIdx, 1)[0] : null;
+
     for (let i = this.snake.length - 1; i > 0; i--) {
       this.snake[i].x = this.snake[i-1].x;
       this.snake[i].y = this.snake[i-1].y;
@@ -147,9 +173,8 @@ class SnakeFeastScene extends Phaser.Scene {
     this.snake[0].x = nx;
     this.snake[0].y = ny;
 
-    if (ate) {
-      this._eatFood(ate, nx, ny);
-    }
+    if (ate) this._eatFood(ate, nx, ny);
+
     if (this.magTick > 0) {
       this.foods.forEach(f => {
         const d = Math.abs(f.x - nx) + Math.abs(f.y - ny);
@@ -161,10 +186,12 @@ class SnakeFeastScene extends Phaser.Scene {
         }
       });
     }
+
     if (this.ghostTick > 0) this.ghostTick--;
     if (this.magTick   > 0) this.magTick--;
     if (this.frzTick   > 0) this.frzTick--;
     if (this.comboTick > 0) { this.comboTick--; if (this.comboTick === 0) this.combo = 1; }
+
     this.foods.forEach(f => f.age++);
     this.foods = this.foods.filter(f => f.age < 280);
     this._spawnFoods();
@@ -175,17 +202,18 @@ class SnakeFeastScene extends Phaser.Scene {
     if (this.score >= 100) unlockAch('sc100');
     if (this.snake.length >= 15) unlockAch('len15');
     if (this.snake.length >= 30) unlockAch('len30');
-    if (this.combo  >= 3)  unlockAch('combo3');
+    if (this.combo >= 3)   unlockAch('combo3');
     updateHUD(this.score, G.mode);
   }
+
   _eatFood(food, nx, ny) {
-    const def   = FOOD_TYPES[food.type];
-    const px    = nx * T + T / 2; 
-    const py    = ny * T + T / 2;
+    const def = FOOD_TYPES[food.type];
+    const px  = nx * T + T / 2;
+    const py  = ny * T + T / 2;
 
     if (food.type === 'poison') {
       for (let i = 0; i < 3 && this.snake.length > 2; i++) this.snake.pop();
-      if (this.snake.length <= 1) { this.deathMsg = 'poison was fatal'; this._die(); return; }
+      if (this.snake.length <= 2) { this.deathMsg = this.DEATH_REASONS.POISON; this._die(); return; }
       this.score = Math.max(0, this.score - 3);
       spawnScorePop('-3', 0x84cc16, px, py);
       unlockAch('poison');
@@ -193,32 +221,39 @@ class SnakeFeastScene extends Phaser.Scene {
     } else {
       const last = this.snake[this.snake.length - 1];
       this.snake.push({ x: last.x, y: last.y });
+
+      if (this._prevSnake.length < this.snake.length) {
+        this._prevSnake.push({ ...last });
+      }
     }
-    if (food.type === 'bonus')  { this.ghostTick = 90;  unlockAch('ghost');  }
-    if (food.type === 'magnet') { this.magTick   = 180; unlockAch('magnet'); }
-    if (food.type === 'freeze') { this.frzTick   = 110; unlockAch('freeze'); }
-    if (food.type === 'warp')   { this.ghostTick = 60; }
+
+    if (food.type === 'bonus')  { SoundManager.playBonus();  this.ghostTick = 90;  unlockAch('ghost');  }
+    if (food.type === 'magnet') { SoundManager.playMagnet(); this.magTick   = 180; unlockAch('magnet'); }
+    if (food.type === 'freeze') { SoundManager.playFreeze(); this.frzTick   = 110; unlockAch('freeze'); }
+    if (food.type === 'warp')   { SoundManager.playWarp();   this.ghostTick = 60;  }
+    if (food.type === 'poison') SoundManager.playPoison();
+    if (food.type === 'normal') SoundManager.playEat();
 
     if (def.pts > 0) {
       this.combo     = this.comboTick > 0 ? Math.min(this.combo + 1, 8) : 1;
       this.comboTick = 180;
       const earned   = def.pts * this.combo;
       this.score    += earned;
-
       const popCol = this.combo > 2 ? 0xf59e0b : def.col;
-      const label  = (this.combo > 1 ? '×' + this.combo + ' ' : '') + '+' + earned;
+      const label  = (this.combo > 1 ? 'x' + this.combo + ' ' : '') + '+' + earned;
       spawnScorePop(label, popCol, px, py);
     }
 
+    if (this.combo > 1) SoundManager.playCombo(this.combo);
     if (['bonus','warp','magnet','freeze'].includes(food.type)) {
       this.cameras.main.shake(70, 0.005);
     }
 
     unlockAch('first');
-     if (this.score > G.hs[G.mode]) {
-    G.hs[G.mode] = this.score;
-    ScoreManager.saveOne(G.mode, this.score);
-  }
+    if (this.score > G.hs[G.mode]) {
+      G.hs[G.mode] = this.score;
+      ScoreManager.saveOne(G.mode, this.score);
+    }
   }
 
   _spawnFoods() {
@@ -231,6 +266,7 @@ class SnakeFeastScene extends Phaser.Scene {
       else if (r < 0.80) type = 'magnet';
       else if (r < 0.89) type = 'freeze';
       else                type = 'warp';
+
       let fx, fy, tries = 0;
       do {
         fx = Math.floor(Math.random() * this.cols);
@@ -240,18 +276,28 @@ class SnakeFeastScene extends Phaser.Scene {
         this._onSnake(fx, fy) ||
         this.foods.some(f => f.x === fx && f.y === fy)
       ));
-
       this.foods.push({ x: fx, y: fy, type, age: 0 });
     }
   }
+
   _die() {
     if (!this.running) return;
     this.running = false;
     if (this.tickEvt) { this.tickEvt.remove(); this.tickEvt = null; }
+
     if (this.score > G.hs[G.mode]) {
-    G.hs[G.mode] = this.score;
-    ScoreManager.saveOne(G.mode, this.score);
-  }
+      G.hs[G.mode] = this.score;
+      ScoreManager.saveOne(G.mode, this.score);
+    }
+
+    if      (this.deathMsg === this.DEATH_REASONS.WALL)   { SoundManager.playWallHit();    SoundManager.playLose(); }
+    else if (this.deathMsg === this.DEATH_REASONS.SELF)   { SoundManager.playSelfHit();    SoundManager.playLose(); }
+    else if (this.deathMsg === this.DEATH_REASONS.POISON) { SoundManager.playPoisonDeath(); SoundManager.playLose(); }
+    else { SoundManager.playLose(); }
+
+    SoundManager.stopAll(0.8);
+    if (typeof _syncPauseBtn === 'function') _syncPauseBtn();
+    setTimeout(() => SoundManager.startMenu(), 1500);
 
     this.cameras.main.shake(450, 0.022);
     this.cameras.main.flash(280, 255, 40, 70, true);
@@ -264,12 +310,19 @@ class SnakeFeastScene extends Phaser.Scene {
   }
 
   _onSnake(x, y) { return this.snake.some(s => s.x === x && s.y === y); }
-  update() {
+
+  update(time, delta) {
     const g    = this.gfx;
     const cols = this.cols || Math.floor(this.scale.width  / T);
     const rows = this.rows || Math.floor(this.scale.height / T);
     const W    = cols * T;
     const H    = rows * T;
+
+    if (this.running && !this.paused && this._tickInterval > 0) {
+      this._lerpT = Math.min(1, this._lerpT + delta / this._tickInterval);
+    }
+    const lt = this._lerpT;
+
     g.clear();
     g.fillStyle(0x05050b, 1);
     g.fillRect(0, 0, W, H);
@@ -279,7 +332,9 @@ class SnakeFeastScene extends Phaser.Scene {
         g.fillRect(c * T - 0.5, r * T - 0.5, 1, 1);
       }
     }
+
     if (!this.running && !this.paused && this.snake.length === 0) return;
+
     this.foods.forEach(f => {
       const def = FOOD_TYPES[f.type];
       const cx  = f.x * T + T / 2;
@@ -292,7 +347,6 @@ class SnakeFeastScene extends Phaser.Scene {
           g.lineStyle(1.5, def.ring, 0.55 * fade);
           g.strokeCircle(cx, cy, T/2 + 2);
         }
-
       } else if (f.type === 'warp') {
         g.lineStyle(2, def.col, fade);
         g.strokeCircle(cx, cy, T/2 - 3);
@@ -314,35 +368,51 @@ class SnakeFeastScene extends Phaser.Scene {
     if (this.snake && this.snake.length > 0) {
       const col     = this.snakeCol;
       const isGhost = this.ghostTick > 0;
+      const prev    = this._prevSnake;
+
       for (let i = this.snake.length - 1; i >= 0; i--) {
         const seg  = this.snake[i];
-        const cx   = seg.x * T + T / 2;
-        const cy   = seg.y * T + T / 2;
+
+        let drawX, drawY;
+        if (prev && prev[i]) {
+          drawX = (prev[i].x + (seg.x - prev[i].x) * lt) * T + T / 2;
+          drawY = (prev[i].y + (seg.y - prev[i].y) * lt) * T + T / 2;
+        } else {
+          drawX = seg.x * T + T / 2;
+          drawY = seg.y * T + T / 2;
+        }
+
+        const cx   = drawX;
+        const cy   = drawY;
         const isHd = (i === 0);
         const alpha = isGhost
           ? 0.35
           : Math.max(0.25, 1 - i * 0.028);
+
         if (isHd) {
           g.fillStyle(col, 0.1);
           g.fillCircle(cx, cy, T * 1.1);
           g.fillStyle(col, 0.05);
           g.fillCircle(cx, cy, T * 1.5);
         }
+
         const r = isHd ? T/2 - 1 : T/2 - 3;
         g.fillStyle(col, alpha);
         g.fillCircle(cx, cy, r);
+
         if (isGhost && isHd) {
           g.lineStyle(1.5, 0xfbbf24, this.blinkOn ? 0.9 : 0.3);
           g.strokeCircle(cx, cy, T/2 + 5);
         }
+
         if (isHd) {
-          const d  = this.dir;
-          const fwd = 4;  
-          const sep = 3;  
-          const ex = d.y !== 0 ? sep : 0;
-          const ey = d.x !== 0 ? sep : 0;
-          const fx = d.x * fwd;
-          const fy = d.y * fwd;
+          const d   = this.dir;
+          const fwd = 4;
+          const sep = 3;
+          const ex  = d.y !== 0 ? sep : 0;
+          const ey  = d.x !== 0 ? sep : 0;
+          const fx  = d.x * fwd;
+          const fy  = d.y * fwd;
           g.fillStyle(0x000000, 1);
           g.fillCircle(cx + fx - ex, cy + fy - ey, 2.5);
           g.fillCircle(cx + fx + ex, cy + fy + ey, 2.5);
@@ -351,41 +421,44 @@ class SnakeFeastScene extends Phaser.Scene {
           g.fillCircle(cx + fx + ex + 0.8, cy + fy + ey - 0.8, 0.9);
         }
       }
-      const h = this.snake[0];
-      g.lineStyle(1, col, 0.18);
-      g.strokeRect(h.x * T, h.y * T, T, T);
-    }
-if (this.running) {
-  const active = [];
-  if (this.ghostTick > 0) active.push({ txt: '👻 GHOST',              col: 0xfbbf24 });
-  if (this.magTick   > 0) active.push({ txt: '🧲 MAGNET',             col: 0xf472b6 });
-  if (this.frzTick   > 0) active.push({ txt: '❄ FREEZE',              col: 0x67e8f9 });
-  if (this.combo > 1)     active.push({ txt: 'x' + this.combo + ' COMBO', col: 0xf59e0b });
 
-  this._badges.forEach((slot, i) => {
-    slot.bg.clear();
-    if (i < active.length) {
-      const badge = active[i];
-      const yPos  = H - 30 - (i * 28);
-      const hex   = '#' + badge.col.toString(16).padStart(6, '0');
-      slot.bg.fillStyle(0x000000, 0.7);
-      slot.bg.fillRoundedRect(8, yPos, 120, 22, 6);
-      slot.bg.lineStyle(1, badge.col, 0.7);
-      slot.bg.strokeRoundedRect(8, yPos, 120, 22, 6);
-      slot.txt.setPosition(68, yPos + 3);
-      slot.txt.setText(badge.txt);
-      slot.txt.setStyle({ color: hex });
-      slot.txt.setVisible(true);
-    } else {
-      slot.txt.setVisible(false);
+      const hx = prev && prev[0] ? (prev[0].x + (this.snake[0].x - prev[0].x) * lt) * T : this.snake[0].x * T;
+      const hy = prev && prev[0] ? (prev[0].y + (this.snake[0].y - prev[0].y) * lt) * T : this.snake[0].y * T;
+      g.lineStyle(1, col, 0.18);
+      g.strokeRect(hx, hy, T, T);
     }
-  });
-} else {
-  this._badges.forEach(slot => {
-    slot.bg.clear();
-    slot.txt.setVisible(false);
-  });
-}
+
+    if (this.running) {
+      const active = [];
+      if (this.ghostTick > 0) active.push({ txt: '👻 GHOST',              col: 0xfbbf24 });
+      if (this.magTick   > 0) active.push({ txt: '🧲 MAGNET',             col: 0xf472b6 });
+      if (this.frzTick   > 0) active.push({ txt: '❄ FREEZE',              col: 0x67e8f9 });
+      if (this.combo > 1)     active.push({ txt: 'x' + this.combo + ' COMBO', col: 0xf59e0b });
+
+      this._badges.forEach((slot, i) => {
+        slot.bg.clear();
+        if (i < active.length) {
+          const badge = active[i];
+          const yPos  = H - 30 - (i * 28);
+          const hex   = '#' + badge.col.toString(16).padStart(6, '0');
+          slot.bg.fillStyle(0x000000, 0.7);
+          slot.bg.fillRoundedRect(8, yPos, 120, 22, 6);
+          slot.bg.lineStyle(1, badge.col, 0.7);
+          slot.bg.strokeRoundedRect(8, yPos, 120, 22, 6);
+          slot.txt.setPosition(68, yPos + 3);
+          slot.txt.setText(badge.txt);
+          slot.txt.setStyle({ color: hex });
+          slot.txt.setVisible(true);
+        } else {
+          slot.txt.setVisible(false);
+        }
+      });
+    } else {
+      this._badges.forEach(slot => {
+        slot.bg.clear();
+        slot.txt.setVisible(false);
+      });
+    }
   }
 
   _drawStar(cx, cy, outerR, innerR, points, col, alpha) {

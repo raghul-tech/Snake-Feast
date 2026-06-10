@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Snake Feast</title>
 <link rel="icon" href="icon/48.png" type="image/png">
 <link rel="stylesheet" href="css/googlefonts.css" type="text/css">
 <link rel="stylesheet" href="css/style.css" type="text/css">
+<link rel="stylesheet" href="css/style-mobile.css" type="text/css">
 </head>
 <body>
 <div id="app">
@@ -24,6 +25,7 @@
   </div>
   <button id="btn-reset-hs" onclick="resetHS()">Reset Best</button>
   <button id="btn-pause" onclick="togglePause()">⏸</button>
+  <button id="btn-mute">🔊</button>
 </div>
 <div id="game-area">
   <div id="phaser-mount"></div>
@@ -66,7 +68,7 @@
       <div class="legend">
         <div class="leg"><span class="legdot" style="background:#38bdf8"></span>+1 normal</div>
         <div class="leg"><span class="legdot" style="background:#fbbf24"></span>+5 bonus</div>
-        <div class="leg"><span class="legdot" style="background:#84cc16"></span>poison −3</div>
+        <div class="leg"><span class="legdot" style="background:#84cc16"></span>poison -3</div>
         <div class="leg"><span class="legdot" style="background:#f472b6"></span>magnet</div>
         <div class="leg"><span class="legdot" style="background:#67e8f9"></span>freeze</div>
         <div class="leg"><span class="legdot" style="background:#a78bfa"></span>+3 warp</div>
@@ -95,11 +97,10 @@
   <div id="t-ico">🏆</div>
   <div><div id="t-name"></div><div id="t-desc"></div></div>
 </div>
+<script src="js/sound.js"></script>
 <script src="js/phaser.min.js"></script>
 <script type="text/javascript" src="js/score.js"></script>
 <script type="text/javascript" src="js/script.js"></script>
 <script type="text/javascript" src="js/scene.js"></script>
-
-	
 </body>
 </html>
