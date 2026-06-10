@@ -6,70 +6,78 @@ const SoundManager = (() => {
   let muted      = false;
   let _screen    = 'menu';
   let _started   = false;
-  let _loopGen   = 0; 
+  let _loopGen   = 0;
 
   function _init() {
     if (ctx) return;
     ctx = new (window.AudioContext || window.webkitAudioContext)();
     compressor = ctx.createDynamicsCompressor();
-    compressor.threshold.setValueAtTime(-10, ctx.currentTime);
-    compressor.knee.setValueAtTime(6,        ctx.currentTime);
-    compressor.ratio.setValueAtTime(3,       ctx.currentTime);
-    compressor.attack.setValueAtTime(0.003,  ctx.currentTime);
-    compressor.release.setValueAtTime(0.25,  ctx.currentTime);
+    compressor.threshold.setValueAtTime(-12, ctx.currentTime);
+    compressor.knee.setValueAtTime(8,        ctx.currentTime);
+    compressor.ratio.setValueAtTime(4,       ctx.currentTime);
+    compressor.attack.setValueAtTime(0.005,  ctx.currentTime);
+    compressor.release.setValueAtTime(0.3,   ctx.currentTime);
     compressor.connect(ctx.destination);
     masterGain = ctx.createGain();
-    masterGain.gain.setValueAtTime(1.8, ctx.currentTime);
+    masterGain.gain.setValueAtTime(1.4, ctx.currentTime);
     masterGain.connect(compressor);
   }
 
-  function _destroyCtx() {
+  function _suspendCtx() {
     _loopGen++;
     if (menuLoop) { try { menuLoop.stop(0); } catch(e){} menuLoop = null; }
-    if (ctx) {
-      try { ctx.close(); } catch(e) {}
-      ctx        = null;
-      masterGain = null;
-      compressor = null;
+    if (ctx && ctx.state === 'running') {
+      try { ctx.suspend(); } catch(e) {}
+    }
+  }
+
+  function _resumeCtx() {
+    if (!ctx) { _init(); return; }
+    if (ctx.state === 'suspended') {
+      ctx.resume().catch(() => {});
     }
   }
 
   function _dest() { return masterGain || ctx.destination; }
 
-  function _osc(type, freq, start, dur, vol, dest) {
+ 
+  function _osc(type, freq, start, dur, vol) {
     if (!ctx || muted) return;
-    const d = dest || _dest();
-    const g = ctx.createGain();
-    g.gain.setValueAtTime(vol, start);
-    g.gain.exponentialRampToValueAtTime(0.0001, start + dur);
-    g.connect(d);
+    const now = ctx.currentTime;
+    const t   = Math.max(start, now);
+    const g   = ctx.createGain();
+    g.gain.setValueAtTime(vol, t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    g.connect(_dest());
     const o = ctx.createOscillator();
     o.type = type;
-    o.frequency.setValueAtTime(freq, start);
+    o.frequency.setValueAtTime(freq, t);
     o.connect(g);
-    o.start(start);
-    o.stop(start + dur + 0.02);
+    o.start(t);
+    o.stop(t + dur + 0.02);
   }
 
-  function _oscSlide(type, f0, f1, start, dur, vol, dest) {
+  function _oscSlide(type, f0, f1, start, dur, vol) {
     if (!ctx || muted) return;
-    const d = dest || _dest();
-    const g = ctx.createGain();
-    g.gain.setValueAtTime(vol, start);
-    g.gain.exponentialRampToValueAtTime(0.0001, start + dur);
-    g.connect(d);
+    const now = ctx.currentTime;
+    const t   = Math.max(start, now);
+    const g   = ctx.createGain();
+    g.gain.setValueAtTime(vol, t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    g.connect(_dest());
     const o = ctx.createOscillator();
     o.type = type;
-    o.frequency.setValueAtTime(f0, start);
-    o.frequency.exponentialRampToValueAtTime(f1, start + dur);
+    o.frequency.setValueAtTime(f0, t);
+    o.frequency.exponentialRampToValueAtTime(Math.max(f1, 1), t + dur);
     o.connect(g);
-    o.start(start);
-    o.stop(start + dur + 0.02);
+    o.start(t);
+    o.stop(t + dur + 0.02);
   }
 
-  function _noise(start, dur, vol, filterFreq, filterType, dest) {
+  function _noise(start, dur, vol, filterFreq, filterType) {
     if (!ctx || muted) return;
-    const d       = dest || _dest();
+    const now     = ctx.currentTime;
+    const t       = Math.max(start, now);
     const samples = Math.ceil(ctx.sampleRate * dur);
     const buf     = ctx.createBuffer(1, samples, ctx.sampleRate);
     const data    = buf.getChannelData(0);
@@ -79,94 +87,111 @@ const SoundManager = (() => {
     const filt = ctx.createBiquadFilter();
     filt.type            = filterType || 'bandpass';
     filt.frequency.value = filterFreq;
-    filt.Q.value         = 1.2;
+    filt.Q.value         = 1.0;
     const g = ctx.createGain();
-    g.gain.setValueAtTime(vol, start);
-    g.gain.exponentialRampToValueAtTime(0.0001, start + dur);
-    g.connect(d);
+    g.gain.setValueAtTime(vol, t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    g.connect(_dest());
     src.connect(filt);
     filt.connect(g);
-    src.start(start);
-    src.stop(start + dur + 0.02);
+    src.start(t);
+    src.stop(t + dur + 0.02);
   }
 
   function _makeMenuLoop() {
     if (!ctx || muted) return null;
     const myGen = _loopGen;
+
     const gain = ctx.createGain();
     gain.gain.setValueAtTime(0, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.55, ctx.currentTime + 2.0);
+    gain.gain.linearRampToValueAtTime(0.4, ctx.currentTime + 2.5);
     gain.connect(_dest());
 
     const filt = ctx.createBiquadFilter();
     filt.type            = 'lowpass';
-    filt.frequency.value = 900;
-    filt.Q.value         = 0.5;
+    filt.frequency.value = 1200;
+    filt.Q.value         = 0.4;
     filt.connect(gain);
 
-    let playing   = true;
-    const BAR     = 6.0; 
-    const chords  = [
+    const BAR    = 6.0;
+    const chords = [
       [130.81, 164.81, 196.00, 246.94], // Cmaj7
       [110.00, 130.81, 164.81, 220.00], // Am7
       [174.61, 220.00, 261.63, 329.63], // Fmaj7
       [196.00, 246.94, 293.66, 392.00], // G7
     ];
-    let chordIdx = 0;
+    let chordIdx  = 0;
+    let nextStart = ctx.currentTime + 0.1;
+    let rafId     = null;
+    let stopped   = false;
+
     function scheduleBar(startTime) {
-      if (!playing || muted || _loopGen !== myGen || !ctx) return;
+      if (stopped || muted || _loopGen !== myGen || !ctx) return;
       const notes = chords[chordIdx % chords.length];
       chordIdx++;
 
+
       notes.forEach((freq, i) => {
+        const t = startTime + i * 0.10;
+
         const o = ctx.createOscillator();
         o.type = 'sine';
-        o.frequency.setValueAtTime(freq, startTime + i * 0.12);
+        o.frequency.setValueAtTime(freq, t);
         const g = ctx.createGain();
-        g.gain.setValueAtTime(0,    startTime + i * 0.12);
-        g.gain.linearRampToValueAtTime(0.22, startTime + i * 0.12 + 0.8);
-        g.gain.linearRampToValueAtTime(0.14, startTime + i * 0.12 + 3.0);
-        g.gain.linearRampToValueAtTime(0,    startTime + BAR - 0.3);
+        g.gain.setValueAtTime(0,    t);
+        g.gain.linearRampToValueAtTime(0.18, t + 0.6);
+        g.gain.linearRampToValueAtTime(0.10, t + 2.5);
+        g.gain.linearRampToValueAtTime(0,    startTime + BAR - 0.4);
         o.connect(g); g.connect(filt);
-        o.start(startTime + i * 0.12);
-        o.stop(startTime + BAR);
+        o.start(t); o.stop(startTime + BAR);
+
 
         const o2 = ctx.createOscillator();
         o2.type = 'triangle';
-        o2.frequency.setValueAtTime(freq * 2, startTime + i * 0.12 + 0.2);
+        o2.frequency.setValueAtTime(freq * 2, t + 0.15);
         const g2 = ctx.createGain();
-        g2.gain.setValueAtTime(0,    startTime + i * 0.12 + 0.2);
-        g2.gain.linearRampToValueAtTime(0.07, startTime + i * 0.12 + 1.0);
-        g2.gain.linearRampToValueAtTime(0,    startTime + BAR - 0.5);
+        g2.gain.setValueAtTime(0,    t + 0.15);
+        g2.gain.linearRampToValueAtTime(0.05, t + 0.9);
+        g2.gain.linearRampToValueAtTime(0,    startTime + BAR - 0.6);
         o2.connect(g2); g2.connect(filt);
-        o2.start(startTime + i * 0.12 + 0.2);
-        o2.stop(startTime + BAR);
+        o2.start(t + 0.15); o2.stop(startTime + BAR);
       });
 
       const sub = ctx.createOscillator();
       sub.type = 'sine';
       sub.frequency.setValueAtTime(notes[0] * 0.5, startTime);
       const subG = ctx.createGain();
-      subG.gain.setValueAtTime(0.35, startTime + 0.1);
-      subG.gain.linearRampToValueAtTime(0.15, startTime + 2.0);
-      subG.gain.linearRampToValueAtTime(0,    startTime + BAR - 0.4);
+      subG.gain.setValueAtTime(0,    startTime);
+      subG.gain.linearRampToValueAtTime(0.25, startTime + 0.3);
+      subG.gain.linearRampToValueAtTime(0.10, startTime + 2.5);
+      subG.gain.linearRampToValueAtTime(0,    startTime + BAR - 0.5);
       sub.connect(subG); subG.connect(filt);
       sub.start(startTime); sub.stop(startTime + BAR);
-
-      if (playing) {
-        setTimeout(() => scheduleBar(ctx ? ctx.currentTime + 0.08 : 0),
-          (BAR - 0.3) * 1000);
-      }
     }
 
-    scheduleBar(ctx.currentTime + 0.15);
+    function tick() {
+      if (stopped || _loopGen !== myGen || !ctx) return;
+      const lookAhead = nextStart - ctx.currentTime;
+      if (lookAhead < 1.5) {
+        scheduleBar(nextStart);
+        nextStart += BAR;
+      }
+      rafId = requestAnimationFrame(tick);
+    }
+
+    scheduleBar(nextStart);
+    nextStart += BAR;
+    scheduleBar(nextStart);
+    nextStart += BAR;
+    rafId = requestAnimationFrame(tick);
 
     return {
-      stop(fade = 0.3) {
-        playing = false;
+      stop(fade = 0.4) {
+        stopped = true;
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
         try {
-          gain.gain.cancelScheduledValues(ctx ? ctx.currentTime : 0);
           if (ctx) {
+            gain.gain.cancelScheduledValues(ctx.currentTime);
             gain.gain.setValueAtTime(gain.gain.value, ctx.currentTime);
             gain.gain.linearRampToValueAtTime(0, ctx.currentTime + fade);
           }
@@ -178,115 +203,112 @@ const SoundManager = (() => {
   function playEat() {
     if (!ctx || muted) return;
     const t = ctx.currentTime;
-    _noise(t, 0.04, 0.7, 1800, 'bandpass', null);
-    _oscSlide('sine', 440, 880, t, 0.12, 0.6, null);
-    _osc('sine', 1320, t + 0.06, 0.08, 0.5, null);
+    _noise(t, 0.04, 0.5, 1800, 'bandpass');
+    _oscSlide('sine', 440, 880, t, 0.10, 0.5);
+    _osc('sine', 1320, t + 0.05, 0.07, 0.4);
   }
 
   function playBonus() {
     if (!ctx || muted) return;
     const t = ctx.currentTime;
     [523, 659, 784, 1047, 1318].forEach((f, i) => {
-      _osc('sine',     f,       t + i * 0.055, 0.22, 0.6, null);
-      _osc('triangle', f * 1.5, t + i * 0.055, 0.15, 0.25, null);
+      _osc('sine',     f,       t + i * 0.055, 0.20, 0.5);
+      _osc('triangle', f * 1.5, t + i * 0.055, 0.12, 0.2);
     });
-    _noise(t, 0.04, 0.8, 5000, 'bandpass', null);
+    _noise(t, 0.04, 0.5, 5000, 'bandpass');
   }
 
   function playPoison() {
     if (!ctx || muted) return;
     const t = ctx.currentTime;
-    _oscSlide('sine',     400, 180, t,       0.35, 0.7, null);
-    _oscSlide('sine',     420, 170, t + 0.03, 0.35, 0.5, null);
-    _noise(t,       0.10, 0.55, 500,  'bandpass', null);
-    _noise(t + 0.12, 0.15, 0.4, 300, 'lowpass',  null);
-    _oscSlide('sawtooth', 160, 80, t + 0.1, 0.3, 0.45, null);
+    _oscSlide('sine',     400, 180, t,        0.30, 0.6);
+    _oscSlide('sine',     420, 170, t + 0.03, 0.28, 0.4);
+    _noise(t,        0.10, 0.4, 500, 'bandpass');
+    _noise(t + 0.12, 0.15, 0.3, 300, 'lowpass');
+    _oscSlide('sawtooth', 160, 80, t + 0.1, 0.28, 0.35);
   }
 
   function playPoisonDeath() {
     if (!ctx || muted) return;
     const t = ctx.currentTime;
-    _oscSlide('sawtooth', 340, 40,  t,        0.55, 0.9, null);
-    _oscSlide('sawtooth', 320, 35,  t + 0.04, 0.55, 0.7, null);
-    _noise(t,        0.15, 0.8,  600, 'bandpass', null);
-    _noise(t + 0.15, 0.3,  0.55, 200, 'lowpass',  null);
-    _oscSlide('sine', 800, 60, t + 0.2, 0.6, 0.5, null);
+    _oscSlide('sawtooth', 340, 40,  t,        0.50, 0.7);
+    _oscSlide('sawtooth', 320, 35,  t + 0.04, 0.45, 0.6);
+    _noise(t,        0.15, 0.6, 600, 'bandpass');
+    _noise(t + 0.15, 0.3,  0.4, 200, 'lowpass');
+    _oscSlide('sine', 800, 60, t + 0.2, 0.5, 0.4);
   }
 
   function playMagnet() {
     if (!ctx || muted) return;
     const t = ctx.currentTime;
-    _oscSlide('square', 140, 420, t,       0.22, 0.6, null);
-    _oscSlide('square', 420, 140, t + 0.22, 0.22, 0.5, null);
-    _noise(t, 0.06, 0.45, 6000, 'highpass', null);
+    _oscSlide('square', 140, 420, t,        0.20, 0.45);
+    _oscSlide('square', 420, 140, t + 0.22, 0.20, 0.4);
+    _noise(t, 0.06, 0.3, 6000, 'highpass');
   }
 
   function playFreeze() {
     if (!ctx || muted) return;
     const t = ctx.currentTime;
     [1400, 1800, 2200, 2800, 3400, 2000].forEach((f, i) => {
-      _osc('sine',     f,       t + i * 0.04, 0.20, 0.55, null);
-      _osc('triangle', f * 0.5, t + i * 0.04, 0.15, 0.3,  null);
+      _osc('sine',     f,       t + i * 0.04, 0.18, 0.45);
+      _osc('triangle', f * 0.5, t + i * 0.04, 0.12, 0.25);
     });
-    _noise(t,       0.06, 0.65, 5000, 'highpass', null);
-    _noise(t + 0.1, 0.10, 0.4,  2500, 'bandpass', null);
+    _noise(t,       0.06, 0.45, 5000, 'highpass');
+    _noise(t + 0.1, 0.10, 0.3,  2500, 'bandpass');
   }
 
   function playWarp() {
     if (!ctx || muted) return;
     const t = ctx.currentTime;
-    _oscSlide('sine', 160, 1400, t,       0.20, 0.7, null);
-    _oscSlide('sine', 1400, 160, t + 0.20, 0.20, 0.6, null);
-    _osc('triangle', 700, t + 0.08, 0.18, 0.5, null);
-    _noise(t + 0.05, 0.12, 0.35, 900, 'bandpass', null);
+    _oscSlide('sine', 160,  1400, t,        0.18, 0.55);
+    _oscSlide('sine', 1400, 160,  t + 0.20, 0.18, 0.5);
+    _osc('triangle', 700, t + 0.08, 0.15, 0.4);
+    _noise(t + 0.05, 0.12, 0.28, 900, 'bandpass');
   }
 
   function playCombo(multiplier) {
     if (!ctx || muted) return;
     const t    = ctx.currentTime;
     const base = 380 * Math.pow(1.22, multiplier - 2);
-    _osc('sine',     base,        t,        0.16, 0.75, null);
-    _osc('sine',     base * 1.25, t + 0.06, 0.13, 0.65, null);
-    _osc('sine',     base * 1.5,  t + 0.12, 0.11, 0.55, null);
-    _osc('triangle', base * 2,    t + 0.04, 0.09, 0.4,  null);
-    if (multiplier >= 4) _noise(t, 0.04, 0.5, 4000, 'bandpass', null);
+    _osc('sine',     base,        t,        0.14, 0.6);
+    _osc('sine',     base * 1.25, t + 0.06, 0.11, 0.5);
+    _osc('sine',     base * 1.5,  t + 0.12, 0.09, 0.4);
+    _osc('triangle', base * 2,    t + 0.04, 0.07, 0.3);
+    if (multiplier >= 4) _noise(t, 0.04, 0.35, 4000, 'bandpass');
   }
 
   function playWallHit() {
     if (!ctx || muted) return;
     const t = ctx.currentTime;
-    _oscSlide('sine', 220, 30, t, 0.3, 1.1, null);
-    _noise(t,       0.18, 1.0,  180,  'lowpass',  null);
-    _noise(t,       0.08, 0.8,  2000, 'bandpass', null);
-    _noise(t + 0.1, 0.12, 0.5,  800,  'bandpass', null);
-    _osc('sine',     80,  t,       0.35, 1.0, null);
-    _osc('triangle', 1200, t,      0.06, 0.6, null);
+    _oscSlide('sine', 220, 30, t, 0.28, 0.9);
+    _noise(t,       0.18, 0.7,  180,  'lowpass');
+    _noise(t,       0.08, 0.55, 2000, 'bandpass');
+    _noise(t + 0.1, 0.12, 0.35, 800,  'bandpass');
+    _osc('sine',     80,   t,      0.30, 0.8);
+    _osc('triangle', 1200, t,      0.05, 0.45);
   }
 
   function playSelfHit() {
     if (!ctx || muted) return;
     const t = ctx.currentTime;
-    _oscSlide('sawtooth', 800, 35,  t,        0.55, 0.9,  null);
-    _oscSlide('sawtooth', 650, 25,  t + 0.05, 0.45, 0.75, null);
-    _noise(t,        0.06, 0.9,  1200, 'bandpass', null);
-    _noise(t + 0.06, 0.20, 0.65, 500,  'lowpass',  null);
-    _noise(t + 0.18, 0.25, 0.4,  300,  'lowpass',  null);
-    _oscSlide('sine', 1400, 200, t + 0.02, 0.25, 0.5, null);
+    _oscSlide('sawtooth', 800, 35,  t,        0.50, 0.75);
+    _oscSlide('sawtooth', 650, 25,  t + 0.05, 0.40, 0.6);
+    _noise(t,        0.06, 0.65, 1200, 'bandpass');
+    _noise(t + 0.06, 0.20, 0.5,  500,  'lowpass');
+    _noise(t + 0.18, 0.25, 0.3,  300,  'lowpass');
+    _oscSlide('sine', 1400, 200, t + 0.02, 0.22, 0.4);
   }
 
   function playWin() {
     if (!ctx || muted) return;
     const t = ctx.currentTime;
     [261.63, 329.63, 392.00, 523.25, 659.25, 783.99].forEach((f, i) => {
-      _osc('sine',     f,     t + i * 0.08, 0.4,  0.7, null);
-      _osc('triangle', f * 2, t + i * 0.08, 0.25, 0.5, null);
+      _osc('sine',     f,     t + i * 0.08, 0.35, 0.6);
+      _osc('triangle', f * 2, t + i * 0.08, 0.20, 0.4);
     });
-    setTimeout(() => {
-      if (!ctx || muted) return;
-      const t2 = ctx.currentTime;
-      [523.25, 659.25, 783.99].forEach(f => _osc('sine', f, t2, 1.2, 0.4, null));
-      _noise(t2, 0.08, 0.6, 5000, 'bandpass', null);
-    }, 520);
+    const t2 = t + 0.52;
+    [523.25, 659.25, 783.99].forEach(f => _osc('sine', f, t2, 1.1, 0.35));
+    _noise(t2, 0.08, 0.45, 5000, 'bandpass');
   }
 
   function playLose() {
@@ -299,43 +321,48 @@ const SoundManager = (() => {
       [155.56, 0.62],
       [130.81, 0.86],
     ].forEach(([freq, delay]) => {
-      _osc('sine',     freq,     t + delay, 1.1,  0.6,  null);
-      _osc('triangle', freq * 2, t + delay, 0.8,  0.35, null);
-      _osc('sine',     freq / 2, t + delay, 0.65, 0.25, null);
+      _osc('sine',     freq,     t + delay, 1.0,  0.5);
+      _osc('triangle', freq * 2, t + delay, 0.7,  0.28);
+      _osc('sine',     freq / 2, t + delay, 0.55, 0.20);
     });
-    _noise(t + 0.5, 0.9, 0.65, 100, 'lowpass',  null);
-    _noise(t + 0.7, 0.6, 0.45, 280, 'bandpass', null);
-    _oscSlide('sine', 120, 20, t + 1.0, 0.6, 0.8, null);
+    _noise(t + 0.5, 0.9, 0.5, 100, 'lowpass');
+    _noise(t + 0.7, 0.6, 0.35, 280, 'bandpass');
+    _oscSlide('sine', 120, 20, t + 1.0, 0.55, 0.6);
   }
 
   function playPause() {
     if (!ctx || muted) return;
     const t = ctx.currentTime;
-    _osc('sine', 900, t,        0.09, 0.55, null);
-    _osc('sine', 680, t + 0.10, 0.09, 0.55, null);
+    _osc('sine', 900, t,        0.08, 0.45);
+    _osc('sine', 680, t + 0.10, 0.08, 0.45);
   }
 
   function playResume() {
     if (!ctx || muted) return;
     const t = ctx.currentTime;
-    _osc('sine', 680, t,        0.09, 0.55, null);
-    _osc('sine', 900, t + 0.10, 0.09, 0.55, null);
+    _osc('sine', 680, t,        0.08, 0.45);
+    _osc('sine', 900, t + 0.10, 0.08, 0.45);
   }
 
   function startMenu() {
     _screen = 'menu';
     _init();
+    _resumeCtx();
     if (menuLoop) { menuLoop.stop(0.05); menuLoop = null; }
     if (!muted) {
       setTimeout(() => {
-        if (_screen === 'menu' && !muted) menuLoop = _makeMenuLoop();
-      }, 200);
+        if (_screen === 'menu' && !muted && ctx) {
+          if (ctx.state === 'suspended') ctx.resume().then(() => { menuLoop = _makeMenuLoop(); });
+          else menuLoop = _makeMenuLoop();
+        }
+      }, 150);
     }
   }
 
   function startGame() {
     _screen = 'game';
     _init();
+    _resumeCtx();
     if (menuLoop) { menuLoop.stop(0.3); menuLoop = null; }
     _loopGen++;
   }
@@ -351,8 +378,10 @@ const SoundManager = (() => {
       stopAll(0.15);
     } else {
       _init();
-      if (ctx.state === 'suspended') ctx.resume();
-      if (_screen === 'menu' && !menuLoop) menuLoop = _makeMenuLoop();
+      _resumeCtx();
+      ctx.resume().then(() => {
+        if (_screen === 'menu' && !menuLoop) menuLoop = _makeMenuLoop();
+      }).catch(() => {});
     }
     return muted;
   }
@@ -365,47 +394,51 @@ const SoundManager = (() => {
     _init();
 
     const tryPlay = () => {
-      if (muted) return;
-      if (ctx.state === 'suspended') ctx.resume();
-      if (_screen === 'menu' && !menuLoop) menuLoop = _makeMenuLoop();
+      if (muted || !ctx) return;
+      ctx.resume().then(() => {
+        if (_screen === 'menu' && !menuLoop) menuLoop = _makeMenuLoop();
+      }).catch(() => {});
     };
 
     if (ctx.state === 'running') { tryPlay(); return; }
-
-    const onFirst = () => {
-      tryPlay();
-      document.removeEventListener('pointerdown', onFirst);
-      document.removeEventListener('keydown',     onFirst);
-      document.removeEventListener('click',       onFirst);
-    };
-    document.addEventListener('pointerdown', onFirst);
-    document.addEventListener('keydown',     onFirst);
-    document.addEventListener('click',       onFirst);
+    document.addEventListener('pointerdown', tryPlay, { once: true });
+    document.addEventListener('touchstart',  tryPlay, { once: true });
+    document.addEventListener('click',       tryPlay, { once: true });
   }
+
 
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
-      _destroyCtx();
+      _suspendCtx();
     } else if (!muted) {
       setTimeout(() => {
         if (muted) return;
-        _init();
-        if (_screen === 'menu' && !menuLoop) menuLoop = _makeMenuLoop();
-      }, 150);
+        _resumeCtx();
+        if (ctx) {
+          ctx.resume().then(() => {
+            if (_screen === 'menu' && !menuLoop) menuLoop = _makeMenuLoop();
+          }).catch(() => {});
+        }
+      }, 200);
     }
   });
 
+
   window.addEventListener('blur', () => {
-    _destroyCtx();
+    if (menuLoop) { menuLoop.stop(0.2); menuLoop = null; }
+    if (ctx && ctx.state === 'running') {
+      try { ctx.suspend(); } catch(e) {}
+    }
   });
 
   window.addEventListener('focus', () => {
     if (!muted) {
       setTimeout(() => {
-        if (muted) return;
-        _init();
-        if (_screen === 'menu' && !menuLoop) menuLoop = _makeMenuLoop();
-      }, 150);
+        if (muted || !ctx) return;
+        ctx.resume().then(() => {
+          if (_screen === 'menu' && !menuLoop) menuLoop = _makeMenuLoop();
+        }).catch(() => {});
+      }, 200);
     }
   });
 
