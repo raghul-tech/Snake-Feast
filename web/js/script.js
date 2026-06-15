@@ -81,10 +81,7 @@ function togglePause() {
   }
 }
 function resetHS() {
-  ['easy','medium','hard'].forEach(m => {
-    G.hs[m] = 0;
-    localStorage.setItem('sfHs_' + m, 0);
-  });
+  ScoreManager.reset(G.mode);
   document.getElementById('hv-hs').textContent = '0';
 }
 function spawnScorePop(txt, hexColor, canvasPixelX, canvasPixelY) {
