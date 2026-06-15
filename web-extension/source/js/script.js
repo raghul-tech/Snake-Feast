@@ -21,46 +21,72 @@ const ACHIEVEMENTS = [
   { id:'len15',   ico:'🐍', name:'Slitherer',       desc:'Snake length 15'           },
   { id:'len30',   ico:'🐉', name:'Great Serpent',   desc:'Snake length 30'           },
 ];
+
 let G = {
   mode:      'easy',
   snakeCol:  0x00ff88,
   unlocked:  JSON.parse(localStorage.getItem('sfUnlocked') || '[]'),
-  hs:        {
-    easy:   parseInt(localStorage.getItem('sfHs_easy')   || '0'),
-    medium: parseInt(localStorage.getItem('sfHs_medium') || '0'),
-    hard:   parseInt(localStorage.getItem('sfHs_hard')   || '0'),
-  },
+  hs:        { easy: 0, medium: 0, hard: 0 },
 };
+
+ScoreManager.loadAll((scores) => {
+  G.hs = scores;
+  const el = document.getElementById('hv-hs');
+  if (el) el.textContent = scores[G.mode] || 0;
+});
+
 function setMode(m, btn) {
   G.mode = m;
   document.querySelectorAll('.pill').forEach(p => p.classList.remove('on'));
   btn.classList.add('on');
+  ScoreManager.loadAll((scores) => {
+    G.hs = scores;
+    const el = document.getElementById('hv-hs');
+    if (el) el.textContent = scores[G.mode] || 0;
+  });
   document.getElementById('hud-mode').textContent = m.toUpperCase();
 }
+
 function pickColor(btn) {
   G.snakeCol = parseInt(btn.dataset.hex, 16);
   document.querySelectorAll('.cdot').forEach(d => d.classList.remove('on'));
   btn.classList.add('on');
   if (window.GAME_SCENE) window.GAME_SCENE.snakeCol = G.snakeCol;
 }
+
+function _syncPauseBtn() {
+  const btn     = document.getElementById('btn-pause');
+  const running = window.GAME_SCENE && window.GAME_SCENE.running;
+  btn.style.display = running ? '' : 'none';
+}
+
 function doStart() {
   document.getElementById('scr-start').classList.remove('visible');
   document.getElementById('scr-over').classList.remove('visible');
+  SoundManager.startGame();
   if (window.GAME_SCENE) window.GAME_SCENE.restartGame();
+  _syncPauseBtn();
 }
+
 function showStart() {
   document.getElementById('scr-over').classList.remove('visible');
   document.getElementById('scr-start').classList.add('visible');
+  SoundManager.startMenu();
   if (window.GAME_SCENE) window.GAME_SCENE.stopGame();
+  _syncPauseBtn();
 }
+
 function togglePause() {
-  if (window.GAME_SCENE) window.GAME_SCENE.togglePause();
+  if (window.GAME_SCENE && window.GAME_SCENE.running) {
+    const willPause = !window.GAME_SCENE.paused;
+    window.GAME_SCENE.togglePause();
+    if (willPause) SoundManager.playPause();
+    else           SoundManager.playResume();
+  }
 }
+
 function resetHS() {
-  ['easy','medium','hard'].forEach(m => {
-    G.hs[m] = 0;
-    localStorage.setItem('sfHs_' + m, 0);
-  });
+  ScoreManager.resetAll(G.mode);
   document.getElementById('hv-hs').textContent = '0';
 }
 function spawnScorePop(txt, hexColor, canvasPixelX, canvasPixelY) {
@@ -124,6 +150,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.cdot').forEach(btn => {
     btn.addEventListener('click', () => pickColor(btn));
+  });
+   SoundManager.autoStart();
+   document.getElementById('btn-pause').style.display = 'none';
+  document.getElementById('btn-mute').addEventListener('click', () => {
+    const m = SoundManager.toggleMute();
+    document.getElementById('btn-mute').textContent = m ? '🔇' : '🔊';
   });
   setTimeout(() => {
     const game = new Phaser.Game({
