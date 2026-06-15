@@ -86,10 +86,8 @@ function togglePause() {
 }
 
 function resetHS() {
-  ScoreManager.resetAll();
-  G.hs = { easy: 0, medium: 0, hard: 0 };
+  ScoreManager.resetAll(G.mode);
   document.getElementById('hv-hs').textContent = '0';
-  document.getElementById('go-hs-val') && (document.getElementById('go-hs-val').textContent = '0');
 }
 function spawnScorePop(txt, hexColor, canvasPixelX, canvasPixelY) {
   const area  = document.getElementById('game-area');
@@ -152,6 +150,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.cdot').forEach(btn => {
     btn.addEventListener('click', () => pickColor(btn));
+  });
+   SoundManager.autoStart();
+   document.getElementById('btn-pause').style.display = 'none';
+  document.getElementById('btn-mute').addEventListener('click', () => {
+    const m = SoundManager.toggleMute();
+    document.getElementById('btn-mute').textContent = m ? '🔇' : '🔊';
   });
   setTimeout(() => {
     const game = new Phaser.Game({

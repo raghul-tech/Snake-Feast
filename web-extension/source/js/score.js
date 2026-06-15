@@ -12,10 +12,14 @@ const ScoreManager = (() => {
     localStorage.setItem('sfHs_' + mode, String(value));
   }
 
-  function resetAll() {
-    ['easy', 'medium', 'hard'].forEach(m => {
-      localStorage.setItem('sfHs_' + m, '0');
-    });
+  function resetAll(mode) {
+    if (mode) {
+      localStorage.setItem('sfHs_' + mode, '0');
+    } else {
+      ['easy', 'medium', 'hard'].forEach(m => {
+        localStorage.setItem('sfHs_' + m, '0');
+      });
+    }
   }
 
   return { loadAll, saveOne, resetAll };
