@@ -1,10 +1,12 @@
-const CACHE_NAME = 'snake-feast-cache-v1';
+const CACHE_NAME = 'snake-feast-cache-v2';
 const urlsToCache = [
   './',
   './index.html',
   './css/googlefonts.css',
   './css/style.css',
+  './js/sound.js',
   './js/phaser.min.js',
+  './js/score.js',
   './js/script.js',
   './js/scene.js',
   './README.md',
