@@ -94,8 +94,8 @@ function togglePause() {
   }
 }
 function resetHS() {
-  ['easy','medium','hard'].forEach(m => G.hs[m] = 0);
-  vscode.postMessage({ command: 'resetHS' });
+  G.hs[G.mode] = 0;
+  vscode.postMessage({ command: 'resetHS', mode: G.mode });
   document.getElementById('hv-hs').textContent = '0';
 }
 function spawnScorePop(txt, hexColor, canvasPixelX, canvasPixelY) {

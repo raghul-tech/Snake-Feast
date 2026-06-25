@@ -112,12 +112,16 @@ const csp = `
             context.globalState.update('sfMuted', message.value);
             break;
         case 'resetHS':
-            ['easy','medium','hard'].forEach(m => context.globalState.update('sfHs_' + m, 0));
+            context.globalState.update('sfHs_' + message.mode, 0);
             panel.webview.postMessage({
                 command: 'stateLoaded',
                 state: {
-                    hs: { easy: 0, medium: 0, hard: 0 },
-                    unlocked: context.globalState.get('sfUnlocked', []),
+                    hs: {
+                        easy:   context.globalState.get('sfHs_easy',   0),
+                        medium: context.globalState.get('sfHs_medium', 0),
+                        hard:   context.globalState.get('sfHs_hard',   0),
+                    },
+                    unlocked:   context.globalState.get('sfUnlocked', []),
                     soundMuted: context.globalState.get('sfMuted', false),
                 }
             });
