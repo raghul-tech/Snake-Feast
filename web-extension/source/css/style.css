@@ -86,6 +86,23 @@ html, body {
 }
 #btn-pause:hover { border-color: #00ffaa; color: #00ffaa; }
 
+#btn-mute {
+    background: transparent;
+    border: 1px solid rgba(0, 255, 170, 0.3);
+    color: #00ffaa;
+    font-size: 13px;
+    font-family: 'Orbitron', monospace;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+}
+
+#btn-mute:hover {
+    background: rgba(0, 255, 170, 0.1);
+    border-color: #00ffaa;
+}
+
 #game-area {
   position: relative;
   flex: 1;
