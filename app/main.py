@@ -129,29 +129,38 @@ def clamp_to_screen(x, y, w, h, geo):
     """Clamp window position and size to screen bounds."""
 
     sx, sy, sw, sh = geo.x(), geo.y(), geo.width(), geo.height()
-    visible_x = max(0, min(x + w, sx + sw) - max(x, sx))
-    visible_y = max(0, min(y + h, sy + sh) - max(y, sy))
-    
-    if visible_x < 100 or visible_y < 50:
-        x = sx + max(EDGE_MARGIN, (sw - w) // 2)
-        y = sy + max(EDGE_MARGIN, (sh - h) // 2)
-    
-    return (
-        x,
-        y,
-        min(w, sw - 2 * EDGE_MARGIN),
-        min(h, sh - 2 * EDGE_MARGIN)
+    title_bar_visible = (
+        x >= sx - w + 100 and
+        x <= sx + sw - 100 and
+        y >= sy and
+        y <= sy + sh - 50
     )
+    if not title_bar_visible:
+        w = min(w, sw - 2 * EDGE_MARGIN)
+        h = min(h, sh - 2 * EDGE_MARGIN)
+        x = sx + (sw - w) // 2
+        y = sy + (sh - h) // 2
+    else:
+        w = min(w, sw - 2 * EDGE_MARGIN)
+        h = min(h, sh - 2 * EDGE_MARGIN)
+    x = max(sx + EDGE_MARGIN, min(x, sx + sw - w - EDGE_MARGIN))
+    y = max(sy + EDGE_MARGIN, min(y, sy + sh - h - EDGE_MARGIN))
+    return x, y, w, h
 
 
 def default_geometry(geo):
     """Calculate default window geometry based on screen size."""
 
     sw, sh = geo.width(), geo.height()
-    zoom = max(0.6, min(1.25, min(sw / DESIGN_WIDTH, sh / DESIGN_HEIGHT)))
-    w, h = max(900, int(sw * 0.90)), max(650, int(sh * 0.90))
-    x = min(geo.x() + max(EDGE_MARGIN, (sw - w) // 2), geo.x() + sw - w - EDGE_MARGIN)
-    y = min(geo.y() + max(EDGE_MARGIN, (sh - h) // 2), geo.y() + sh - h - EDGE_MARGIN)
+    w = max(900, min(int(sw * 0.85), sw - 2 * EDGE_MARGIN))
+    h = max(650, min(int(sh * 0.85), sh - 2 * EDGE_MARGIN))
+    w = min(w, sw - 2 * EDGE_MARGIN)
+    h = min(h, sh - 2 * EDGE_MARGIN)
+    x = geo.x() + (sw - w) // 2
+    y = geo.y() + (sh - h) // 2
+    x = max(geo.x() + EDGE_MARGIN, min(x, geo.x() + sw - w - EDGE_MARGIN))
+    y = max(geo.y() + EDGE_MARGIN, min(y, geo.y() + sh - h - EDGE_MARGIN))
+    zoom = max(0.5, min(1.0, min(sw / DESIGN_WIDTH, sh / DESIGN_HEIGHT)))
     return x, y, w, h, zoom
 
 
@@ -278,16 +287,17 @@ class MainWindow(QMainWindow):
 
         screen = QApplication.primaryScreen()
         geo = screen.availableGeometry()
-        
         saved = load_window_state()
         if saved:
-            x, y, w, h = clamp_to_screen(saved["x"], saved["y"], saved["w"], saved["h"], geo)
-            self._zoom = max(0.6, min(1.25, min(geo.width() / DESIGN_WIDTH, geo.height() / DESIGN_HEIGHT)))
-            self._start_maximised = saved["maximised"]
+            x, y, w, h = clamp_to_screen(
+                saved["x"], saved["y"], saved["w"], saved["h"], geo
+            )
+            sw, sh = geo.width(), geo.height()
+            self._zoom = max(0.5, min(1.0, min(sw / DESIGN_WIDTH, sh / DESIGN_HEIGHT)))
+            self._start_maximised = saved.get("maximised", False)
         else:
             x, y, w, h, self._zoom = default_geometry(geo)
             self._start_maximised = False
-        
         self.setGeometry(x, y, w, h)
     
     def showEvent(self, event):
