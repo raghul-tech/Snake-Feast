@@ -2,6 +2,7 @@ import sys
 import os
 import json
 import ctypes
+import tempfile
 
 os.environ["QTWEBENGINE_CHROMIUM_FLAGS"] = " ".join([
     "--disable-web-security",
@@ -18,7 +19,7 @@ os.environ["QTWEBENGINE_DISABLE_SANDBOX"] = "1"
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineSettings, QWebEngineProfile
 from PyQt5.QtWebChannel import QWebChannel
-from PyQt5.QtCore import QUrl, Qt, QObject, pyqtSlot
+from PyQt5.QtCore import QUrl, Qt, QObject, pyqtSlot, QTimer
 from PyQt5.QtGui import QIcon, QColor, QPalette
 from utils import DESKTOP_JS
 
@@ -74,7 +75,7 @@ except RuntimeError:
     DATA_DIR = os.getcwd()
 
 SCORE_FILE = os.path.join(DATA_DIR, "scores.json")
-WINDOW_FILE = os.path.join(DATA_DIR, "window.json")
+WINDOW_FILE = os.path.join(DATA_DIR, "windowwer.json")
 
 
 def load_scores():
@@ -315,7 +316,6 @@ class MainWindow(QMainWindow):
         if ok:
             self.view.setZoomFactor(self._zoom)
             self.view.page().runJavaScript(DESKTOP_JS)
-            from PyQt5.QtCore import QTimer
             QTimer.singleShot(80, lambda: self.view.setVisible(True))
         else:
             self.view.setVisible(True)

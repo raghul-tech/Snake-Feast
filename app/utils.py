@@ -6,29 +6,29 @@ DESKTOP_CSS = """
         text-rendering: optimizeLegibility !important;
     }
     .card {
-        gap: 22px !important;
-        padding: 32px 28px !important;
-        max-height: 85vh !important;
+        gap: 26px !important;
+        padding: 38px 34px !important;
+        max-height: 90vh !important;
         line-height: 2.6 !important;
     }
     .game-title {
-        font-size: 28px !important;
-        letter-spacing: 4px !important;
+        font-size: 36px !important;
+        letter-spacing: 5px !important;
         line-height: 1.2 !important;
     }
     .sub {
-        font-size: 11px !important;
+        font-size: 13px !important;
         letter-spacing: 4px !important;
         margin-top: -6px !important;
         line-height: 1.5 !important;
     }
     .pills {
-        gap: 8px !important;
-        padding: 5px !important;
+        gap: 10px !important;
+        padding: 6px !important;
     }
     .pill {
-        padding: 8px 16px !important;
-        font-size: 11px !important;
+        padding: 10px 22px !important;
+        font-size: 13px !important;
         letter-spacing: 1.5px !important;
         line-height: 1.4 !important;
     }
@@ -58,54 +58,54 @@ DESKTOP_CSS = """
         font-size: 15px !important;
     }
     .color-row {
-        gap: 12px !important;
+        gap: 14px !important;
     }
     .color-lbl {
-        font-size: 10px !important;
+        font-size: 12px !important;
         letter-spacing: 2.5px !important;
         line-height: 1.5 !important;
     }
     .cdots {
-        gap: 10px !important;
+        gap: 12px !important;
     }
     .cdot {
-        width: 24px !important;
-        height: 24px !important;
+        width: 28px !important;
+        height: 28px !important;
     }
     .btn-start {
-        padding: 16px 0 !important;
-        font-size: 14px !important;
+        padding: 20px 0 !important;
+        font-size: 16px !important;
         letter-spacing: 2.5px !important;
-        gap: 5px !important;
+        gap: 6px !important;
         line-height: 1.4 !important;
     }
     .btn-start small {
-        font-size: 10px !important;
+        font-size: 11px !important;
         line-height: 1.6 !important;
         letter-spacing: 1.5px !important;
     }
     .btn-menu {
-        padding: 9px 20px !important;
-        font-size: 12px !important;
+        padding: 11px 24px !important;
+        font-size: 13px !important;
         letter-spacing: 1px !important;
         line-height: 1.4 !important;
     }
     .legend {
-        gap: 12px !important;
-        row-gap: 10px !important;
+        gap: 14px !important;
+        row-gap: 12px !important;
     }
     .leg {
-        font-size: 10px !important;
-        gap: 6px !important;
+        font-size: 12px !important;
+        gap: 8px !important;
         line-height: 1.6 !important;
     }
     .legdot {
-        width: 9px !important;
-        height: 9px !important;
+        width: 10px !important;
+        height: 10px !important;
         flex-shrink: 0 !important;
     }
     .go-label {
-        font-size: 12px !important;
+        font-size: 14px !important;
         letter-spacing: 5px !important;
         line-height: 1.5 !important;
     }
@@ -114,27 +114,27 @@ DESKTOP_CSS = """
         margin-bottom: 2px !important;
     }
     .go-pts {
-        font-size: 10px !important;
+        font-size: 12px !important;
         letter-spacing: 4px !important;
         margin-top: 4px !important;
         line-height: 1.5 !important;
     }
     .go-hs {
-        font-size: 12px !important;
+        font-size: 14px !important;
         line-height: 1.6 !important;
     }
     .go-cause {
-        font-size: 10px !important;
+        font-size: 12px !important;
         line-height: 1.6 !important;
-        min-height: 16px !important;
+        min-height: 18px !important;
     }
     #t-name {
-        font-size: 11px !important;
+        font-size: 13px !important;
         line-height: 1.5 !important;
         letter-spacing: 1.5px !important;
     }
     #t-desc {
-        font-size: 10px !important;
+        font-size: 11px !important;
         margin-top: 3px !important;
         line-height: 1.5 !important;
     }
