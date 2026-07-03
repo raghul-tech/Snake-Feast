@@ -75,7 +75,7 @@ except RuntimeError:
     DATA_DIR = os.getcwd()
 
 SCORE_FILE = os.path.join(DATA_DIR, "scores.json")
-WINDOW_FILE = os.path.join(DATA_DIR, "windowwer.json")
+WINDOW_FILE = os.path.join(DATA_DIR, "window.json")
 
 
 def load_scores():
