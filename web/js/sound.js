@@ -359,6 +359,17 @@ const SoundManager = (() => {
 
   function isMuted() { return muted; }
 
+  function setMute(mute) {
+    muted = mute;
+    if (muted) {
+      stopAll(0.15);
+    } else {
+      _init();
+      if (ctx.state === 'suspended') ctx.resume();
+      if (_screen === 'menu' && !menuLoop) menuLoop = _makeMenuLoop();
+    }
+  }
+
   function autoStart() {
     if (_started) return;
     _started = true;
@@ -412,7 +423,7 @@ const SoundManager = (() => {
   return {
     autoStart,
     startMenu, startGame, stopAll,
-    toggleMute, isMuted,
+    toggleMute, isMuted, setMute,
     playEat, playBonus, playPoison, playPoisonDeath,
     playMagnet, playFreeze, playWarp, playCombo,
     playWallHit, playSelfHit, playWin, playLose,

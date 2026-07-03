@@ -89,10 +89,11 @@ def load_scores():
                     "easy":   int(data.get("easy",   0)),
                     "medium": int(data.get("medium", 0)),
                     "hard":   int(data.get("hard",   0)),
+                    "mute":   bool(data.get("mute",   False)),
                 }
         except Exception:
             pass
-    return {"easy": 0, "medium": 0, "hard": 0}
+    return {"easy": 0, "medium": 0, "hard": 0, "mute": False}
 
 
 def save_scores(scores: dict):
@@ -205,6 +206,15 @@ class ScoreBridge(QObject):
         if value > scores.get(mode, 0):
             scores[mode] = value
             save_scores(scores)
+    
+    @pyqtSlot(bool)
+    def setMute(self, mute: bool):
+        """Set the mute state."""
+        
+        scores = load_scores()
+        scores["mute"] = mute
+        save_scores(scores)
+
 
 
 class MainWindow(QMainWindow):

@@ -1,4 +1,4 @@
-const T = 20;
+﻿const T = 20;
 const SPEEDS = { easy: 160, medium: 120, hard: 80 };
 const FOOD_TYPES = {
   normal: { col: 0x38bdf8, ring: 0x0ea5e9, pts:  1, blink: false },
@@ -26,12 +26,17 @@ let G = {
   snakeCol:  0x00ff88,
   unlocked:  JSON.parse(localStorage.getItem('sfUnlocked') || '[]'),
   hs:       { easy: 0, medium: 0, hard: 0 }, 
+  muted:    false,
    
 };
   ScoreManager.loadAll((scores) => {
     G.hs = scores;
+  G.muted = scores.mute || false;
+  SoundManager.setMute(G.muted);
     const el = document.getElementById('hv-hs');
     if (el) el.textContent = scores[G.mode] || 0;
+  const muteBtn = document.getElementById('btn-mute');
+  if (muteBtn) muteBtn.textContent = G.muted ? '🔇' : '🔊';
   });
 function setMode(m, btn) {
   G.mode = m;
@@ -138,6 +143,8 @@ window.addEventListener('DOMContentLoaded', () => {
    document.getElementById('btn-pause').style.display = 'none';
   document.getElementById('btn-mute').addEventListener('click', () => {
     const m = SoundManager.toggleMute();
+    G.muted = m;
+    ScoreManager.saveMute(m);
     document.getElementById('btn-mute').textContent = m ? '🔇' : '🔊';
   });
   const area = document.getElementById('game-area');
