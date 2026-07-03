@@ -54,5 +54,9 @@ const ScoreManager = (() => {
     }
   }
 
-  return { loadAll, saveOne, IS_DESKTOP };
+  function reset(mode){
+    saveOne(mode, 0);
+  }
+
+  return { loadAll, saveOne, IS_DESKTOP, reset };
 })();

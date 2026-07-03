@@ -86,7 +86,7 @@ function togglePause() {
 }
 
 function resetHS() {
-  ScoreManager.resetAll(G.mode);
+  ScoreManager.reset(G.mode);
   document.getElementById('hv-hs').textContent = '0';
 }
 function spawnScorePop(txt, hexColor, canvasPixelX, canvasPixelY) {
