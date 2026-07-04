@@ -97,16 +97,12 @@ const csp = `
                         medium: context.globalState.get('sfHs_medium', 0),
                         hard:   context.globalState.get('sfHs_hard',   0),
                     },
-                    unlocked: context.globalState.get('sfUnlocked', []),
                     soundMuted: context.globalState.get('sfMuted', false),
                 }
             });
             break;
         case 'saveHs':
             context.globalState.update('sfHs_' + message.mode, message.value);
-            break;
-        case 'saveUnlocked':
-            context.globalState.update('sfUnlocked', message.value);
             break;
         case 'saveMuted':
             context.globalState.update('sfMuted', message.value);

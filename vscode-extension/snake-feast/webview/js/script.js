@@ -50,10 +50,6 @@ function saveHs(mode, value) {
   vscode.postMessage({ command: 'saveHs', mode, value });
 }
 
-function saveUnlocked() {
-  vscode.postMessage({ command: 'saveUnlocked', value: G.unlocked });
-}
-
 function setMode(m, btn) {
   G.mode = m;
   document.querySelectorAll('.pill').forEach(p => p.classList.remove('on'));
@@ -135,7 +131,6 @@ function _nextToast() {
 function unlockAch(id) {
   if (G.unlocked.includes(id)) return;
   G.unlocked.push(id);
-  saveUnlocked();                               // persists via extension
   const a = ACHIEVEMENTS.find(x => x.id === id);
   if (a) achievementToast(a.ico, a.name, a.desc);
 }

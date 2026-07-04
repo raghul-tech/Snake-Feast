@@ -5,6 +5,7 @@ const ScoreManager = (() => {
       easy:   parseInt(localStorage.getItem('sfHs_easy')   || '0'),
       medium: parseInt(localStorage.getItem('sfHs_medium') || '0'),
       hard:   parseInt(localStorage.getItem('sfHs_hard')   || '0'),
+      muted:  localStorage.getItem('sfMuted') === 'true',
     });
   }
 
@@ -16,6 +17,10 @@ const ScoreManager = (() => {
     saveOne(mode, 0);
   }
 
-  return { loadAll, saveOne, reset };
+  function saveMute(mute) {
+    localStorage.setItem('sfMuted', mute);
+  }
+
+  return { loadAll, saveOne, reset, saveMute };
 
 })();

@@ -24,6 +24,7 @@ const ScoreManager = (() => {
         easy:   parseInt(localStorage.getItem('sfHs_easy')   || '0'),
         medium: parseInt(localStorage.getItem('sfHs_medium') || '0'),
         hard:   parseInt(localStorage.getItem('sfHs_hard')   || '0'),
+        mute:   localStorage.getItem('sfMute') === 'true',
       });
       return;
     }
@@ -34,7 +35,7 @@ const ScoreManager = (() => {
           const scores = JSON.parse(jsonStr);
           callback(scores);
         } catch(e) {
-          callback({ easy: 0, medium: 0, hard: 0 });
+          callback({ easy: 0, medium: 0, hard: 0, mute: false });
         }
       });
     });
@@ -54,9 +55,24 @@ const ScoreManager = (() => {
     }
   }
 
+  function saveMute(mute) {
+    if (!IS_DESKTOP) {
+      localStorage.setItem('sfMute', mute);
+      return;
+    }
+
+    if (_ready && _bridge) {
+      _bridge.setMute(mute);
+    } else {
+      if (!_bridge) _connectBridge(() => {
+        if (_bridge) _bridge.setMute(mute);
+      });
+    }
+  }
+
   function reset(mode){
     saveOne(mode, 0);
   }
 
-  return { loadAll, saveOne, IS_DESKTOP, reset };
+  return { loadAll, saveOne, saveMute, IS_DESKTOP, reset };
 })();
