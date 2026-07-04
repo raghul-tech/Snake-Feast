@@ -155,6 +155,7 @@ window.addEventListener('DOMContentLoaded', () => {
    document.getElementById('btn-pause').style.display = 'none';
   document.getElementById('btn-mute').addEventListener('click', () => {
     const m = SoundManager.toggleMute();
+    ScoreManager.saveMute(m);
     document.getElementById('btn-mute').textContent = m ? '🔇' : '🔊';
   });
   setTimeout(() => {
