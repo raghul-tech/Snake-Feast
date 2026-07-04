@@ -36,7 +36,7 @@ let G = {
     const el = document.getElementById('hv-hs');
     if (el) el.textContent = scores[G.mode] || 0;
   const muteBtn = document.getElementById('btn-mute');
-  if (muteBtn) muteBtn.textContent = G.muted ? '🔇' : '🔊';
+  if (muteBtn) muteBtn.textContent = G.muted ?  '\uD83D\uDD07' : '\uD83D\uDD0A'; // 🔇 or 🔊
   });
 function setMode(m, btn) {
   G.mode = m;
@@ -145,7 +145,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const m = SoundManager.toggleMute();
     G.muted = m;
     ScoreManager.saveMute(m);
-    document.getElementById('btn-mute').textContent = m ? '🔇' : '🔊';
+    document.getElementById('btn-mute').textContent = m ?  '\uD83D\uDD07' : '\uD83D\uDD0A'; // 🔇 or 🔊
   });
   const area = document.getElementById('game-area');
   const game = new Phaser.Game({
