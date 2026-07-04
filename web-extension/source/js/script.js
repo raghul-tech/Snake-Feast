@@ -27,12 +27,17 @@ let G = {
   snakeCol:  0x00ff88,
   unlocked:  JSON.parse(localStorage.getItem('sfUnlocked') || '[]'),
   hs:        { easy: 0, medium: 0, hard: 0 },
+  muted:    false,
 };
 
 ScoreManager.loadAll((scores) => {
   G.hs = scores;
-  const el = document.getElementById('hv-hs');
+  G.muted = scores.mute || false;
+  SoundManager.setMute(G.muted);
+  const el = document.getElementById('hv-hs'); 
   if (el) el.textContent = scores[G.mode] || 0;
+  const muteBtn = document.getElementById('btn-mute');
+  if (muteBtn) muteBtn.textContent = G.muted ? '🔇' : '🔊';
 });
 
 function setMode(m, btn) {
