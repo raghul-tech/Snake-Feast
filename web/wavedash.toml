@@ -7,3 +7,6 @@ upload_dir = "."
 [custom]
 version = "2.0.0"
 entrypoint = "index.html"
+
+[sdk]
+inject = true

@@ -221,6 +221,7 @@ class SnakeFeastScene extends Phaser.Scene {
     }
 
     unlockAch('first');
+    WavedashManager.trackFoodEaten(1);
      if (this.score > G.hs[G.mode]) {
     G.hs[G.mode] = this.score;
     ScoreManager.saveOne(G.mode, this.score);
@@ -258,6 +259,8 @@ class SnakeFeastScene extends Phaser.Scene {
     G.hs[G.mode] = this.score;
     ScoreManager.saveOne(G.mode, this.score);
   }
+    WavedashManager.submitScore(G.mode, this.score);
+    WavedashManager.trackGameEnd(G.mode, this.score, this.deathMsg);
    if (this.deathMsg === this.DEATH_REASONS.WALL)    { SoundManager.playWallHit();    SoundManager.playLose(); }
   else if (this.deathMsg === this.DEATH_REASONS.SELF){ SoundManager.playSelfHit();    SoundManager.playLose(); }
   else if (this.deathMsg === this.DEATH_REASONS.POISON){ SoundManager.playPoisonDeath(); SoundManager.playLose(); }
