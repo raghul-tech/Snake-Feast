@@ -67,6 +67,21 @@ class SnakeFeastScene extends Phaser.Scene {
       }
     });
 
+    const dpadButtons = document.querySelectorAll('.dpad-btn');
+    dpadButtons.forEach(btn => {
+      const dir = btn.dataset.dir;
+      const handlePress = (e) => {
+        e.preventDefault();
+        if (!this.running || this.paused) return;
+        if (dir === 'up') turn(0, -1);
+        else if (dir === 'down') turn(0, 1);
+        else if (dir === 'left') turn(-1, 0);
+        else if (dir === 'right') turn(1, 0);
+      };
+      btn.addEventListener('touchstart', handlePress, { passive: false });
+      btn.addEventListener('mousedown', handlePress);
+    });
+
     this._badges = [];
     for (let i = 0; i < 4; i++) {
       const bg  = this.add.graphics().setDepth(4);
@@ -274,7 +289,8 @@ class SnakeFeastScene extends Phaser.Scene {
         tries++;
       } while (tries < 400 && (
         this._onSnake(fx, fy) ||
-        this.foods.some(f => f.x === fx && f.y === fy)
+        this.foods.some(f => f.x === fx && f.y === fy) ||
+        this._isUnderDpad(fx, fy)
       ));
       this.foods.push({ x: fx, y: fy, type, age: 0 });
     }
@@ -307,9 +323,26 @@ class SnakeFeastScene extends Phaser.Scene {
     document.getElementById('go-cause').textContent   = this.deathMsg ? 'You ' + this.deathMsg + '…' : '';
 
     setTimeout(() => document.getElementById('scr-over').classList.add('visible'), 720);
+    document.getElementById('dpad').classList.remove('visible');
+    document.getElementById('dpad').classList.remove('visible');
   }
 
   _onSnake(x, y) { return this.snake.some(s => s.x === x && s.y === y); }
+
+  _isUnderDpad(x, y) {
+    const dpadWidth = 128;
+    const dpadHeight = 196;
+    const dpadRight = 20;
+    const dpadBottom = 80;
+    const pixelX = x * T;
+    const pixelY = y * T;
+    const canvasWidth = this.scale.width;
+    const canvasHeight = this.scale.height;
+    const dpadLeft = canvasWidth - dpadRight - dpadWidth;
+    const dpadTop = canvasHeight - dpadBottom - dpadHeight;
+    return pixelX >= dpadLeft && pixelX <= canvasWidth - dpadRight &&
+           pixelY >= dpadTop && pixelY <= canvasHeight - dpadBottom;
+  }
 
   update(time, delta) {
     const g    = this.gfx;
