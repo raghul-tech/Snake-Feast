@@ -63,7 +63,6 @@ function _syncPauseBtn() {
 function doStart() {
   document.getElementById('scr-start').classList.remove('visible');
   document.getElementById('scr-over').classList.remove('visible');
-  document.getElementById('dpad').classList.add('visible');
   SoundManager.startGame();
   if (window.GAME_SCENE) window.GAME_SCENE.restartGame();
   _syncPauseBtn();
@@ -71,9 +70,7 @@ function doStart() {
 
 function showStart() {
   document.getElementById('scr-over').classList.remove('visible');
-  document.getElementById('dpad').classList.add('visible');
   document.getElementById('scr-start').classList.add('visible');
-  document.getElementById('dpad').classList.remove('visible');
   SoundManager.startMenu();
   if (window.GAME_SCENE) window.GAME_SCENE.stopGame();
   _syncPauseBtn();
