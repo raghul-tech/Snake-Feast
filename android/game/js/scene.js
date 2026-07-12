@@ -55,18 +55,62 @@ class SnakeFeastScene extends Phaser.Scene {
     kb.on('keydown-ESC',   () => this.togglePause());
     kb.on('keydown-ENTER', () => { if (!this.running) doStart(); });
 
-    let swipeX = 0, swipeY = 0;
-    this.input.on('pointerdown', p => { swipeX = p.x; swipeY = p.y; });
-    this.input.on('pointerup', p => {
+    let joystickActive = false;
+    let joystickCenterX = 0;
+    let joystickCenterY = 0;
+    let joystickKnobX = 0;
+    let joystickKnobY = 0;
+    const joystickRadius = 50;
+    const joystickGraphics = this.add.graphics().setDepth(100).setVisible(false);
+    const joystickKnobGraphics = this.add.graphics().setDepth(101).setVisible(false);
+
+    this.input.on('pointerdown', p => {
       if (!this.running || this.paused) return;
-      const dx = p.x - swipeX, dy = p.y - swipeY, min = 25;
-      if (Math.abs(dx) > Math.abs(dy)) {
-        if (Math.abs(dx) > min) turn(dx > 0 ? 1 : -1, 0);
-      } else {
-        if (Math.abs(dy) > min) turn(0, dy > 0 ? 1 : -1);
+      joystickActive = true;
+      joystickCenterX = p.x;
+      joystickCenterY = p.y;
+      joystickKnobX = p.x;
+      joystickKnobY = p.y;
+      
+      joystickGraphics.clear();
+      joystickGraphics.lineStyle(2, 0x00ffaa, 0.5);
+      joystickGraphics.strokeCircle(joystickCenterX, joystickCenterY, joystickRadius);
+      joystickGraphics.fillStyle(0x00ffaa, 0.1);
+      joystickGraphics.fillCircle(joystickCenterX, joystickCenterY, joystickRadius);
+      joystickGraphics.setVisible(true);
+      joystickKnobGraphics.clear();
+      joystickKnobGraphics.fillStyle(0x00ffaa, 0.6);
+      joystickKnobGraphics.fillCircle(joystickKnobX, joystickKnobY, 20);
+      joystickKnobGraphics.setVisible(true);
+    });
+
+    this.input.on('pointermove', p => {
+      if (!joystickActive || !this.running || this.paused) return;
+      
+      const dx = p.x - joystickCenterX;
+      const dy = p.y - joystickCenterY;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      const clampedDistance = Math.min(distance, joystickRadius);
+      const angle = Math.atan2(dy, dx);
+      joystickKnobX = joystickCenterX + Math.cos(angle) * clampedDistance;
+      joystickKnobY = joystickCenterY + Math.sin(angle) * clampedDistance;
+      joystickKnobGraphics.clear();
+      joystickKnobGraphics.fillStyle(0x00ffaa, 0.6);
+      joystickKnobGraphics.fillCircle(joystickKnobX, joystickKnobY, 20);
+      if (clampedDistance > 15) {
+        if (Math.abs(dx) > Math.abs(dy)) {
+          turn(dx > 0 ? 1 : -1, 0);
+        } else {
+          turn(0, dy > 0 ? 1 : -1);
+        }
       }
     });
 
+    this.input.on('pointerup', () => {
+      joystickActive = false;
+      joystickGraphics.setVisible(false);
+      joystickKnobGraphics.setVisible(false);
+    });
     this._badges = [];
     for (let i = 0; i < 4; i++) {
       const bg  = this.add.graphics().setDepth(4);
