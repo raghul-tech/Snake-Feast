@@ -1,4 +1,4 @@
-﻿const T = 20;
+const T = 20;
 const SPEEDS = { easy: 160, medium: 120, hard: 80 };
 const FOOD_TYPES = {
   normal: { col: 0x38bdf8, ring: 0x0ea5e9, pts:  1, blink: false },
@@ -65,6 +65,7 @@ function doStart() {
   document.getElementById('scr-start').classList.remove('visible');
   document.getElementById('scr-over').classList.remove('visible');
   SoundManager.startGame();
+  WavedashManager.trackGameStart(G.mode);
   if (window.GAME_SCENE) window.GAME_SCENE.restartGame();
   _syncPauseBtn();
 }
@@ -129,6 +130,7 @@ function unlockAch(id) {
   localStorage.setItem('sfUnlocked', JSON.stringify(G.unlocked));
   const a = ACHIEVEMENTS.find(x => x.id === id);
   if (a) achievementToast(a.ico, a.name, a.desc);
+  WavedashManager.unlockAchievement(id);
 }
 
 function updateHUD(score, mode) {
@@ -140,6 +142,7 @@ function updateHUD(score, mode) {
 
 window.addEventListener('DOMContentLoaded', () => {
    SoundManager.autoStart();
+   WavedashManager.init();
    document.getElementById('btn-pause').style.display = 'none';
   document.getElementById('btn-mute').addEventListener('click', () => {
     const m = SoundManager.toggleMute();
