@@ -2,9 +2,9 @@ const WavedashManager = (() => {
 
   const IS_WAVEDASH = () => typeof Wavedash !== 'undefined';
   const LEADERBOARD_NAMES = {
-    easy:   'hs_easy',
-    medium: 'hs_medium',
-    hard:   'hs_hard',
+    easy:   'easy',
+    medium: 'medium',
+    hard:   'hard',
   };
   const leaderboardIds = { easy: null, medium: null, hard: null };
   const ACH_MAP = {
@@ -41,7 +41,7 @@ const WavedashManager = (() => {
     }
     if (!IS_WAVEDASH()) return;
     try {
-      Wavedash.init({ gameId: 'j97b4rka3q1ebdyagn0ghcsdrs85kg31', debug: false });
+      Wavedash.init({ gameId: 'j97c9rdm2pgtpg69vsns8r1ms98anp7d', debug: false });
       await Wavedash.requestStats();
       await Promise.all(
         Object.entries(LEADERBOARD_NAMES).map(async ([mode, name]) => {
