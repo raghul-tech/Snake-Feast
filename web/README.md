@@ -19,6 +19,23 @@ A modern, feature-rich Snake game that runs in your browser. Eat food, grow long
 
 ---
 
+## SnapShot
+
+<p align="center">
+    <img src="icon/start.png" alt="Start">
+  </a>
+</p>
+
+<p align="center">
+    <img src="icon/play.png" alt="play">
+  </a>
+</p>
+
+<p align="center">
+    <img src="icon/end.png" alt="end">
+  </a>
+</p>
+
 ## 🚀 CI/CD — Auto Deploy via Netlify
 
 This project uses **Netlify branch deploys**. Pushing to either branch triggers an automatic deployment — no manual steps needed.
