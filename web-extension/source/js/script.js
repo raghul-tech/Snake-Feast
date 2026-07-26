@@ -1,5 +1,5 @@
 const T = 20;
-const SPEEDS = { easy: 160, medium: 120, hard: 80 };
+const SPEEDS = { easy: 140, medium: 100, hard: 80 };
 const FOOD_TYPES = {
   normal: { col: 0x38bdf8, ring: 0x0ea5e9, pts:  1, blink: false },
   bonus:  { col: 0xfbbf24, ring: 0xf59e0b, pts:  5, blink: true  },
