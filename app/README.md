@@ -1,5 +1,5 @@
 <h1 align="center">
- <img src="icon/snakelogo.ico" alt="Snake Feast" width="32" height="32" style="vertical-align:middle;">
+ <img src="icon/snakefeast.png" alt="Snake Feast" width="32" height="32" style="vertical-align:middle;">
  Snake Feast — Desktop Application
 </h1>
 
@@ -16,9 +16,6 @@ A modern, feature-rich Snake game that brings the classic arcade experience to y
   </a>
   <a href="https://raghul-tech.itch.io/snake-feast">
     <img src="https://img.shields.io/badge/itch.io-Download-ff6b6b?style=for-the-badge&logo=itch.io&logoColor=white" alt="itch.io" />
-  </a>
-  <a href="https://play.google.com/store/apps/details?id=com.raghultech.snakefeast">
-    <img src="https://img.shields.io/badge/Play%20Store-Get%20It-3DDC84?style=for-the-badge&logo=google-play&logoColor=white" alt="Play Store" />
   </a>
   <a href="../LICENSE">
     <img src="https://img.shields.io/badge/License-GPL%20v3-blue.svg?style=for-the-badge" alt="License" />
@@ -45,6 +42,31 @@ A modern, feature-rich Snake game that brings the classic arcade experience to y
 
 ---
 
+## SnapShot
+
+<p align="center">
+    <img src="icon/start.png" alt="Start">
+  </a>
+</p>
+
+<p align="center">
+    <img src="icon/play1.png" alt="play1">
+  </a>
+</p>
+
+<p align="center">
+    <img src="icon/play2.png" alt="play2">
+  </a>
+</p>
+
+<p align="center">
+    <img src="icon/end.png" alt="end">
+  </a>
+</p>
+
+
+---
+
 ## 📦 Platform Availability
 
 Snake Feast is available on multiple platforms:
@@ -53,7 +75,6 @@ Snake Feast is available on multiple platforms:
 |---|---|---|
 | **Windows** | ✅ Available | [Microsoft Store](https://apps.microsoft.com/detail/9pc2z9ngjkkt?hl=en-GB&gl=AU) • [SourceForge](https://sourceforge.net/projects/snake-feast/) • [itch.io](https://raghul-tech.itch.io/snake-feast) |
 | **Linux** | ✅ Available | [SourceForge](https://sourceforge.net/projects/snake-feast/) • [itch.io](https://raghul-tech.itch.io/snake-feast) |
-| **Android** | ✅ Available | [Play Store](https://play.google.com/store/apps/details?id=com.raghultech.snakefeast) |
 
 ---
 
@@ -191,7 +212,7 @@ Snake-Feast/
 │   ├── main.py              # Main application entry point
 │   ├── utils.py             # Desktop-specific utilities and CSS
 │   ├── icon/                # Application icons
-│   │   └── snakelogo.ico
+│   │   └── snakefeast.ico
 │   └── README.md           # This file
 ├── web/
 │   ├── index.html          # Main game HTML
@@ -210,7 +231,7 @@ Snake-Feast/
 │       ├── 48.png
 │       ├── 64.png
 │       └── 256.png
-└── scores.json             # Saved scores and settings (created at runtime)
+└──
 ```
 
 ---
