@@ -24,6 +24,25 @@ A modern, feature-rich Snake game that lives in your browser toolbar. Eat food, 
 
 ---
 
+## SnapShot
+
+<p align="center">
+    <img src="source/icon/start.png" alt="Start">
+  </a>
+</p>
+
+<p align="center">
+    <img src="source/icon/play.png" alt="play">
+  </a>
+</p>
+
+<p align="center">
+    <img src="source/icon/end.png" alt="end">
+  </a>
+</p>
+
+---
+
 ## 🏗 Project Structure
 
 ```text
