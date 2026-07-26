@@ -16,7 +16,7 @@ os.environ["QTWEBENGINE_CHROMIUM_FLAGS"] = " ".join([
 ])
 os.environ["QTWEBENGINE_DISABLE_SANDBOX"] = "1"
 
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow,  QMessageBox
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineSettings, QWebEngineProfile
 from PyQt5.QtWebChannel import QWebChannel
 from PyQt5.QtCore import QUrl, Qt, QObject, pyqtSlot, QTimer
@@ -251,7 +251,7 @@ class MainWindow(QMainWindow):
             dark.setColor(role, QColor(color))
         self.setPalette(dark)
         self.setStyleSheet("QMainWindow { background: #000; }")
-        icon = os.path.join(os.path.dirname(__file__), "icon", "snakelogo.ico")
+        icon = self.resource_path("icon", "snakefeast.ico", same_dir=True)
         if os.path.exists(icon):
             self.setWindowIcon(QIcon(icon))
     
@@ -285,13 +285,35 @@ class MainWindow(QMainWindow):
         self.channel.registerObject("pyBridge", self.bridge)
         self.view.page().setWebChannel(self.channel)
 
-        index = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "web", "index.html")
+        index = self.resource_path("web", "index.html")
         if not os.path.exists(index):
+            QMessageBox.critical(
+                None,
+                "Snake Feast — Missing Files",
+                f"Could not find the game files.\n\nExpected at:\n{index}\n\n"
+                f"The application will now close."
+            )
             sys.exit(1)
 
         self.view.setUrl(QUrl.fromLocalFile(index))
         self.setCentralWidget(self.view)
         self.view.loadFinished.connect(self._on_load)
+
+    def resource_path(self,*parts, same_dir=False):
+        """
+        Get absolute path to a bundled resource.
+        - Frozen exe: always resolves relative to sys._MEIPASS.
+        - Dev mode: resolves relative to main.py's folder (same_dir=True)
+                or the project root, one level up (same_dir=False, default).
+        """
+
+        if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
+            base = sys._MEIPASS
+        elif same_dir:
+            base = os.path.dirname(os.path.abspath(__file__))
+        else:
+            base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        return os.path.join(base, *parts)
     
     def _restore_or_set_geometry(self):
         """Restore window geometry from saved state or set default."""

@@ -1,9 +1,6 @@
-<p align="center">
-<img src="icon/snakelogo.ico" alt="Snake Feast Logo" width="200" height="200" />
-</p>
-
 <h1 align="center">
-  Snake Feast — Desktop Application
+ <img src="icon/snakelogo.ico" alt="Snake Feast" width="32" height="32" style="vertical-align:middle;">
+ Snake Feast — Desktop Application
 </h1>
 
 <p align="center">
@@ -130,7 +127,7 @@ pip install PyQt5 pyinstaller
 ### Build for Windows
 
 ```bash
-pyinstaller --onefile --windowed --icon=icon/snakelogo.ico --add-data "../web/index.html;web" --add-data "../web/css;web/css" --add-data "../web/js;web/js" --add-data "../web/icon;web/icon" --add-data "utils.py;." main.py
+pyinstaller --onefile --windowed --icon=icon/snakefeast.ico --add-data "../web/index.html;web" --add-data "../web/css;web/css" --add-data "../web/js;web/js" --add-data "icon;icon" --add-data "utils.py;." main.py
 ```
 
 This will create a single executable file in the `dist/` folder.
@@ -138,7 +135,7 @@ This will create a single executable file in the `dist/` folder.
 ### Build for Linux
 
 ```bash
-pyinstaller --onefile --windowed --icon=icon/snakelogo3.png --add-data "../web/index.html:web" --add-data "../web/css:web/css" --add-data "../web/js:web/js" --add-data "../web/icon:web/icon" --add-data "utils.py:." main.py
+pyinstaller --onefile --windowed --icon=icon/snakefeast.png --add-data "../web/index.html:web" --add-data "../web/css:web/css" --add-data "../web/js:web/js" --add-data "icon:icon" --add-data "utils.py:." main.py
 ```
 
 This will create a single executable file in the `dist/` folder.
