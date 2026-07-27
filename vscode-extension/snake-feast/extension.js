@@ -97,6 +97,7 @@ const csp = `
                         medium: context.globalState.get('sfHs_medium', 0),
                         hard:   context.globalState.get('sfHs_hard',   0),
                     },
+                    unlocked:   context.globalState.get('sfUnlocked', []),
                     soundMuted: context.globalState.get('sfMuted', false),
                 }
             });
