@@ -23,6 +23,25 @@ A modern, feature-rich Snake game that lives inside VS Code. Eat food, grow long
 
 ---
 
+## SnapShot
+
+<p align="center">
+    <img src="webview/icon/start.png" alt="Start">
+  </a>
+</p>
+
+<p align="center">
+    <img src="webview/icon/play.png" alt="play">
+  </a>
+</p>
+
+<p align="center">
+    <img src="webview/icon/end.png" alt="end">
+  </a>
+</p>
+
+---
+
 ## 🚀 How to Launch
 
 **Three ways to start the game:**
