@@ -1,4 +1,4 @@
-# 🐍 Snake Feast — Browser Extension
+# <img src="source/icon/48.png" alt="Snake Feast" width="32" height="32" style="vertical-align:middle;"> Snake Feast — Browser Extension
 
 A modern, feature-rich Snake game that lives in your browser toolbar. Eat food, grow longer, collect power-ups, rack up combos, and chase your high score — instantly accessible from any tab.
 

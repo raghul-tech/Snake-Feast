@@ -1,4 +1,4 @@
-# Snake Feast 🐍
+# <img src="webview/icon/48.png" alt="Snake Feast" width="32" height="32" style="vertical-align:middle;"> Snake Feast -- VS Code Extension
 
 A modern, feature-rich Snake game that lives inside VS Code. Eat food, grow longer, collect power-ups, rack up combos, and chase your high score — without ever leaving your editor.
 
