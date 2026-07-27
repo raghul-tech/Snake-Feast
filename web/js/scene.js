@@ -28,10 +28,6 @@ class SnakeFeastScene extends Phaser.Scene {
     this.snakeCol  = G.snakeCol;
     this.tickEvt   = null;
     this.deathMsg  = '';
-    this._prevSnake    = [];
-    this._lerpT        = 1;
-    this._tickInterval = 160;
-
     this.DEATH_REASONS = {
       WALL: 'hit the wall',
       SELF: 'ate yourself',
@@ -100,11 +96,6 @@ class SnakeFeastScene extends Phaser.Scene {
     this.snake = [];
     const sy = Math.floor(this.rows / 2);
     for (let i = 5; i >= 0; i--) this.snake.push({ x: i, y: sy });
-
-    this._prevSnake    = this.snake.map(s => ({ ...s }));
-    this._lerpT        = 1;
-    this._tickInterval = this._speed();
-
     this._spawnFoods();
     this._startTick();
     updateHUD(0, G.mode);
@@ -121,12 +112,10 @@ class SnakeFeastScene extends Phaser.Scene {
     this.paused = !this.paused;
     document.getElementById('btn-pause').textContent = this.paused ? '▶' : '⏸';
   }
-
   _startTick() {
     if (this.tickEvt) this.tickEvt.remove();
-    this._tickInterval = this._speed();
     this.tickEvt = this.time.addEvent({
-      delay: this._tickInterval, callback: this._tick, callbackScope: this, loop: true
+      delay: this._speed(), callback: this._tick, callbackScope: this, loop: true
     });
   }
 
@@ -137,33 +126,25 @@ class SnakeFeastScene extends Phaser.Scene {
 
   _restartTick() {
     if (!this.tickEvt) return;
-    this._tickInterval = this._speed();
     this.tickEvt.reset({
-      delay: this._tickInterval, callback: this._tick, callbackScope: this, loop: true
+      delay: this._speed(), callback: this._tick, callbackScope: this, loop: true
     });
   }
 
   _tick() {
     if (!this.running || this.paused) return;
-
-    this._prevSnake = this.snake.map(s => ({ x: s.x, y: s.y }));
-    this._lerpT     = 0; 
-
     this.dir = { ...this.nextDir };
     const head = this.snake[0];
     const nx   = head.x + this.dir.x;
     const ny   = head.y + this.dir.y;
-
     if (nx < 0 || nx >= this.cols || ny < 0 || ny >= this.rows) {
       this.deathMsg = this.DEATH_REASONS.WALL; this._die(); return;
     }
     if (this.ghostTick <= 0 && this.snake.some(s => s.x === nx && s.y === ny)) {
       this.deathMsg = this.DEATH_REASONS.SELF; this._die(); return;
     }
-
     let ateIdx = this.foods.findIndex(f => f.x === nx && f.y === ny);
     let ate    = ateIdx >= 0 ? this.foods.splice(ateIdx, 1)[0] : null;
-
     for (let i = this.snake.length - 1; i > 0; i--) {
       this.snake[i].x = this.snake[i-1].x;
       this.snake[i].y = this.snake[i-1].y;
@@ -298,19 +279,12 @@ SoundManager.stopAll(0.8);
   }
 
   _onSnake(x, y) { return this.snake.some(s => s.x === x && s.y === y); }
-
-  update(time, delta) {
+  update() {
     const g    = this.gfx;
     const cols = this.cols || Math.floor(this.scale.width  / T);
     const rows = this.rows || Math.floor(this.scale.height / T);
     const W    = cols * T;
     const H    = rows * T;
-
-    if (this.running && !this.paused && this._tickInterval > 0) {
-      this._lerpT = Math.min(1, this._lerpT + delta / this._tickInterval);
-    }
-    const lt = this._lerpT;
-
     g.clear();
     g.fillStyle(0x05050b, 1);
     g.fillRect(0, 0, W, H);
@@ -355,43 +329,27 @@ SoundManager.stopAll(0.8);
     if (this.snake && this.snake.length > 0) {
       const col     = this.snakeCol;
       const isGhost = this.ghostTick > 0;
-      const prev    = this._prevSnake;
-
       for (let i = this.snake.length - 1; i >= 0; i--) {
         const seg  = this.snake[i];
-
-        let drawX, drawY;
-        if (prev && prev[i]) {
-          drawX = (prev[i].x + (seg.x - prev[i].x) * lt) * T + T / 2;
-          drawY = (prev[i].y + (seg.y - prev[i].y) * lt) * T + T / 2;
-        } else {
-          drawX = seg.x * T + T / 2;
-          drawY = seg.y * T + T / 2;
-        }
-
-        const cx   = drawX;
-        const cy   = drawY;
+        const cx   = seg.x * T + T / 2;
+        const cy   = seg.y * T + T / 2;
         const isHd = (i === 0);
         const alpha = isGhost
           ? 0.35
           : Math.max(0.25, 1 - i * 0.028);
-
         if (isHd) {
           g.fillStyle(col, 0.1);
           g.fillCircle(cx, cy, T * 1.1);
           g.fillStyle(col, 0.05);
           g.fillCircle(cx, cy, T * 1.5);
         }
-
         const r = isHd ? T/2 - 1 : T/2 - 3;
         g.fillStyle(col, alpha);
         g.fillCircle(cx, cy, r);
-
         if (isGhost && isHd) {
           g.lineStyle(1.5, 0xfbbf24, this.blinkOn ? 0.9 : 0.3);
           g.strokeCircle(cx, cy, T/2 + 5);
         }
-
         if (isHd) {
           const d  = this.dir;
           const fwd = 4;  
@@ -408,13 +366,11 @@ SoundManager.stopAll(0.8);
           g.fillCircle(cx + fx + ex + 0.8, cy + fy + ey - 0.8, 0.9);
         }
       }
-
-      const hx = prev && prev[0] ? (prev[0].x + (this.snake[0].x - prev[0].x) * lt) * T : this.snake[0].x * T;
-      const hy = prev && prev[0] ? (prev[0].y + (this.snake[0].y - prev[0].y) * lt) * T : this.snake[0].y * T;
+      const h = this.snake[0];
       g.lineStyle(1, col, 0.18);
-      g.strokeRect(hx, hy, T, T);
+      g.strokeRect(h.x * T, h.y * T, T, T);
     }
-  if (this.running) {
+if (this.running) {
   const active = [];
   if (this.ghostTick > 0) active.push({ txt: '👻 GHOST',              col: 0xfbbf24 });
   if (this.magTick   > 0) active.push({ txt: '🧲 MAGNET',             col: 0xf472b6 });
