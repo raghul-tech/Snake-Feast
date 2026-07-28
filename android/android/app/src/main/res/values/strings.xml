@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Snake Feast</string>
+    <string name="title_activity_main">Snake Feast</string>
+    <string name="package_name">io.github.raghultech.snakefeast</string>
+    <string name="custom_url_scheme">io.github.raghultech.snakefeast</string>
+</resources>

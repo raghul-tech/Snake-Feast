@@ -1,0 +1,85 @@
+{
+  "achievements": [
+    {
+      "identifier": "FIRST_BLOOD",
+      "display_name": "First Blood",
+      "description": "Eat your first food"
+    },
+    {
+      "identifier": "DOUBLE_DIGITS",
+      "display_name": "Double Digits",
+      "description": "Score 10 points"
+    },
+    {
+      "identifier": "FIFTY_FEAST",
+      "display_name": "Fifty Feast",
+      "description": "Score 50 points"
+    },
+    {
+      "identifier": "CENTURY",
+      "display_name": "Century",
+      "description": "Score 100 points"
+    },
+    {
+      "identifier": "HOT_STREAK",
+      "display_name": "Hot Streak",
+      "description": "Reach a ×3 combo"
+    },
+    {
+      "identifier": "PHASE_SHIFT",
+      "display_name": "Phase Shift",
+      "description": "Eat bonus food and activate ghost mode"
+    },
+    {
+      "identifier": "MAGNETAR",
+      "display_name": "Magnetar",
+      "description": "Use the magnet power-up"
+    },
+    {
+      "identifier": "CRYOGENICS",
+      "display_name": "Cryogenics",
+      "description": "Freeze the board"
+    },
+    {
+      "identifier": "TOXIN_PROOF",
+      "display_name": "Toxin Proof",
+      "description": "Survive eating poison food"
+    },
+    {
+      "identifier": "SLITHERER",
+      "display_name": "Slitherer",
+      "description": "Grow your snake to length 15"
+    },
+    {
+      "identifier": "GREAT_SERPENT",
+      "display_name": "Great Serpent",
+      "description": "Grow your snake to length 30"
+    }
+  ],
+  "stats": [
+    {
+      "identifier": "total_games",
+      "display_name": "Total Games Played"
+    },
+    {
+      "identifier": "total_score",
+      "display_name": "Total Score (all time)"
+    },
+    {
+      "identifier": "total_food_eaten",
+      "display_name": "Total Food Eaten"
+    },
+    {
+      "identifier": "best_score_easy",
+      "display_name": "Best Score - Easy"
+    },
+    {
+      "identifier": "best_score_medium",
+      "display_name": "Best Score - Medium"
+    },
+    {
+      "identifier": "best_score_hard",
+      "display_name": "Best Score - Hard"
+    }
+  ]
+}

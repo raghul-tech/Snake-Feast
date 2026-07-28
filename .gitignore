@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+*.spec
+
+# Virtual environments
+.env
+.venv/
+env/
+venv/
+
+# Logs
+*.log
+
+# Web (Node / frontend)
+node_modules/
+dist/
+build/
+.cache/
+out/
+public/
+
+# IDEs
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini

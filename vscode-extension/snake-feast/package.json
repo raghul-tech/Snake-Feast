@@ -1,0 +1,77 @@
+{
+  "name": "snake-feast",
+  "displayName": "Snake Feast 🐍",
+  "description": "A classic Snake game with power-ups, bonuses, and special effects. Devour, grow, and survive right inside VS Code!",
+  "version": "2.0.0",
+  "publisher": "raghul-tech",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/raghul-tech/snake-feast"
+  },
+  "homepage": "https://github.com/raghul-tech/snake-feast/blob/main/README.md",
+  "bugs": {
+    "url": "https://github.com/raghul-tech/snake-feast/issues"
+  },
+  "license": "GPL-3.0",
+  "icon": "webview/icon/128.png",
+  "qna": "marketplace",
+  "keywords": [
+    "snake", "game", "snake-game", "retro",
+    "arcade", "fun", "snake-feast", "gaming",
+    "classic", "productivity-break"
+  ],
+  "badges": [
+    {
+      "url": "https://img.shields.io/badge/platform-windows%20%7C%20macos%20%7C%20linux-blue",
+      "href": "https://marketplace.visualstudio.com/items?itemName=raghul-tech.snake-feast",
+      "description": "Supported Platforms"
+    },
+    {
+      "url": "https://img.shields.io/badge/version-2.0.0-green",
+      "href": "https://marketplace.visualstudio.com/items?itemName=raghul-tech.snake-feast",
+      "description": "Latest Version"
+    }
+  ],
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "activationEvents": ["onStartupFinished"],
+  "categories": ["Other"],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "snake-feast.start",
+        "title": "Start Snake Feast",
+        "category": "Snake Feast"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "snake-feast.start",
+        "key": "ctrl+shift+alt+s",
+        "mac": "cmd+shift+alt+s"
+      }
+    ],
+    "configuration": {
+    "title": "Snake Feast",
+    "properties": {
+        "snake-feast.soundEnabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable or disable game sounds"
+        }
+    }
+  }
+  },
+  "scripts": {
+    "vscode:prepublish": "echo \"Ready\"",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.22",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^2.22.0"
+  }
+}
