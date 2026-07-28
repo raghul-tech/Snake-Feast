@@ -148,7 +148,7 @@ pip install PyQt5 pyinstaller
 ### Build for Windows
 
 ```bash
-pyinstaller --onefile --windowed --icon=icon/snakefeast.ico --add-data "../web/index.html;web" --add-data "../web/css;web/css" --add-data "../web/js;web/js" --add-data "icon;icon" --add-data "utils.py;." main.py
+pyinstaller --onedir --windowed --icon=icon/snakefeast.ico --exclude-module PyQt5.QtBluetooth --exclude-module PyQt5.QtMultimedia --exclude-module PyQt5.QtNfc --exclude-module PyQt5.QtPositioning --exclude-module PyQt5.QtSensors --exclude-module PyQt5.QtSerialPort --exclude-module PyQt5.QtSql --exclude-module PyQt5.QtTest --exclude-module PyQt5.QtDesigner --add-data "../web/index.html;web" --add-data "../web/css;web/css" --add-data "../web/js;web/js" --add-data "icon;icon" --add-data "utils.py;." main.py
 ```
 
 This will create a single executable file in the `dist/` folder.
@@ -156,7 +156,7 @@ This will create a single executable file in the `dist/` folder.
 ### Build for Linux
 
 ```bash
-pyinstaller --onefile --windowed --icon=icon/snakefeast.png --add-data "../web/index.html:web" --add-data "../web/css:web/css" --add-data "../web/js:web/js" --add-data "icon:icon" --add-data "utils.py:." main.py
+pyinstaller --onedir --windowed --icon=icon/snakefeast.png --exclude-module PyQt5.QtBluetooth --exclude-module PyQt5.QtMultimedia --exclude-module PyQt5.QtNfc --exclude-module PyQt5.QtPositioning --exclude-module PyQt5.QtSensors --exclude-module PyQt5.QtSerialPort --exclude-module PyQt5.QtSql --exclude-module PyQt5.QtTest --exclude-module PyQt5.QtDesigner --add-data "../web/index.html:web" --add-data "../web/css:web/css" --add-data "../web/js:web/js" --add-data "icon:icon" --add-data "utils.py:." main.py
 ```
 
 This will create a single executable file in the `dist/` folder.
