@@ -93,6 +93,7 @@ function togglePause() {
 function resetHS() {
   ScoreManager.reset(G.mode);
   document.getElementById('hv-hs').textContent = '0';
+  G.hs[G.mode] = 0;
 }
 function spawnScorePop(txt, hexColor, canvasPixelX, canvasPixelY) {
   const area  = document.getElementById('game-area');
