@@ -207,6 +207,16 @@ class ScoreBridge(QObject):
             scores[mode] = value
             save_scores(scores)
     
+    @pyqtSlot(str)
+    def resetScore(self, mode: str):
+        """Reset a specific mode's high score."""
+        
+        if mode not in ("easy", "medium", "hard"):
+            return
+        scores = load_scores()
+        scores[mode] = 0
+        save_scores(scores)
+    
     @pyqtSlot(bool)
     def setMute(self, mute: bool):
         """Set the mute state."""

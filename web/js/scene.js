@@ -224,7 +224,7 @@ class SnakeFeastScene extends Phaser.Scene {
     WavedashManager.trackFoodEaten(1);
      if (this.score > G.hs[G.mode]) {
     G.hs[G.mode] = this.score;
-    ScoreManager.saveOne(G.mode, this.score);
+    ScoreManager.saveScore(G.mode, this.score);
   }
   }
 
@@ -257,7 +257,7 @@ class SnakeFeastScene extends Phaser.Scene {
     if (this.tickEvt) { this.tickEvt.remove(); this.tickEvt = null; }
     if (this.score > G.hs[G.mode]) {
     G.hs[G.mode] = this.score;
-    ScoreManager.saveOne(G.mode, this.score);
+    ScoreManager.saveScore(G.mode, this.score);
   }
     WavedashManager.submitScore(G.mode, this.score);
     WavedashManager.trackGameEnd(G.mode, this.score, this.deathMsg);

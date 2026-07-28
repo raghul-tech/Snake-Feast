@@ -41,7 +41,7 @@ const ScoreManager = (() => {
     });
   }
 
-  function saveOne(mode, value) {
+  function saveScore(mode, value) {
     if (!IS_DESKTOP) {
       localStorage.setItem('sfHs_' + mode, value);
       return;
@@ -51,7 +51,9 @@ const ScoreManager = (() => {
       _bridge.saveScore(mode, value);
     } else {
       _pending.push([mode, value]);
-      if (!_bridge) _connectBridge(() => {});
+      if (!_bridge) _connectBridge(() => {
+        _bridge.saveScore(mode, value);
+      });
     }
   }
 
@@ -70,9 +72,21 @@ const ScoreManager = (() => {
     }
   }
 
-  function reset(mode){
-    saveOne(mode, 0);
+  function resetScore(mode){
+    if (!IS_DESKTOP) {
+      localStorage.setItem('sfHs_' + mode, 0);
+      return;
+    }
+
+    if (_ready && _bridge) {
+      _bridge.resetScore(mode);
+    } else {
+      _pending.push([mode]);
+      if (!_bridge) _connectBridge(() => {
+        _bridge.resetScore(mode);
+      });
+    }
   }
 
-  return { loadAll, saveOne, saveMute, IS_DESKTOP, reset };
+  return { loadAll, saveScore, saveMute, IS_DESKTOP, resetScore };
 })();

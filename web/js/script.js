@@ -87,8 +87,9 @@ function togglePause() {
   }
 }
 function resetHS() {
-  ScoreManager.reset(G.mode);
+  ScoreManager.resetScore(G.mode);
   document.getElementById('hv-hs').textContent = '0';
+  G.hs[G.mode] = 0;
 }
 function spawnScorePop(txt, hexColor, canvasPixelX, canvasPixelY) {
   const area  = document.getElementById('game-area');
@@ -141,6 +142,8 @@ function updateHUD(score, mode) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('btn-reset-hs').addEventListener('click', resetHS);
+  document.getElementById('btn-pause').addEventListener('click', togglePause);
    SoundManager.autoStart();
    WavedashManager.init();
    document.getElementById('btn-pause').style.display = 'none';

@@ -89,6 +89,7 @@ function resetHS() {
   ScoreManager.reset(G.mode);
   document.getElementById('hv-hs').textContent = '0';
   document.getElementById('go-hs-val') && (document.getElementById('go-hs-val').textContent = '0');
+  G.hs[G.mode] = 0;
 }
 
 function spawnScorePop(txt, hexColor, canvasPixelX, canvasPixelY) {
