@@ -30,3 +30,11 @@ public/
 .DS_Store
 Thumbs.db
 desktop.ini
+*.iss
+*.exe
+*.msix
+*.zip
+
+# VS Code Extension
+*.vscode/
+*.vsix
