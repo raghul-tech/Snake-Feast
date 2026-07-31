@@ -153,6 +153,13 @@ pyinstaller --onedir --windowed --icon=icon/snakefeast.ico --exclude-module PyQt
 
 This will create a single executable file in the `dist/` folder.
 
+Then make the msix with the msix installer
+
+```bash
+ makeappx.exe bundle /d "msix" /p "Output\snakefeast-v2.0.0.msixbundle"
+ ```
+ **previous version was .msixbundle, .appx or .appxbundle so that is only allow to publish to the store**
+
 ### Build for Linux
 
 ```bash

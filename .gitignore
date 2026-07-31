@@ -32,9 +32,12 @@ Thumbs.db
 desktop.ini
 *.iss
 *.exe
-*.msix
 *.zip
 
 # VS Code Extension
 *.vscode/
 *.vsix
+
+# MSIX Bundle
+*.msixbundle
+*.msix
