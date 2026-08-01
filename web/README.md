@@ -5,6 +5,7 @@ A modern, feature-rich Snake game that runs in your browser. Eat food, grow long
 [![Production](https://img.shields.io/badge/Production-Live-00C7B7?style=for-the-badge&logo=netlify&logoColor=white)](https://snake-feast-web.netlify.app/)
 [![Staging](https://img.shields.io/badge/Staging-Live-F0AD4E?style=for-the-badge&logo=netlify&logoColor=white)](https://snake-feast-staging.netlify.app/)
 [![Wavedash](https://img.shields.io/badge/Wavedash-Live-7C3AED?style=for-the-badge&logo=gamepad&logoColor=white)](https://wavedash.com/g/raghul-tech/snake-feast)
+[![Netlify](https://img.shields.io/badge/Netlify-Deployed-00C7B7?style=for-the-badge&logo=netlify&logoColor=white)](https://app.netlify.com/projects/snake-feast-web/deploys)
 [![License](https://img.shields.io/badge/License-GPL%20v3-blue.svg?style=for-the-badge)](LICENSE)
 
 ---
