@@ -1,15 +1,15 @@
 <div align="center">
 
-<img src="webview/icon/48.png" alt="Snake Feast" width="80" height="80">
+<img src="webview/icon/192.png" alt="Snake Feast" width="100" height="100">
 
-# Snake Feast 🐍
+# Snake Feast
 
 **The snake game built for developers — play it without leaving VS Code.**
 
 [![VS Code Marketplace](https://img.shields.io/badge/VS%20Code-Install-0078D4?style=for-the-badge&logo=eclipseide&logoColor=white&labelColor=1a1a2e)](https://marketplace.visualstudio.com/items?itemName=raghul-tech.snake-feast)
 [![Open VSX](https://img.shields.io/badge/Open%20VSX-Install-A100FF?style=for-the-badge&logo=eclipseide&logoColor=white&labelColor=1a1a2e)](https://open-vsx.org/extension/raghul-tech/snake-feast)
 [![Play Online](https://img.shields.io/badge/Play%20Online-snake--feast.netlify.app-00C7B7?style=for-the-badge&logo=netlify&logoColor=white&labelColor=1a1a2e)](https://snake-feast-web.netlify.app/)
-[![Wavedash](https://img.shields.io/badge/Wavedash-Play%20%26%20Leaderboard-FF6B35?style=for-the-badge&logo=gamepad&logoColor=white&labelColor=1a1a2e)](https://wavedash.com/g/raghul-tech/snake-feast)
+[![Wavedash](https://img.shields.io/badge/Wavedash-Play%20%26%20Leaderboard-FF6B35?style=for-the-badge&logo=gamepad&logoColor=white&labelColor=1a1a2e)](https://wavedash.com/games/snake-feast)
 [![GitHub](https://img.shields.io/badge/GitHub-snake--feast-181717?style=for-the-badge&logo=github&logoColor=white&labelColor=1a1a2e)](https://github.com/raghul-tech/snake-feast)
 [![License](https://img.shields.io/badge/License-GPL%20v3-blue?style=for-the-badge&logo=gnu&logoColor=white&labelColor=1a1a2e)](LICENSE)
 
@@ -239,7 +239,7 @@ Open an issue on [GitHub](https://github.com/raghul-tech/snake-feast/issues). PR
 - [GitHub Repository](https://github.com/raghul-tech/snake-feast)
 - [Report an Issue](https://github.com/raghul-tech/snake-feast/issues)
 - [Play in Browser](https://snake-feast-web.netlify.app/)
-- [Play on Wavedash](https://wavedash.com/g/raghul-tech/snake-feast)
+- [Play on Wavedash](https://wavedash.com/games/snake-feast)
 
 ---
 
