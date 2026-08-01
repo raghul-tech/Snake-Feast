@@ -2,7 +2,7 @@
   "manifest_version": 3, 
   "name": "Snake Feast",
   "version": "2.0.0",
-  "description": "Join Snake Feast to grow your snake by devouring food while avoiding dangers!",
+  "description": "Snake game with power-ups, combo scoring, and six food types. Click the icon to play.",
   "action": {
     "default_popup": "index.html",
     "default_width": 800,
