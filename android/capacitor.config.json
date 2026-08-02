@@ -1,5 +1,8 @@
 {
   "appId": "io.github.raghultech.snakefeast",
   "appName": "Snake Feast",
-  "webDir": "game"
+  "webDir": "game",
+  "android": {
+    "versionCode": 2
+  }
 }

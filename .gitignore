@@ -41,3 +41,7 @@ desktop.ini
 # MSIX Bundle
 *.msixbundle
 *.msix
+
+# Android
+*.dm
+*.apk
