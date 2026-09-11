@@ -12,27 +12,22 @@ Snake Feast is a modern take on the classic snake game with power-ups, combos, a
 
 <p align="center">
     <img src="assets/start.jpeg" alt="start">
-  </a>
 </p>
 
 <p align="center">
     <img src="assets/play1.jpeg" alt="play1">
-  </a>
 </p>
 
 <p align="center">
     <img src="assets/play2.jpeg" alt="play2">
-  </a>
 </p>
 
 <p align="center">
     <img src="assets/play3.jpeg" alt="play3">
-  </a>
 </p>
 
 <p align="center">
     <img src="assets/end.jpeg" alt="end">
-  </a>
 </p>
 
 ### Food types

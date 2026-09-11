@@ -30,3 +30,18 @@ public/
 .DS_Store
 Thumbs.db
 desktop.ini
+*.iss
+*.exe
+*.zip
+
+# VS Code Extension
+*.vscode/
+*.vsix
+
+# MSIX Bundle
+*.msixbundle
+*.msix
+
+# Android
+*.dm
+*.apk
