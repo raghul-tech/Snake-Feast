@@ -1,6 +1,8 @@
 # <img src="game/icon/48.png" alt="Snake Feast" width="32" height="32" style="vertical-align:middle;"> Snake Feast - Android App
 
-A fast-paced, feature-rich snake game built with **Phaser 3** and packaged as a native Android app using **Capacitor**. Play it on the web, install it on Android, or run it on desktop.
+A fast-paced, feature-rich snake game built with **Phaser 3** and packaged as a native Android app using **Capacitor**.
+
+[![Google Play](https://img.shields.io/badge/Google%20Play-Get%20It-34A853?style=for-the-badge&logo=googleplay&logoColor=white)](https://play.google.com/store/apps/details?id=io.github.raghultech.snakefeast)
 
 ---
 
@@ -12,27 +14,22 @@ Snake Feast is a modern take on the classic snake game with power-ups, combos, a
 
 <p align="center">
     <img src="assets/start.jpeg" alt="start">
-  </a>
 </p>
 
 <p align="center">
     <img src="assets/play1.jpeg" alt="play1">
-  </a>
 </p>
 
 <p align="center">
     <img src="assets/play2.jpeg" alt="play2">
-  </a>
 </p>
 
 <p align="center">
     <img src="assets/play3.jpeg" alt="play3">
-  </a>
 </p>
 
 <p align="center">
     <img src="assets/end.jpeg" alt="end">
-  </a>
 </p>
 
 ### Food types

@@ -2,7 +2,7 @@
   "manifest_version": 3, 
   "name": "Snake Feast",
   "version": "2.0.0",
-  "description": "Snake Feast is a modern twist on the classic snake game. Eat food, grow longer, unlock power-ups, and chase your high score — right from your browser toolbar.",
+  "description": "Snake game with power-ups, combo scoring, and six food types. Click the icon to play.",
   "action": {
     "default_popup": "index.html",
     "default_width": 800,

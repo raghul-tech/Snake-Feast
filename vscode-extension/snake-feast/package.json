@@ -1,7 +1,7 @@
 {
   "name": "snake-feast",
   "displayName": "Snake Feast 🐍",
-  "description": "A classic Snake game with power-ups, bonuses, and special effects. Devour, grow, and survive right inside VS Code!",
+  "description": "A modern Snake game playable inside VS Code. Six food types, power-ups, combos, synthesized sound, and persistent high scores.",
   "version": "2.0.0",
   "publisher": "raghul-tech",
   "repository": {
@@ -13,7 +13,7 @@
     "url": "https://github.com/raghul-tech/snake-feast/issues"
   },
   "license": "GPL-3.0",
-  "icon": "webview/icon/128.png",
+  "icon": "webview/icon/192.png",
   "qna": "marketplace",
   "keywords": [
     "snake", "game", "snake-game", "retro",

@@ -8,18 +8,17 @@
   "start_url": "./index.html",
   "short_name": "Snake Feast",
   "theme_color": "#4CAF50",  
-  "description": "Welcome to Snake Feast, the ultimate challenge for slither enthusiasts! Devour delicious food to grow your snake while navigating the dangers of the border. \n\nGame Features:\n- Three Exciting Modes: Choose from Easy, Medium, or Hard.\n- Color Customization: Change your snake's color in real-time.\n- Strategic Scoring System: Catch colored food for points!\n- Intuitive Controls: Easy navigation for everyone.\n- Endless Fun: New challenges at every level!\nHow to Play:\nSlither to catch food, avoid borders, and collect points to aim for the leaderboard!",
-  "orientation": "any",
+  "description": "Snake Feast is a modern, feature-rich take on the classic Snake arcade game — rebuilt from the ground up with a neon dark aesthetic, six unique food types, a combo multiplier system, real-time power-ups, and synthesized sound effects.",
   "background_color": "#FFFFFF", 
   "prefer_related_applications": false,
   "display_override": [
     "window-controls-overlay"
   ],
   "features": [
-    "Cross Platform",
-    "Fast",
-    "Color change",
-    "Change Mode"
+  "Six food types — each with unique points, power-ups, and sound effects",
+  "Combo multiplier — chain eats fast to multiply points up to x8",
+  "Ghost mode, magnet, and freeze power-ups with live on-screen indicators",
+  "Three difficulty modes with separate high score tracking per mode"
   ],
   "scope_extensions": [],
   "related_applications": [],
