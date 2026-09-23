@@ -1,0 +1,12 @@
+game_id = "j97c9rdm2pgtpg69vsns8r1ms98anp7d"
+org_slug = "raghul-tech"
+game_slug = "snake-feast"
+branch_slug = "master"
+upload_dir = "."
+
+[custom]
+version = "2.0.0"
+entrypoint = "index.html"
+
+[sdk]
+inject = true
