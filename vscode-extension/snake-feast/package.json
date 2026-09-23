@@ -2,7 +2,7 @@
   "name": "snake-feast",
   "displayName": "Snake Feast 🐍",
   "description": "A modern Snake game playable inside VS Code. Six food types, power-ups, combos, synthesized sound, and persistent high scores.",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "publisher": "raghul-tech",
   "repository": {
     "type": "git",
@@ -16,9 +16,16 @@
   "icon": "webview/icon/192.png",
   "qna": "marketplace",
   "keywords": [
-    "snake", "game", "snake-game", "retro",
-    "arcade", "fun", "snake-feast", "gaming",
-    "classic", "productivity-break"
+    "snake",
+    "game",
+    "snake-game",
+    "retro",
+    "arcade",
+    "fun",
+    "snake-feast",
+    "gaming",
+    "classic",
+    "productivity-break"
   ],
   "badges": [
     {
@@ -27,7 +34,7 @@
       "description": "Supported Platforms"
     },
     {
-      "url": "https://img.shields.io/badge/version-2.0.0-green",
+      "url": "https://img.shields.io/badge/version-2.0.1-green",
       "href": "https://marketplace.visualstudio.com/items?itemName=raghul-tech.snake-feast",
       "description": "Latest Version"
     }
@@ -35,8 +42,12 @@
   "engines": {
     "vscode": "^1.85.0"
   },
-  "activationEvents": ["onStartupFinished"],
-  "categories": ["Other"],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "categories": [
+    "Other"
+  ],
   "main": "./extension.js",
   "contributes": {
     "commands": [
@@ -54,15 +65,15 @@
       }
     ],
     "configuration": {
-    "title": "Snake Feast",
-    "properties": {
+      "title": "Snake Feast",
+      "properties": {
         "snake-feast.soundEnabled": {
-            "type": "boolean",
-            "default": true,
-            "description": "Enable or disable game sounds"
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable game sounds"
         }
+      }
     }
-  }
   },
   "scripts": {
     "vscode:prepublish": "echo \"Ready\"",

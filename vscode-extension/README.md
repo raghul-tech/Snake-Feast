@@ -1,4 +1,4 @@
-# <img src="snake-feast/webview/icon/48.png" alt="Snake Feast" width="32" height="32" style="vertical-align:middle;"> Snake Feast -- VS Code Extension
+# <img src="https://raw.githubusercontent.com/raghul-tech/Snake-Feast/main/vscode-extension/snake-feast/webview/icon/48.png" alt="Snake Feast" width="32" height="32" style="vertical-align:middle;"> Snake Feast -- VS Code Extension
 
 A modern, feature-rich Snake game that lives inside VS Code. Eat food, grow longer, collect power-ups, rack up combos, and chase your high score — without ever leaving your editor.
 
@@ -26,18 +26,15 @@ A modern, feature-rich Snake game that lives inside VS Code. Eat food, grow long
 ## SnapShot
 
 <p align="center">
-    <img src="snake-feast/webview/icon/start.png" alt="Start">
-  </a>
+  <img src="https://raw.githubusercontent.com/raghul-tech/Snake-Feast/main/vscode-extension/snake-feast/webview/icon/start.png" alt="Start">
 </p>
 
 <p align="center">
-    <img src="snake-feast/webview/icon/play.png" alt="play">
-  </a>
+  <img src="https://raw.githubusercontent.com/raghul-tech/Snake-Feast/main/vscode-extension/snake-feast/webview/icon/play.png" alt="play">
 </p>
 
 <p align="center">
-    <img src="snake-feast/webview/icon/end.png" alt="end">
-  </a>
+  <img src="https://raw.githubusercontent.com/raghul-tech/Snake-Feast/main/vscode-extension/snake-feast/webview/icon/end.png" alt="end">
 </p>
 
 ---

@@ -5,6 +5,13 @@ Publisher: `raghul-tech`
 
 ---
 
+## [v2.0.1] - 2026-09-24
+
+### Fixed
+- Updated README image URLs to raw GitHub links for proper rendering on VS Code Marketplace and Open VSX.
+
+---
+
 ## [v2.0.0] - 2026-09-23
 
 ### 🎉 First release on VS Code Marketplace and Open VSX

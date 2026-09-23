@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="webview/icon/192.png" alt="Snake Feast" width="100" height="100">
+<img src="https://raw.githubusercontent.com/raghul-tech/Snake-Feast/main/vscode-extension/snake-feast/webview/icon/192.png" alt="Snake Feast" width="100" height="100">
 
 # Snake Feast
 
@@ -181,18 +181,15 @@ Mute and unmute with the 🔊 button. Mute state is saved per session.
 ## 📸 Screenshots
 
 <p align="center">
-    <img src="webview/icon/start.png" alt="Start">
-  </a>
+  <img src="https://raw.githubusercontent.com/raghul-tech/Snake-Feast/main/vscode-extension/snake-feast/webview/icon/start.png" alt="Start">
 </p>
 
 <p align="center">
-    <img src="webview/icon/play.png" alt="play">
-  </a>
+  <img src="https://raw.githubusercontent.com/raghul-tech/Snake-Feast/main/vscode-extension/snake-feast/webview/icon/play.png" alt="Play">
 </p>
 
 <p align="center">
-    <img src="webview/icon/end.png" alt="end">
-  </a>
+  <img src="https://raw.githubusercontent.com/raghul-tech/Snake-Feast/main/vscode-extension/snake-feast/webview/icon/end.png" alt="End">
 </p>
 
 ---
