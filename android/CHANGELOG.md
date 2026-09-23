@@ -5,7 +5,7 @@ App ID: `io.github.raghultech.snakefeast`
 
 ---
 
-## [v2.0.0] - 2026-09-11
+## [v2.0.0] - 2026-09-23
 
 ### 🎉 First release on Google Play
 

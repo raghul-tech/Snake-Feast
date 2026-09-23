@@ -5,7 +5,7 @@ Publisher: `raghul-tech`
 
 ---
 
-## [v2.0.0] - 2026-09-11
+## [v2.0.0] - 2026-09-23
 
 ### 🎉 First release on VS Code Marketplace and Open VSX
 

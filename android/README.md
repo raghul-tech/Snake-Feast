@@ -1,6 +1,8 @@
 # <img src="game/icon/48.png" alt="Snake Feast" width="32" height="32" style="vertical-align:middle;"> Snake Feast - Android App
 
-A fast-paced, feature-rich snake game built with **Phaser 3** and packaged as a native Android app using **Capacitor**. Play it on the web, install it on Android, or run it on desktop.
+A fast-paced, feature-rich snake game built with **Phaser 3** and packaged as a native Android app using **Capacitor**.
+
+[![Google Play](https://img.shields.io/badge/Google%20Play-Get%20It-34A853?style=for-the-badge&logo=googleplay&logoColor=white)](https://play.google.com/store/apps/details?id=io.github.raghultech.snakefeast)
 
 ---
 

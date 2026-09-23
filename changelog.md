@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 
-## [v2.0.0] - 2026-09-11
+## [v2.0.0] - 2026-09-23
 ### 🚀 Multi-Platform Launch
 
 Released Snake Feast on 5 platforms on the same day:

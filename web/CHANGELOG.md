@@ -5,7 +5,7 @@ Also published on [Wavedash](https://wavedash.com/g/raghul-tech/snake-feast) wit
 
 ---
 
-## [v2.0.0] - 2026-09-11
+## [v2.0.0] - 2026-09-23
 
 ### Added
 - Published on Wavedash — global leaderboards per difficulty, cloud saves, achievements sync, friends and stats

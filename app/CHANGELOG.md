@@ -5,7 +5,7 @@ Supports Windows and Linux.
 
 ---
 
-## [v2.0.0] - 2026-09-11
+## [v2.0.0] - 2026-09-23
 
 ### Added
 - Linux support — AppImage and binary via SourceForge and itch.io

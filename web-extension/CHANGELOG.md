@@ -4,7 +4,7 @@ Available on [Chrome Web Store](https://chromewebstore.google.com/detail/snake-f
 
 ---
 
-## [v2.0.0] - 2026-09-11
+## [v2.0.0] - 2026-09-23
 
 ### 🎉 First release on Chrome, Edge and Firefox
 
